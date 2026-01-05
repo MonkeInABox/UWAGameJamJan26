@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 
 @export var speed := 250.0
 @export var max_time_ms := 30.0 * 1000.0
@@ -27,14 +27,15 @@ enum {
 func _ready() -> void:
 	timer_label.max_value = max_time_ms / 1000.0
 
+func _physics_process(delta: float) -> void:
+	var input_dir := Input.get_vector("left", "right", "up", "down")
+	self.velocity = input_dir * speed * delta
+	move_and_collide(self.velocity)
+
 func _process(delta: float) -> void:
 	var now := Time.get_ticks_msec()
 	match self.state:
 		STATE_NORMAL:
-			var input_dir := Input.get_vector("left", "right", "up", "down")
-			# temporary
-			self.position += input_dir * speed * delta
-			
 			self.position_capture_accumulator += delta
 			if self.position_capture_accumulator > self.position_capture_time:
 				self.position_capture_accumulator = 0

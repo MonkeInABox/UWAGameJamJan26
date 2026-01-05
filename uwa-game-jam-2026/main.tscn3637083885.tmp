@@ -71,6 +71,8 @@ timer_label = NodePath("../CanvasLayer/timer")
 offset = Vector2(-16, -32)
 polygon = PackedVector2Array(32, 0, 32, 32, 0, 32, 0, 0)
 
+[node name="Area2D" type="Area2D" parent="player"]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_1bvp3")
