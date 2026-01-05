@@ -1,0 +1,118 @@
+class_name TimeManager extends Node
+
+enum {
+	STATE_NORMAL,
+	STATE_RESETTING,
+}
+
+var data: Dictionary[Node, Dictionary] = {}
+var initial_states: Dictionary[Node, Dictionary] = {}
+var do_lerp: Dictionary[Node, Dictionary] = {}
+
+# at most every X seconds, save the current position
+# accumulator is reset every time, so it is inaccurate (on purpose kinda)
+@export var capture_time := 0.1
+var capture_accumulator: float
+
+var num_samples := 0
+
+var state := STATE_NORMAL
+
+@export var max_time_ms := 30.0 * 1000.0
+@export var base_reset_time_ms := 1.5 * 1000.0
+# how long the current rewind of time should take
+var reset_time_ms: float
+# the value on the timer (in ms) when time was rewound
+var reset_at: float
+
+@onready var timer := Time.get_ticks_msec()
+@export var timer_label: TimerDisplay
+
+func register(node: Node, property_names: Array[String], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool]) -> void:
+	var dict: Dictionary[String, Array] = {}
+	var initial: Dictionary[String, Variant] = {}
+	var lerps: Dictionary[String, bool] = {}
+	for i in property_names.size():
+		dict[property_names[i]] = Array([], property_types[i], property_class_names[i], null)
+		lerps[property_names[i]] = property_do_lerp[i]
+		initial[property_names[i]] = node.get(property_names[i])
+	data[node] = dict
+	initial_states[node] = initial
+	do_lerp[node] = lerps
+
+func unregister(node: Node) -> void:
+	data.erase(node)
+
+func set_new_initial(node: Node) -> void:
+	var initial: Dictionary[String, Variant] = initial_states[node]
+	for property in data[node]:
+		initial[property] = node.get(property)
+
+func sample() -> void:
+	num_samples += 1
+	for node in data:
+		var node_data := data[node]
+		for property in node_data:
+			node_data[property].append(node.get(property))
+
+func playback(playback_position: float) -> void:
+	var index_f := playback_position * self.num_samples
+	var index := int(index_f)
+	var lerp_amount := index_f - index
+	for node in data:
+		var node_data: Dictionary[String, Array] = data[node]
+		var lerps: Dictionary[String, bool] = do_lerp[node]
+		for property in node_data:
+			if index != 0 and lerps[property]:
+				var array = node_data[property]
+				node.set(property, array[index - 1].lerp(array[index], lerp_amount))
+			else:
+				node.set(property, node_data[property][index])
+
+func set_to_initial() -> void:
+	for node in data:
+		var node_data := initial_states[node]
+		for property in node_data:
+			node.set(property, node_data[property])
+
+func reset() -> void:
+	num_samples = 0
+	for node in data:
+		var node_data := data[node]
+		for property in node_data:
+			node_data[property].clear()
+			
+func _ready() -> void:
+	timer_label.set_max_value(max_time_ms / 1000.0)
+
+func _process(delta: float) -> void:
+	var now := Time.get_ticks_msec()
+	match state:
+		STATE_NORMAL:
+			self.capture_accumulator += delta
+			if self.capture_accumulator > self.capture_time:
+				self.capture_accumulator = 0
+				self.sample()
+				
+			if self.timer + max_time_ms <= now or Input.is_action_just_pressed("reset"):
+				self.reset_at = max(0, max_time_ms - (now - self.timer))
+				self.timer = now
+				self.reset_time_ms = self.base_reset_time_ms * (1.0 - self.reset_at / self.max_time_ms)
+				self.state = STATE_RESETTING
+				timer_label.value = 0.0
+			else:
+				timer_label.value = (max_time_ms - (now - self.timer)) / 1000.0
+				
+		STATE_RESETTING:
+			var time_passed := now - self.timer
+			var reset_amount := time_passed / reset_time_ms
+			if reset_amount >= 1.0:
+				self.timer = now
+				self.state = STATE_NORMAL
+				timer_label.value = max_time_ms / 1000.0
+				set_to_initial()
+				reset()
+			else:
+				playback(1.0 - reset_amount)
+				timer_label.value = ((time_passed / base_reset_time_ms) * max_time_ms + self.reset_at) / 1000.0
+	timer_label.queue_redraw()

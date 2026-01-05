@@ -1,14 +1,7 @@
 class_name TimerDisplay extends Node2D
 
-
 var value := 30.0
-var max_value: float = 30: 
-	set(value):
-		max_value = value
-		colour_threshold_1 = max_value / 2.0
-		colour_threshold_2 = max_value / 4.0
-	get():
-		return max_value
+var max_value: float = 30
 @export var width := 128.0
 
 var colour_threshold_1 := max_value / 2.0
@@ -24,6 +17,11 @@ const padding_top := 4.0
 const padding_middle := 4.0
 const bar_height := 4.0
 
+func set_max_value(val: float) -> void:
+	max_value = val
+	colour_threshold_1 = max_value / 2.0
+	colour_threshold_2 = max_value / 4.0
+	
 func _draw() -> void:
 	var viewport := get_viewport_rect()
 	var center := viewport.size.x / 2.0
