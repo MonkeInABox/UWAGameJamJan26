@@ -8,6 +8,8 @@ enum {
 var data: Dictionary[Node, Dictionary] = {}
 var initial_states: Dictionary[Node, Dictionary] = {}
 var do_lerp: Dictionary[Node, Dictionary] = {}
+var do_before_resets: Dictionary[Node, bool] = {}
+var do_after_resets: Dictionary[Node, bool] = {}
 
 # at most every X seconds, save the current position
 # accumulator is reset every time, so it is inaccurate (on purpose kinda)
@@ -28,7 +30,7 @@ var reset_at: float
 @onready var timer := Time.get_ticks_msec()
 @export var timer_label: TimerDisplay
 
-func register(node: Node, property_names: Array[String], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool]) -> void:
+func register(node: Node, property_names: Array[String], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool], do_before_reset: bool = false, do_after_reset: bool = false) -> void:
 	var dict: Dictionary[String, Array] = {}
 	var initial: Dictionary[String, Variant] = {}
 	var lerps: Dictionary[String, bool] = {}
@@ -39,9 +41,15 @@ func register(node: Node, property_names: Array[String], property_types: Array[V
 	data[node] = dict
 	initial_states[node] = initial
 	do_lerp[node] = lerps
+	do_before_resets[node] = do_before_reset
+	do_after_resets[node] = do_after_reset
 
 func unregister(node: Node) -> void:
 	data.erase(node)
+	initial_states.erase(node)
+	do_lerp.erase(node)
+	do_before_resets.erase(node)
+	do_after_resets.erase(node)
 
 func set_new_initial(node: Node) -> void:
 	var initial: Dictionary[String, Variant] = initial_states[node]
@@ -65,7 +73,7 @@ func playback(playback_position: float) -> void:
 		for property in node_data:
 			if index != 0 and lerps[property]:
 				var array = node_data[property]
-				node.set(property, array[index - 1].lerp(array[index], lerp_amount))
+				node.set(property, lerp(array[index - 1], array[index], lerp_amount))
 			else:
 				node.set(property, node_data[property][index])
 
@@ -73,7 +81,10 @@ func set_to_initial() -> void:
 	for node in data:
 		var node_data := initial_states[node]
 		for property in node_data:
+			#print("setting ", property, " on ", node, " to ",  node_data[property])
 			node.set(property, node_data[property])
+		if do_after_resets[node]:
+			node.after_reset()
 
 func reset() -> void:
 	num_samples = 0
@@ -99,6 +110,9 @@ func _process(delta: float) -> void:
 				self.timer = now
 				self.reset_time_ms = self.base_reset_time_ms * (1.0 - self.reset_at / self.max_time_ms)
 				self.state = STATE_RESETTING
+				for node in do_before_resets:
+					if do_before_resets[node]:
+						node.before_reset()
 				timer_label.value = 0.0
 			else:
 				timer_label.value = (max_time_ms - (now - self.timer)) / 1000.0

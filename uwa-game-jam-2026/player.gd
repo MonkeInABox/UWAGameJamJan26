@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 			if collision.get_remainder().is_zero_approx():
 				motion = Vector2()
 				break
-			if collision.get_angle(-self.velocity.normalized()) < deg_to_rad(15.0):
+			if collision.get_angle(-self.velocity.normalized()) < self.wall_min_slide_angle:
 				motion = Vector2()
 			else:
 				motion = collision.get_remainder().slide(collision.get_normal())
