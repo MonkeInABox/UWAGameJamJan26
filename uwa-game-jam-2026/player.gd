@@ -3,14 +3,34 @@ extends CharacterBody2D
 @export var speed := 250.0
 @export var accel := 2500.0
 
+@export var max_health := 100.0:
+	set(value):
+		healthbar.max_value = value
+		max_health = value
+	get():
+		return max_health
+var health := max_health:
+	set(value):
+		health = clampf(value, 0.0, max_health)
+		healthbar.value = health
+	get():
+		return health
+@export var healthbar: HealthBar
+
 @onready var time_manager: TimeManager = %"time manager"
 
 func _ready() -> void:
-	time_manager.register(self, ["position"], [Variant.Type.TYPE_VECTOR2], [""], [true])
+	time_manager.register(self, 
+		["position", "health"],
+		[Variant.Type.TYPE_VECTOR2, Variant.Type.TYPE_FLOAT], 
+		["", ""], 
+		[true, true]
+	)
 
 func _physics_process(delta: float) -> void:
+	var is_alive := health > 0
 	if time_manager.state == TimeManager.STATE_NORMAL:
-		var input_dir := Input.get_vector("left", "right", "up", "down")
+		var input_dir := Input.get_vector("left", "right", "up", "down") if is_alive else Vector2()
 		self.velocity += input_dir * accel * delta * 0.5
 		self.velocity *= 0.85 if input_dir.is_zero_approx() else 0.95
 		#if self.velocity.length_squared() >= speed * speed: self.velocity = input_dir * speed

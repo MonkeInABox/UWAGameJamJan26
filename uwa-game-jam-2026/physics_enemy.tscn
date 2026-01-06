@@ -4,9 +4,10 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_272bh"]
 
-[node name="physics_enemy" type="RigidBody2D" node_paths=PackedStringArray("player")]
+[node name="physics_enemy" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 7
 script = ExtResource("1_a4b52")
-player = NodePath("")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_272bh")
@@ -15,3 +16,6 @@ shape = SubResource("CircleShape2D_272bh")
 polygon = PackedVector2Array(0, -10, 4, -4, 10, 0, 4, 4, 0, 10, -4, 4, -10, 0, -4, -4)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="healthbar_marker" type="Marker2D" parent="."]
+position = Vector2(0, -13)
