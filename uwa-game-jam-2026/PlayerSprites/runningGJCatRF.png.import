@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2x0wge3mnuya"
-path="res://.godot/imported/runningGJCatLF-Sheet.png-05442a0565489bd9b2a0924d8fa72419.ctex"
+uid="uid://d03asafl1vm0w"
+path="res://.godot/imported/runningGJCatRF.png-99f40fb0c5d42cc20d47054206a90270.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://PlayerSprites/runningGJCatLF-Sheet.png"
-dest_files=["res://.godot/imported/runningGJCatLF-Sheet.png-05442a0565489bd9b2a0924d8fa72419.ctex"]
+source_file="res://PlayerSprites/runningGJCatRF.png"
+dest_files=["res://.godot/imported/runningGJCatRF.png-99f40fb0c5d42cc20d47054206a90270.ctex"]
 
 [params]
 
