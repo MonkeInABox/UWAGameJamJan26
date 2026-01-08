@@ -1,21 +1,47 @@
-[gd_scene load_steps=3 format=3 uid="uid://bpm7ifdpje8nq"]
+[gd_scene load_steps=7 format=3 uid="uid://bpm7ifdpje8nq"]
 
 [ext_resource type="Script" uid="uid://brp5fmwcgkf6j" path="res://physics_enemy.gd" id="1_a4b52"]
+[ext_resource type="Script" uid="uid://ds1sbgw873km8" path="res://enemy_healthbar.gd" id="2_knxtq"]
+[ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="2_wd73w"]
+[ext_resource type="Script" uid="uid://1unm25qv8dh7" path="res://physics_enemy_visuals.gd" id="3_rrl1u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_272bh"]
+radius = 9.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_knxtq"]
 
 [node name="physics_enemy" type="RigidBody2D"]
-collision_layer = 4
-collision_mask = 7
+collision_layer = 64
+collision_mask = 112
 script = ExtResource("1_a4b52")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_272bh")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 polygon = PackedVector2Array(0, -10, 4, -4, 10, 0, 4, 4, 0, 10, -4, 4, -10, 0, -4, -4)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="healthbar_marker" type="Marker2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_knxtq")
+
+[node name="physics enemy visuals" type="Sprite2D" parent="."]
+texture = ExtResource("2_wd73w")
+hframes = 16
+vframes = 8
+script = ExtResource("3_rrl1u")
+
+[node name="healthbar" type="Node2D" parent="physics enemy visuals"]
+z_index = 1
 position = Vector2(0, -13)
+script = ExtResource("2_knxtq")
+max_value = 20.0
+width = 32.0
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_hitbox_area_entered"]

@@ -22,15 +22,17 @@ var health := max_health:
 		healthbar.value = health
 	get():
 		return health
-var healthbar: EnemyHealthBar
+@onready var healthbar: EnemyHealthBar = $"physics enemy visuals/healthbar"
+
+@export var contact_damage := 5.0
+
+func damage(amount: float) -> void:
+	self.health -= amount
 
 func _ready() -> void:
-	healthbar = EnemyHealthBar.new(self, $"healthbar_marker".position, max_health, 32.0)
-	$"healthbar_marker".queue_free()
-	self.get_parent().add_child.call_deferred(healthbar)
 	time_manager.register(self, 
 		["position", "rotation", "health"], 
-		[Variant.Type.TYPE_VECTOR2, Variant.Type.TYPE_FLOAT, Variant.Type.TYPE_FLOAT], 
+		[TYPE_VECTOR2, TYPE_FLOAT, TYPE_FLOAT], 
 		["", "", ""], 
 		[true, true, true], 
 	true, true)
@@ -92,3 +94,11 @@ func _draw() -> void:
 		if self.last_seen_target != -1:
 			draw_line(Vector2(), self.to_local(self.target), Color.CYAN)
 			draw_line(Vector2(), self.to_local(self.nav.target_position), Color.BLUE)
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if self.health <= 0 or self.time_manager.state != TimeManager.STATE_NORMAL: return
+	var parent := area.get_parent()
+	if parent is Player:
+		self.apply_impulse((self.global_position - area.global_position).normalized().rotated(randf_range(-0.1, 0.1)) * randf_range(110.0, 175.0), Vector2(randfn(0, 2), randfn(0, 2)))
+		(parent as Player).health -= contact_damage

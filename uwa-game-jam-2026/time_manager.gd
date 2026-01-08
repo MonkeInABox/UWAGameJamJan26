@@ -31,9 +31,9 @@ var reset_at: float
 @export var timer_label: TimerDisplay
 
 func register(node: Node, property_names: Array[String], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool], do_before_reset: bool = false, do_after_reset: bool = false) -> void:
-	var dict: Dictionary[String, Array] = {}
-	var initial: Dictionary[String, Variant] = {}
-	var lerps: Dictionary[String, bool] = {}
+	var dict: Dictionary[StringName, Array] = {}
+	var initial: Dictionary[StringName, Variant] = {}
+	var lerps: Dictionary[StringName, bool] = {}
 	for i in property_names.size():
 		dict[property_names[i]] = Array([], property_types[i], property_class_names[i], null)
 		lerps[property_names[i]] = property_do_lerp[i]
@@ -52,14 +52,14 @@ func unregister(node: Node) -> void:
 	do_after_resets.erase(node)
 
 func set_new_initial(node: Node) -> void:
-	var initial: Dictionary[String, Variant] = initial_states[node]
+	var initial: Dictionary[StringName, Variant] = initial_states[node]
 	for property in data[node]:
 		initial[property] = node.get(property)
 
 func sample() -> void:
 	num_samples += 1
 	for node in data:
-		var node_data := data[node]
+		var node_data: Dictionary[StringName, Array] = data[node]
 		for property in node_data:
 			node_data[property].append(node.get(property))
 
@@ -68,18 +68,18 @@ func playback(playback_position: float) -> void:
 	var index := int(index_f)
 	var lerp_amount := index_f - index
 	for node in data:
-		var node_data: Dictionary[String, Array] = data[node]
-		var lerps: Dictionary[String, bool] = do_lerp[node]
+		var node_data: Dictionary[StringName, Array] = data[node]
+		var lerps: Dictionary[StringName, bool] = do_lerp[node]
 		for property in node_data:
 			if index != 0 and lerps[property]:
-				var array = node_data[property]
+				var array := node_data[property]
 				node.set(property, lerp(array[index - 1], array[index], lerp_amount))
 			else:
 				node.set(property, node_data[property][index])
 
 func set_to_initial() -> void:
 	for node in data:
-		var node_data := initial_states[node]
+		var node_data: Dictionary[StringName, Variant] = initial_states[node]
 		for property in node_data:
 			#print("setting ", property, " on ", node, " to ",  node_data[property])
 			node.set(property, node_data[property])
@@ -89,7 +89,7 @@ func set_to_initial() -> void:
 func reset() -> void:
 	num_samples = 0
 	for node in data:
-		var node_data := data[node]
+		var node_data: Dictionary[StringName, Array] = data[node]
 		for property in node_data:
 			node_data[property].clear()
 			

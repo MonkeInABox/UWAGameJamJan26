@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://ds1vfl4yip63m"]
+[gd_scene load_steps=19 format=4 uid="uid://ds1vfl4yip63m"]
 
 [ext_resource type="Texture2D" uid="uid://cdom66g4ljx1w" path="res://tiles.png" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://ds2gvej8sqlrd" path="res://player.gd" id="1_ig7tw"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://crmnujf6i6tcn" path="res://player_healthbar.gd" id="3_272bh"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://bywkkfhw0eih0" path="res://time_manager.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://dx5yld4a31gmn" path="res://mining_laser_weapon.gd" id="6_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bpm7ifdpje8nq" path="res://physics_enemy.tscn" id="6_7mycd"]
 
 [sub_resource type="SystemFont" id="SystemFont_1bvp3"]
@@ -36,6 +37,10 @@ pattern_0 = SubResource("TileMapPattern_1y4r8")
 radius = 6.0
 height = 24.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5vw27"]
+radius = 16.0
+height = 32.0
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_7mycd"]
 vertices = PackedVector2Array(554, -17.820313, 554, -30.179688, 566, -110.859375, 566, 318, -171.53125, -87.0625, -150, -97.82031, 107.53125, -215.0625, 489.64844, -24, 123.53125, 159.0625, 112, 164.82031, 100.46875, 159.0625, -281.64844, -32, -308.46875, -151.0625, -214.35156, -104, -324.46875, -48.9375, -330, -161.82031, 132.46875, 192.9375, 532.46875, -7.0625, -115.15625, 318, 112, 203.17969, -324.46875, -15.0625, 91.53125, 192.9375, -566, 316.0625, -346, -25.820313, 563.1797, -318, 532.46875, -40.9375, 116.46875, -248.9375, 96, -259.1797, -566, -318, -346, -38.179688, -330, -174.17969, -304, -187.17969, -234, -238.17969, -234, -225.82031, -52.46875, -184.9375, -64, -179.17188, -75.53125, -184.9375, -43.53125, -151.0625, 84.46875, -215.0625, 96, -220.82031, -64, -140.82031, 75.53125, -248.9375, -208, -251.17969, -187.53125, -240.9375, -150, -110.17969, -171.53125, -120.9375, -283.53125, -176.9375, -212.46875, -215.0625, -84.46875, -151.0625)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8, 9, 10, 11), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(16, 17, 0, 3, 18, 19), PackedInt32Array(20, 21, 19, 18, 22, 23), PackedInt32Array(24, 2, 1, 25, 26, 27), PackedInt32Array(23, 22, 28, 29), PackedInt32Array(14, 29, 28, 15), PackedInt32Array(30, 15, 28), PackedInt32Array(31, 30, 28, 32, 33), PackedInt32Array(34, 35, 36), PackedInt32Array(37, 38, 39, 6, 40), PackedInt32Array(28, 24, 27), PackedInt32Array(28, 27, 41, 42), PackedInt32Array(41, 34, 36, 43, 42), PackedInt32Array(28, 42, 32), PackedInt32Array(44, 45, 46, 31, 33, 47, 48, 40), PackedInt32Array(5, 44, 40), PackedInt32Array(6, 5, 40)])
@@ -47,24 +52,31 @@ texture_region_size = Vector2i(32, 64)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, 24)
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, 8, -16, 0, 0, -8, 16, 0)
+0:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(0, -24, -16, -16, 0, -8, 16, -16)
 1:0/0 = 0
 1:0/0/texture_origin = Vector2i(0, 24)
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 16, 0, 0, -8)
+1:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(0, -24, -16, -16, 0, -8, 16, -16)
 2:0/0 = 0
 2:0/0/texture_origin = Vector2i(0, 24)
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, 0, 0, 8, 16, 0)
+2:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(-16, -16, 0, -8, 16, -16)
 3:0/0 = 0
 3:0/0/texture_origin = Vector2i(0, 24)
 3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(16, 0, 0, -8, 0, 8)
+3:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(0, -24, 0, -8, 16, -16)
 4:0/0 = 0
 4:0/0/texture_origin = Vector2i(0, 24)
 4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -8, -16, 0, 0, 8)
+4:0/0/physics_layer_1/polygon_0/points = PackedVector2Array(0, -24, -16, -16, 0, -8)
 
 [sub_resource type="TileSet" id="TileSet_5vw27"]
 tile_shape = 1
 tile_size = Vector2i(32, 16)
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 6
+physics_layer_1/collision_layer = 32
+physics_layer_1/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_272bh")
 
 [node name="Node2D" type="Node2D"]
@@ -98,7 +110,6 @@ tile_set = SubResource("TileSet_7mycd")
 [node name="world" type="Node2D" parent="."]
 
 [node name="player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("healthbar")]
-y_sort_enabled = true
 collision_layer = 2
 collision_mask = 7
 motion_mode = 1
@@ -112,6 +123,26 @@ polygon = PackedVector2Array(32, 0, 32, 32, 0, 32, 0, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_lquwl")
+
+[node name="hitbox" type="Area2D" parent="player"]
+position = Vector2(0, -15)
+collision_layer = 8
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/hitbox"]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_5vw27")
+
+[node name="weapon_attachment" type="Marker2D" parent="player"]
+position = Vector2(-10, -15)
+
+[node name="mining_laser_weapon" type="Node2D" parent="player/weapon_attachment"]
+script = ExtResource("6_5vw27")
+
+[node name="laser" type="Line2D" parent="player/weapon_attachment/mining_laser_weapon"]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0.96862745, 0, 0, 1)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 y_sort_enabled = true

@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 @export var speed := 250.0
 @export var accel := 2500.0
@@ -19,10 +19,20 @@ var health := max_health:
 
 @onready var time_manager: TimeManager = %"time manager"
 
+@abstract class Weapon extends Node2D:
+	var active := false
+
+var owned_weapons: Array[Weapon] = []
+var active_weapon: Weapon = null
+
 func _ready() -> void:
+	self.owned_weapons.append_array($weapon_attachment.get_children().filter(func (child): return child is Weapon))
+	if self.owned_weapons: 
+		self.active_weapon = self.owned_weapons[0]
+		self.active_weapon.active = true
 	time_manager.register(self, 
 		["position", "health"],
-		[Variant.Type.TYPE_VECTOR2, Variant.Type.TYPE_FLOAT], 
+		[TYPE_VECTOR2, TYPE_FLOAT], 
 		["", ""], 
 		[true, true]
 	)

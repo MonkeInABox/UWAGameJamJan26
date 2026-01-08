@@ -1,6 +1,10 @@
 class_name HealthBar extends Node2D
 
-var value := 100.0
+var value := 100.0:
+	set(val):
+		if value != val:
+			queue_redraw()
+		value = val
 var max_value := 100.0
 @export var width := 128.0
 
