@@ -28,6 +28,7 @@ func _ready() -> void:
 	)
 
 func _process(_delta: float) -> void:
+	var now := Time.get_ticks_msec()
 	if time_manager.state == TimeManager.STATE_NORMAL:
 		if self.active and Input.is_action_pressed("attack"):
 			var target := get_global_mouse_position()
@@ -37,7 +38,6 @@ func _process(_delta: float) -> void:
 			var result := space.intersect_ray(ray_query)
 			if result:
 				line.points[1] = to_local(result.position)
-				var now := Time.get_ticks_msec()
 				if last_hit + hit_time_ms < now:
 					var collider: Object = result.collider
 					var can_damage := (collider is CollisionObject2D and collider.has_method("damage"))
@@ -50,9 +50,9 @@ func _process(_delta: float) -> void:
 							collider.damage(damage)
 					else: last_hit = now - hit_time_ms
 			else:
-				last_hit = Time.get_ticks_msec() - hit_time_ms
+				if last_hit + hit_time_ms < now: last_hit = now - hit_time_ms
 				line.points[1] = to_local(target)
 			line.visible = true
 		else:
-			last_hit = Time.get_ticks_msec() - hit_time_ms
+			if last_hit + hit_time_ms < now: last_hit = now - hit_time_ms
 			line.visible = false
