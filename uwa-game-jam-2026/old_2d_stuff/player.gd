@@ -1,7 +1,7 @@
-class_name Player3D extends CharacterBody3D
+class_name Player extends CharacterBody2D
 
-@export var speed := 3.0
-@export var accel := 25.0
+@export var speed := 150.0
+@export var accel := 2500.0
 
 @export var max_health := 100.0:
 	set(value):
@@ -19,7 +19,7 @@ var health := max_health:
 
 @onready var time_manager: TimeManager = %"time manager"
 
-@onready var sprites: AnimatedSprite3D = $AnimatedSprite3D
+@onready var sprites: AnimatedSprite2D = $AnimatedSprite2D
 var anim_frame: int:
 	get(): return self.sprites.frame
 	set(value): self.sprites.frame = value
@@ -40,7 +40,7 @@ func _ready() -> void:
 		self.active_weapon.active = true
 	time_manager.register(self, 
 		["position", "health", "anim_frame", "anim_anim"],
-		[TYPE_VECTOR3, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME], 
+		[TYPE_VECTOR2, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME], 
 		["", "", "", ""], 
 		[true, true, false, false]
 	)
@@ -89,13 +89,7 @@ func _physics_process(delta: float) -> void:
 		
 		set_anim(input_dir)
 		
-		var input_rotated := input_dir.rotated(-PI/4)
-		
-		var input_dir_3 := Vector3(input_rotated.x, 0, input_rotated.y)
-		
-		var delta_velocity := (self.get_gravity() + input_dir_3 * accel) * delta
-		
-		self.velocity += delta_velocity * 0.5
+		self.velocity += input_dir * accel * delta * 0.5
 		self.velocity *= 0.85 if input_dir.is_zero_approx() else 0.95
 		#if self.velocity.length_squared() >= speed * speed: self.velocity = input_dir * speed
 		var current_speed_squared = self.velocity.length_squared()
@@ -108,18 +102,18 @@ func _physics_process(delta: float) -> void:
 			if collision == null:
 				break
 			if collision.get_remainder().is_zero_approx():
-				motion = Vector3()
+				motion = Vector2()
 				break
-			if collision.get_angle(0, -self.velocity.normalized()) < self.wall_min_slide_angle:
-				motion = Vector3()
+			if collision.get_angle(-self.velocity.normalized()) < self.wall_min_slide_angle:
+				motion = Vector2()
 			else:
 				motion = collision.get_remainder().slide(collision.get_normal())
 			if motion.dot(self.velocity) <= 0.0:
-				motion = Vector3()
+				motion = Vector2()
 			if motion.is_zero_approx():
 				break
 
-		self.velocity += delta_velocity * 0.5
+		self.velocity += input_dir * accel * delta * 0.5
 	else:
-		self.velocity = Vector3()
+		self.velocity = Vector2()
 		

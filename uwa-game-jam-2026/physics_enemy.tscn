@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bpm7ifdpje8nq"]
 
-[ext_resource type="Script" uid="uid://brp5fmwcgkf6j" path="res://physics_enemy.gd" id="1_a4b52"]
-[ext_resource type="Script" uid="uid://ds1sbgw873km8" path="res://enemy_healthbar.gd" id="2_knxtq"]
+[ext_resource type="Script" uid="uid://brp5fmwcgkf6j" path="res://old_2d_stuff/physics_enemy.gd" id="1_a4b52"]
+[ext_resource type="Script" uid="uid://ds1sbgw873km8" path="res://old_2d_stuff/enemy_healthbar.gd" id="2_knxtq"]
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="2_wd73w"]
-[ext_resource type="Script" uid="uid://1unm25qv8dh7" path="res://physics_enemy_visuals.gd" id="3_rrl1u"]
+[ext_resource type="Script" uid="uid://1unm25qv8dh7" path="res://old_2d_stuff/physics_enemy_visuals.gd" id="3_rrl1u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_272bh"]
 radius = 9.0
