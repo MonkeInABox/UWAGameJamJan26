@@ -30,7 +30,7 @@ var reset_at: float
 @onready var timer := Time.get_ticks_msec()
 @export var timer_label: TimerDisplay
 
-func register(node: Node, property_names: Array[String], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool], do_before_reset: bool = false, do_after_reset: bool = false) -> void:
+func register(node: Node, property_names: Array[StringName], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool], do_before_reset: bool = false, do_after_reset: bool = false) -> void:
 	var dict: Dictionary[StringName, Array] = {}
 	var initial: Dictionary[StringName, Variant] = {}
 	var lerps: Dictionary[StringName, bool] = {}
@@ -50,6 +50,11 @@ func unregister(node: Node) -> void:
 	do_lerp.erase(node)
 	do_before_resets.erase(node)
 	do_after_resets.erase(node)
+
+func check_nodes():
+	for node in data:
+		if node.is_queued_for_deletion():
+			unregister(node)
 
 func set_new_initial(node: Node) -> void:
 	var initial: Dictionary[StringName, Variant] = initial_states[node]
@@ -130,3 +135,4 @@ func _process(delta: float) -> void:
 				playback(1.0 - reset_amount)
 				timer_label.value = ((time_passed / base_reset_time_ms) * max_time_ms + self.reset_at) / 1000.0
 	timer_label.queue_redraw()
+	self.check_nodes.call_deferred()

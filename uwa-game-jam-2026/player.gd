@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody2D
 
-@export var speed := 250.0
+@export var speed := 150.0
 @export var accel := 2500.0
 
 @export var max_health := 100.0:
@@ -19,6 +19,14 @@ var health := max_health:
 
 @onready var time_manager: TimeManager = %"time manager"
 
+@onready var sprites: AnimatedSprite2D = $AnimatedSprite2D
+var anim_frame: int:
+	get(): return self.sprites.frame
+	set(value): self.sprites.frame = value
+var anim_anim: StringName:
+	get(): return self.sprites.animation
+	set(value): self.sprites.animation = value
+
 @abstract class Weapon extends Node2D:
 	var active := false
 
@@ -31,16 +39,56 @@ func _ready() -> void:
 		self.active_weapon = self.owned_weapons[0]
 		self.active_weapon.active = true
 	time_manager.register(self, 
-		["position", "health"],
-		[TYPE_VECTOR2, TYPE_FLOAT], 
-		["", ""], 
-		[true, true]
+		["position", "health", "anim_frame", "anim_anim"],
+		[TYPE_VECTOR2, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME], 
+		["", "", "", ""], 
+		[true, true, false, false]
 	)
+
+func set_anim(dir: Vector2):
+	const down_right := Vector2(cos(deg_to_rad(45.0)), sin(deg_to_rad(45.0)))
+	const down_left := Vector2(cos(deg_to_rad(135.0)), sin(deg_to_rad(135.0)))
+	const up_right := Vector2(cos(deg_to_rad(-45.0)), sin(deg_to_rad(-45.0)))
+	const up_left := Vector2(cos(deg_to_rad(-135.0)), sin(deg_to_rad(-135.0)))
+	const angle_threshold := cos(deg_to_rad(45.0))
+	if dir.is_zero_approx():
+		self.sprites.stop()
+		return
+	match dir:
+		Vector2.UP:
+			if self.sprites.animation != &"runningRB" and self.sprites.animation != &"runningLB":
+				self.sprites.play(&"runningRB")
+			else: self.sprites.play()
+		Vector2.DOWN:
+			if self.sprites.animation != &"runningRF" and self.sprites.animation != &"runningLF":
+				self.sprites.play(&"runningRF")
+			else: self.sprites.play()
+		Vector2.LEFT:
+			if self.sprites.animation != &"runningLF" and self.sprites.animation != &"runningLB":
+				self.sprites.play(&"runningLF")
+			else: self.sprites.play()
+		Vector2.RIGHT:
+			if self.sprites.animation != &"runningRF" and self.sprites.animation != &"runningRB":
+				self.sprites.play(&"runningRF")
+			else: self.sprites.play()
+		_:
+			var normalized := dir.normalized()
+			if normalized.dot(down_right) >= angle_threshold:
+				self.sprites.play(&"runningRF")
+			elif normalized.dot(down_left) >= angle_threshold:
+				self.sprites.play(&"runningLF")
+			elif normalized.dot(up_right) >= angle_threshold:
+				self.sprites.play(&"runningRB")
+			elif normalized.dot(up_left) >= angle_threshold:
+				self.sprites.play(&"runningLB")
 
 func _physics_process(delta: float) -> void:
 	var is_alive := health > 0
 	if time_manager.state == TimeManager.STATE_NORMAL:
 		var input_dir := Input.get_vector("left", "right", "up", "down") if is_alive else Vector2()
+		
+		set_anim(input_dir)
+		
 		self.velocity += input_dir * accel * delta * 0.5
 		self.velocity *= 0.85 if input_dir.is_zero_approx() else 0.95
 		#if self.velocity.length_squared() >= speed * speed: self.velocity = input_dir * speed
@@ -60,10 +108,8 @@ func _physics_process(delta: float) -> void:
 				motion = Vector2()
 			else:
 				motion = collision.get_remainder().slide(collision.get_normal())
-				
 			if motion.dot(self.velocity) <= 0.0:
 				motion = Vector2()
-				
 			if motion.is_zero_approx():
 				break
 
