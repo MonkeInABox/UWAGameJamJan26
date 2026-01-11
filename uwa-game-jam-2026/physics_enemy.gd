@@ -18,11 +18,16 @@ const visualize_ai = false
 		return max_health
 var health := max_health:
 	set(value):
+		if value < health:
+			sprite.modulate = Color.RED
+			var tween := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+			tween.tween_property(sprite, "modulate", Color.WHITE, 0.15)
 		health = clampf(value, 0.0, max_health)
 		healthbar.value = health
 	get():
 		return health
 @onready var healthbar: EnemyHealthbar3D = $"healthbar"
+@onready var sprite: Sprite3D = $"physics enemy visuals"
 
 @export var contact_damage := 5.0
 
@@ -91,11 +96,14 @@ func _physics_process(delta: float) -> void:
 				self.target = self.nav.target_position
 				
 			var now := Time.get_ticks_msec()
-			if (self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 or now - self.last_seen_target >= 10 * 1000:
+			if ((self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 and self.linear_velocity.length_squared() < 0.5 * 0.5) or now - self.last_seen_target >= 10 * 1000:
 				self.last_seen_target = -1
 			debug_vis3.color = Color.ORANGE
 			debug_vis2.color = Color.CYAN
 			debug_vis2.b = self.target
+		elif self.last_seen_target == -1:
+			debug_vis3.color = Color.TRANSPARENT
+			debug_vis2.color = Color.TRANSPARENT
 		debug_vis2.a = self.global_position
 		debug_vis3.a = self.global_position
 		
@@ -131,16 +139,9 @@ func _physics_process(delta: float) -> void:
 	#self.apply_torque(Vector3.BACK * output.y)
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
-	PhysicsServer3D.body_set_state(
-		get_rid(),
-		PhysicsServer3D.BODY_STATE_TRANSFORM,
-		Transform3D(Basis(Vector3.UP, self.rotation.y), self.position),
-	)
-	PhysicsServer3D.body_set_state(
-		get_rid(),
-		PhysicsServer3D.BODY_STATE_ANGULAR_VELOCITY,
-		Vector3(0.0, self.angular_velocity.y, 0.0)
-	)
+	state.transform.basis = Basis(Vector3.UP, self.rotation.y)
+	state.angular_velocity.x = 0
+	state.angular_velocity.z = 0
 	if time_manager.state == TimeManager.STATE_NORMAL:
 		if self.health <= 0 or self.last_seen_target == -1: return
 		state.apply_central_force((self.target - self.position).normalized() * 3.0)

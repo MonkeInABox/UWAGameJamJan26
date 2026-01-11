@@ -61,13 +61,14 @@ material = SubResource("StandardMaterial3D_7mycd")
 size = Vector2(50, 50)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_4c57u"]
-vertices = PackedVector3Array(-1, 0.5, -2.5, -0.25, 0.5, -2.75, -0.25, 0.5, -3.5, 0.75, 0.5, -3.75, 0.75, 0.5, -24.5, -24.5, 0.5, -24.5, -24.5, 0.5, -1.5, -1, 0.5, -1.5, 1.75, 0.5, -3.75, 2, 0.5, -2.5, 24.5, 0.5, -2.5, 24.5, 0.5, -24.5, 1.25, 0.5, -0.75, 0.25, 0.5, -0.5, 0.25, 0.5, 24.5, 24.5, 0.5, 24.5, -0.75, 0.5, -0.5, -24.5, 0.5, 24.5)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(4, 0, 5), PackedInt32Array(5, 0, 6), PackedInt32Array(0, 7, 6), PackedInt32Array(8, 3, 4), PackedInt32Array(8, 4, 9), PackedInt32Array(9, 4, 10), PackedInt32Array(10, 4, 11), PackedInt32Array(10, 12, 9), PackedInt32Array(12, 10, 13), PackedInt32Array(13, 10, 14), PackedInt32Array(14, 10, 15), PackedInt32Array(7, 16, 6), PackedInt32Array(6, 16, 17), PackedInt32Array(17, 16, 14), PackedInt32Array(16, 13, 14)]
+vertices = PackedVector3Array(-0.79999924, 0.4, -2.1999989, 0, 0.4, -2.3999996, 0, 0.4, -3.1999989, 0.80000114, 0.4, -3.3999996, 0.80000114, 0.4, -24.8, -24.8, 0.4, -24.8, -24.8, 0.4, -1.6000004, -0.79999924, 0.4, -1.6000004, 1.3999996, 0.4, -3.3999996, 1.6000004, 0.4, -2.6000004, 24.8, 0.4, -2.6000004, 24.8, 0.4, -24.8, -0.39999962, 1.4000001, -2, -0.39999962, 1.4000001, -1.1999989, 0.39999962, 1.4000001, -1.1999989, 0.39999962, 1.4000001, -2, 0.39999962, 1.4000001, -3, 0.39999962, 1.4000001, -2.1999989, 1.2000008, 1.4000001, -2.1999989, 1.2000008, 1.4000001, -3, 1.3999996, 0.4, -1.7999992, 0.80000114, 0.4, -1.7999992, 0.80000114, 0.4, -1, 0, 0.4, -0.79999924, 0, 0.4, 24.8, 24.8, 0.4, 24.8, -0.79999924, 0.4, -1, -24.8, 0.4, 24.8)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(4, 0, 6), PackedInt32Array(4, 6, 5), PackedInt32Array(0, 7, 6), PackedInt32Array(8, 3, 4), PackedInt32Array(8, 4, 9), PackedInt32Array(9, 4, 10), PackedInt32Array(10, 4, 11), PackedInt32Array(15, 14, 12), PackedInt32Array(12, 14, 13), PackedInt32Array(19, 18, 16), PackedInt32Array(16, 18, 17), PackedInt32Array(12, 17, 15), PackedInt32Array(15, 17, 18), PackedInt32Array(22, 21, 20), PackedInt32Array(20, 9, 10), PackedInt32Array(22, 20, 10), PackedInt32Array(22, 10, 23), PackedInt32Array(23, 10, 24), PackedInt32Array(24, 10, 25), PackedInt32Array(6, 7, 26), PackedInt32Array(26, 23, 6), PackedInt32Array(6, 23, 24), PackedInt32Array(6, 24, 27)]
 geometry_collision_mask = 4278190096
 geometry_source_geometry_mode = 1
-cell_height = 0.1
+cell_size = 0.2
+cell_height = 0.2
 agent_height = 1.0
-agent_radius = 0.25
+agent_radius = 0.2
 agent_max_climb = 0.1
 
 [node name="Node3D" type="Node3D"]

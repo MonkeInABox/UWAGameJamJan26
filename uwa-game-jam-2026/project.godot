@@ -72,6 +72,11 @@ attack={
 2d_physics/layer_6="wall_middle"
 2d_physics/layer_7="flying_enemy"
 
+[navigation]
+
+3d/default_cell_size=0.2
+3d/default_cell_height=0.2
+
 [physics]
 
 2d/default_gravity=0.0
