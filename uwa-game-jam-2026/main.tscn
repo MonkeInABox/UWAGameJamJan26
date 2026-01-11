@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=27 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -7,7 +7,9 @@
 [ext_resource type="SpriteFrames" uid="uid://cdtg4lurljt3d" path="res://player_anims.tres" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://bywkkfhw0eih0" path="res://time_manager.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://x101j7iv5bmf" path="res://physics_enemy.gd" id="4_272bh"]
+[ext_resource type="Script" uid="uid://bqgn1a1yh82fp" path="res://line3d.gd" id="4_kek77"]
 [ext_resource type="Script" uid="uid://bhaai2o87q120" path="res://enemy_healthbar.gd" id="5_5vw27"]
+[ext_resource type="Script" uid="uid://cv27h3syynihb" path="res://physics_enemy_visuals.gd" id="7_4c57u"]
 
 [sub_resource type="SystemFont" id="SystemFont_5vw27"]
 subpixel_positioning = 0
@@ -22,11 +24,11 @@ background_mode = 4
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kek77"]
 height = 0.2
-radius = 0.4
+radius = 0.35
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_5vw27"]
 height = 0.2
-radius = 0.45
+radius = 0.4
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c57u"]
 radius = 0.28955078
@@ -57,6 +59,16 @@ albedo_texture = SubResource("GradientTexture2D_lquwl")
 [sub_resource type="PlaneMesh" id="PlaneMesh_272bh"]
 material = SubResource("StandardMaterial3D_7mycd")
 size = Vector2(50, 50)
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_4c57u"]
+vertices = PackedVector3Array(-1, 0.5, -2.5, -0.25, 0.5, -2.75, -0.25, 0.5, -3.5, 0.75, 0.5, -3.75, 0.75, 0.5, -24.5, -24.5, 0.5, -24.5, -24.5, 0.5, -1.5, -1, 0.5, -1.5, 1.75, 0.5, -3.75, 2, 0.5, -2.5, 24.5, 0.5, -2.5, 24.5, 0.5, -24.5, 1.25, 0.5, -0.75, 0.25, 0.5, -0.5, 0.25, 0.5, 24.5, 24.5, 0.5, 24.5, -0.75, 0.5, -0.5, -24.5, 0.5, 24.5)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(4, 0, 5), PackedInt32Array(5, 0, 6), PackedInt32Array(0, 7, 6), PackedInt32Array(8, 3, 4), PackedInt32Array(8, 4, 9), PackedInt32Array(9, 4, 10), PackedInt32Array(10, 4, 11), PackedInt32Array(10, 12, 9), PackedInt32Array(12, 10, 13), PackedInt32Array(13, 10, 14), PackedInt32Array(14, 10, 15), PackedInt32Array(7, 16, 6), PackedInt32Array(6, 16, 17), PackedInt32Array(17, 16, 14), PackedInt32Array(16, 13, 14)]
+geometry_collision_mask = 4278190096
+geometry_source_geometry_mode = 1
+cell_height = 0.1
+agent_height = 1.0
+agent_radius = 0.25
+agent_max_climb = 0.1
 
 [node name="Node3D" type="Node3D"]
 
@@ -95,6 +107,8 @@ mesh = SubResource("BoxMesh_5vw27")
 
 [node name="physics_enemy" type="RigidBody3D" parent="." node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0628732, 0.5889671, -0.02810359)
+collision_layer = 4
+collision_mask = 21
 script = ExtResource("4_272bh")
 player = NodePath("../player")
 
@@ -109,26 +123,36 @@ texture_filter = 0
 texture = ExtResource("1_0xm2m")
 hframes = 16
 vframes = 8
+script = ExtResource("7_4c57u")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="physics_enemy"]
-
-[node name="healthbar" type="Node2D" parent="physics_enemy/CanvasLayer"]
-position = Vector2(0, -20)
-scale = Vector2(0.70710677, 1.4142135)
-skew = 1.5707964
+[node name="healthbar" type="Node2D" parent="physics_enemy"]
+position = Vector2(0, -30)
 script = ExtResource("5_5vw27")
+max_value = 20.0
+width = 48.0
+height = 2.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="physics_enemy"]
 
 [node name="Area3D" type="Area3D" parent="physics_enemy"]
-collision_layer = 2
+collision_layer = 8
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="physics_enemy/Area3D"]
 shape = SubResource("CylinderShape3D_5vw27")
 
+[node name="Line3D" type="Node2D" parent="physics_enemy"]
+script = ExtResource("4_kek77")
+
+[node name="Line3D2" type="Node2D" parent="physics_enemy"]
+script = ExtResource("4_kek77")
+
+[node name="Line3D3" type="Node2D" parent="physics_enemy"]
+script = ExtResource("4_kek77")
+
 [node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("healthbar")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2886999, 0, -1.1542073)
+collision_mask = 21
 script = ExtResource("2_h2yge")
 healthbar = NodePath("../CanvasLayer/player_healthbar")
 
@@ -151,14 +175,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.624969, 0)
 
 [node name="Area3D" type="Area3D" parent="player"]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 8
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="player/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58096313, 0)
 shape = SubResource("CapsuleShape3D_kek77")
 
-[node name="cube" type="StaticBody3D" parent="."]
+[node name="cube" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5213611, -1.6070688)
+collision_layer = 16
+collision_mask = 21
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="cube"]
 shape = SubResource("BoxShape3D_7mycd")
@@ -166,8 +192,10 @@ shape = SubResource("BoxShape3D_7mycd")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="cube"]
 mesh = SubResource("BoxMesh_272bh")
 
-[node name="cube2" type="StaticBody3D" parent="."]
+[node name="cube2" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81429255, 0.5213611, -2.5040321)
+collision_layer = 16
+collision_mask = 21
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="cube2"]
 shape = SubResource("BoxShape3D_7mycd")
@@ -175,7 +203,9 @@ shape = SubResource("BoxShape3D_7mycd")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="cube2"]
 mesh = SubResource("BoxMesh_272bh")
 
-[node name="ground temp" type="StaticBody3D" parent="."]
+[node name="ground temp" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
+collision_layer = 16
+collision_mask = 21
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ground temp"]
 shape = SubResource("WorldBoundaryShape3D_7mycd")
@@ -183,5 +213,8 @@ shape = SubResource("WorldBoundaryShape3D_7mycd")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ground temp"]
 mesh = SubResource("PlaneMesh_272bh")
 skeleton = NodePath("../..")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_4c57u")
 
 [connection signal="area_entered" from="physics_enemy/Area3D" to="physics_enemy" method="_on_hitbox_area_entered"]

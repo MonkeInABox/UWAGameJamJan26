@@ -22,7 +22,7 @@ var health := max_health:
 		healthbar.value = health
 	get():
 		return health
-@onready var healthbar: EnemyHealthbar3D = $"CanvasLayer/healthbar"
+@onready var healthbar: EnemyHealthbar3D = $"healthbar"
 
 @export var contact_damage := 5.0
 
@@ -54,9 +54,13 @@ func before_reset() -> void:
 	
 var height_pid_integral := 0.0
 var height_pid_error := 0.0
-var height_pid_p := 1.0
+var height_pid_p := 4.0
 var height_pid_i := 1.0
 var height_pid_d := 1.0
+
+@onready var debug_vis: Line3D = $"Line3D"
+@onready var debug_vis2: Line3D = $"Line3D2"
+@onready var debug_vis3: Line3D = $"Line3D3"
 
 func _physics_process(delta: float) -> void:
 	if time_manager.state == TimeManager.STATE_NORMAL:
@@ -64,12 +68,20 @@ func _physics_process(delta: float) -> void:
 		if not is_alive:
 			return
 		var space := get_world_3d().direct_space_state
-		var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, player.position, 0b0011))
+		var player_pos := player.position + Vector3(0.0, 0.5, 0.0)
+		var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, player_pos, 0b10001))
+		
+		debug_vis.a = self.global_position
+		debug_vis.b = result.position if result else player.global_position
+		debug_vis.color = Color.BLUE if result and result.collider == player else Color.RED
 		
 		if result and result.collider == player:
 			self.sleeping = false
-			nav.target_position = player.position
-			self.target = player.position
+			nav.target_position = player_pos
+			debug_vis3.b = self.nav.target_position
+			debug_vis3.color = Color.TRANSPARENT
+			debug_vis2.color = Color.TRANSPARENT
+			self.target = player_pos
 			self.last_seen_target = Time.get_ticks_msec()
 		elif self.last_seen_target != -1:
 			var result2 := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, self.nav.target_position))
@@ -79,22 +91,56 @@ func _physics_process(delta: float) -> void:
 				self.target = self.nav.target_position
 				
 			var now := Time.get_ticks_msec()
-			if (self.nav.target_position - self.position).length_squared() < 10 * 10 or now - self.last_seen_target >= 10 * 1000:
+			if (self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 or now - self.last_seen_target >= 10 * 1000:
 				self.last_seen_target = -1
+			debug_vis3.color = Color.ORANGE
+			debug_vis2.color = Color.CYAN
+			debug_vis2.b = self.target
+		debug_vis2.a = self.global_position
+		debug_vis3.a = self.global_position
+		
+		
 				
 		var floor_trace = space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, self.position + Vector3.DOWN * 64.0))
-		const target_height := 0.
+		const target_height := 0.5
 		if floor_trace:
 			var dist: float = (self.position - (floor_trace.position as Vector3)).length()
 			var error := target_height - dist
 			var proportional := error
 			height_pid_integral += error * delta
 			var derivative := (error - height_pid_error) / delta
-			var output := height_pid_p * proportional + height_pid_i * height_pid_integral + height_pid_d + derivative
+			var output := height_pid_p * proportional + height_pid_i * height_pid_integral + height_pid_d * derivative
 			height_pid_error = error
 			self.apply_central_force(Vector3.UP * output * 10.0)
+		
+		#try_to_be_upright(delta)
+		
+#var rotation_pid_integral := Vector2()
+#var rotation_pid_error := Vector2()
+#var rotation_pid_p := 0.3
+#var rotation_pid_i := 0.1
+#var rotation_pid_d := 0.1
+#func try_to_be_upright(delta: float) -> void:
+	#var error := Vector2(0.0 - self.rotation.x, 0.0 - self.rotation.z)
+	#var proportional := error
+	#rotation_pid_integral += error * delta
+	#var derivative := (error - rotation_pid_error) / delta
+	#var output := rotation_pid_p * proportional + rotation_pid_i * rotation_pid_integral + rotation_pid_d * derivative
+	#print(output)
+	#self.apply_torque(Vector3.RIGHT * output.x)
+	#self.apply_torque(Vector3.BACK * output.y)
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	PhysicsServer3D.body_set_state(
+		get_rid(),
+		PhysicsServer3D.BODY_STATE_TRANSFORM,
+		Transform3D(Basis(Vector3.UP, self.rotation.y), self.position),
+	)
+	PhysicsServer3D.body_set_state(
+		get_rid(),
+		PhysicsServer3D.BODY_STATE_ANGULAR_VELOCITY,
+		Vector3(0.0, self.angular_velocity.y, 0.0)
+	)
 	if time_manager.state == TimeManager.STATE_NORMAL:
 		if self.health <= 0 or self.last_seen_target == -1: return
 		state.apply_central_force((self.target - self.position).normalized() * 3.0)
@@ -103,5 +149,6 @@ func _on_hitbox_area_entered(area: Area3D) -> void:
 	if self.health <= 0 or self.time_manager.state != TimeManager.STATE_NORMAL: return
 	var parent := area.get_parent()
 	if parent is Player3D:
-		self.apply_impulse((self.global_position - area.global_position).normalized().rotated(Vector3.UP, randf_range(-0.1, 0.1)) * randf_range(2.25, 4.375), Vector3(randfn(0, 2), 0, randfn(0, 2)))
+		var delta := self.global_position - area.global_position
+		self.apply_impulse(Vector3(delta.x, 0.0, delta.y).normalized().rotated(Vector3.UP, randf_range(-0.1, 0.1)) * (self.linear_velocity.length() + randf_range(1.5, 4.0)), Vector3(randfn(0, 0.1), 0, randfn(0, 0.1)))
 		(parent as Player3D).health -= contact_damage
