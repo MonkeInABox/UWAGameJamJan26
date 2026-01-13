@@ -127,3 +127,9 @@ func _physics_process(delta: float) -> void:
 	else:
 		self.velocity = Vector3()
 		
+
+
+func _on_wireless_charger_area_entered(_area: Area3D) -> void:
+	time_manager.reset()
+	time_manager.set_to_initial()
+	

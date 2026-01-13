@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=41 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -10,7 +10,8 @@
 [ext_resource type="Script" uid="uid://bqgn1a1yh82fp" path="res://line3d.gd" id="4_kek77"]
 [ext_resource type="Script" uid="uid://bhaai2o87q120" path="res://enemy_healthbar.gd" id="5_5vw27"]
 [ext_resource type="Script" uid="uid://cv27h3syynihb" path="res://physics_enemy_visuals.gd" id="7_4c57u"]
-[ext_resource type="Script" uid="uid://cqy3l1ma2nt3k" path="res://mining_laser_weapon.gd" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://cqy3l1ma2nt3k" path="res://mining_laser_weapon.gd" id="11_dg77c"]
+[ext_resource type="Texture2D" uid="uid://brcr5533kdlwe" path="res://wirelesscharger.png" id="11_efxa6"]
 
 [sub_resource type="SystemFont" id="SystemFont_5vw27"]
 subpixel_positioning = 0
@@ -123,6 +124,38 @@ agent_height = 1.0
 agent_radius = 0.2
 agent_max_climb = 0.1
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dg77c"]
+height = 2.64
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycdy4"]
+atlas = ExtResource("11_efxa6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w48qg"]
+atlas = ExtResource("11_efxa6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vivmo"]
+atlas = ExtResource("11_efxa6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2cqfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ycdy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w48qg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vivmo")
+}],
+"loop": true,
+"name": &"glow",
+"speed": 3.0
+}]
+
 [node name="Node3D" type="Node3D"]
 
 [node name="time manager" type="Node" parent="." node_paths=PackedStringArray("timer_label")]
@@ -153,6 +186,7 @@ size = 8.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.65076095, 0.75928265, 0, -0.75928265, 0.65076095, 0, 1.5492883, 0)
+light_color = Color(0.94679576, 0.9999997, 0.9994717, 1)
 shadow_enabled = true
 
 [node name="physics_enemy" type="RigidBody3D" parent="." node_paths=PackedStringArray("player")]
@@ -233,7 +267,7 @@ autoplay = "runningRF"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05756426, 0.48761672, 0.049028516)
 
 [node name="mining_laser_weapon" type="Node3D" parent="player/weapon_attachment"]
-script = ExtResource("11_efxa6")
+script = ExtResource("11_dg77c")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="player/weapon_attachment/mining_laser_weapon"]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
@@ -244,6 +278,7 @@ process_material = SubResource("ParticleProcessMaterial_efxa6")
 draw_pass_1 = SubResource("QuadMesh_ycdy4")
 
 [node name="laser_mesh" type="MeshInstance3D" parent="player/weapon_attachment/mining_laser_weapon"]
+visible = false
 mesh = SubResource("CylinderMesh_efxa6")
 
 [node name="Area3D" type="Area3D" parent="player"]
@@ -290,4 +325,26 @@ skeleton = NodePath("../..")
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_4c57u")
 
+[node name="wirelessCharger" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0628732, 0.5889671, -0.02810359)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wirelessCharger"]
+shape = SubResource("CylinderShape3D_dg77c")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="wirelessCharger/CollisionShape3D"]
+transform = Transform3D(2.9999998, 5.1961527, -2.2713104e-07, 0, -2.6226832e-07, -6, -5.1961527, 2.9999998, -1.3113416e-07, 0, -0.57989097, 0)
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_2cqfq")
+animation = &"glow"
+autoplay = "glow"
+frame_progress = 0.02637127
+
+[node name="OmniLight3D" type="OmniLight3D" parent="wirelessCharger"]
+light_color = Color(1, 0.88235295, 0.40784314, 1)
+light_energy = 0.622
+light_indirect_energy = 0.749
+shadow_enabled = true
+shadow_opacity = 0.26
+
 [connection signal="area_entered" from="physics_enemy/damagebox" to="physics_enemy" method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="wirelessCharger" to="player" method="_on_wireless_charger_area_entered"]
