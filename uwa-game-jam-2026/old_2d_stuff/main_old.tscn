@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cdom66g4ljx1w" path="res://tiles.png" id="4_4pxni"]
 [ext_resource type="Script" uid="uid://ds2gvej8sqlrd" path="res://old_2d_stuff/player.gd" id="5_vbmhn"]
 [ext_resource type="SpriteFrames" uid="uid://cdtg4lurljt3d" path="res://player_anims.tres" id="6_cxdw6"]
-[ext_resource type="Script" uid="uid://dx5yld4a31gmn" path="res://mining_laser_weapon.gd" id="10_ldgw0"]
+[ext_resource type="Script" uid="uid://dx5yld4a31gmn" path="res://old_2d_stuff/mining_laser_weapon.gd" id="10_ldgw0"]
 [ext_resource type="Texture2D" uid="uid://drqhs570m28d2" path="res://walls.png" id="11_yfiwb"]
 [ext_resource type="PackedScene" uid="uid://bpm7ifdpje8nq" path="res://physics_enemy.tscn" id="12_cllug"]
 

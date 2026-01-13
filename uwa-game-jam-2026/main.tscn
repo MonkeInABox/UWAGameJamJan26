@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=35 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bqgn1a1yh82fp" path="res://line3d.gd" id="4_kek77"]
 [ext_resource type="Script" uid="uid://bhaai2o87q120" path="res://enemy_healthbar.gd" id="5_5vw27"]
 [ext_resource type="Script" uid="uid://cv27h3syynihb" path="res://physics_enemy_visuals.gd" id="7_4c57u"]
+[ext_resource type="Script" uid="uid://cqy3l1ma2nt3k" path="res://mining_laser_weapon.gd" id="11_efxa6"]
 
 [sub_resource type="SystemFont" id="SystemFont_5vw27"]
 subpixel_positioning = 0
@@ -20,19 +21,70 @@ subpixel_positioning = 0
 [sub_resource type="Environment" id="Environment_7dm0k"]
 background_mode = 4
 
-[sub_resource type="BoxMesh" id="BoxMesh_5vw27"]
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kek77"]
 height = 0.2
-radius = 0.35
+radius = 0.4
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_5vw27"]
 height = 0.2
 radius = 0.4
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_efxa6"]
+height = 1.0029297
+radius = 0.4
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c57u"]
 radius = 0.28955078
 height = 1.1409912
+
+[sub_resource type="Gradient" id="Gradient_efxa6"]
+offsets = PackedFloat32Array(0, 0.14714715, 1)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dg77c"]
+gradient = SubResource("Gradient_efxa6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_efxa6"]
+angle_min = 45.00001
+angle_max = 45.00001
+direction = Vector3(0, 1, 0)
+spread = 30.619
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+color_ramp = SubResource("GradientTexture1D_dg77c")
+hue_variation_min = -2.2351742e-08
+hue_variation_max = 0.019999977
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg77c"]
+transparency = 1
+vertex_color_use_as_albedo = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 6.05
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_ycdy4"]
+material = SubResource("StandardMaterial3D_dg77c")
+size = Vector2(0.02, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efxa6"]
+blend_mode = 1
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 16.0
+disable_receive_shadows = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_efxa6"]
+material = SubResource("StandardMaterial3D_efxa6")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 1.0
+radial_segments = 8
+cap_top = false
+cap_bottom = false
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kek77"]
 radius = 0.37353516
@@ -103,9 +155,6 @@ size = 8.0
 transform = Transform3D(1, 0, 0, 0, 0.65076095, 0.75928265, 0, -0.75928265, 0.65076095, 0, 1.5492883, 0)
 shadow_enabled = true
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_5vw27")
-
 [node name="physics_enemy" type="RigidBody3D" parent="." node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0628732, 0.5889671, -0.02810359)
 collision_layer = 4
@@ -135,12 +184,21 @@ height = 2.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="physics_enemy"]
 
-[node name="Area3D" type="Area3D" parent="physics_enemy"]
-collision_layer = 8
+[node name="damagebox" type="Area3D" parent="physics_enemy"]
+collision_layer = 72
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="physics_enemy/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="physics_enemy/damagebox"]
 shape = SubResource("CylinderShape3D_5vw27")
+
+[node name="hurtbox" type="Area3D" parent="physics_enemy"]
+collision_layer = 8
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="physics_enemy/hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54534364, 0.62327814, -1.4321489)
+shape = SubResource("CylinderShape3D_efxa6")
+disabled = true
 
 [node name="Line3D" type="Node2D" parent="physics_enemy"]
 script = ExtResource("4_kek77")
@@ -172,11 +230,25 @@ animation = &"runningRF"
 autoplay = "runningRF"
 
 [node name="weapon_attachment" type="Node3D" parent="player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.624969, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05756426, 0.48761672, 0.049028516)
+
+[node name="mining_laser_weapon" type="Node3D" parent="player/weapon_attachment"]
+script = ExtResource("11_efxa6")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="player/weapon_attachment/mining_laser_weapon"]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+emitting = false
+amount = 32
+lifetime = 0.3
+process_material = SubResource("ParticleProcessMaterial_efxa6")
+draw_pass_1 = SubResource("QuadMesh_ycdy4")
+
+[node name="laser_mesh" type="MeshInstance3D" parent="player/weapon_attachment/mining_laser_weapon"]
+mesh = SubResource("CylinderMesh_efxa6")
 
 [node name="Area3D" type="Area3D" parent="player"]
 collision_layer = 2
-collision_mask = 8
+collision_mask = 64
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="player/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58096313, 0)
@@ -218,4 +290,4 @@ skeleton = NodePath("../..")
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_4c57u")
 
-[connection signal="area_entered" from="physics_enemy/Area3D" to="physics_enemy" method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="physics_enemy/damagebox" to="physics_enemy" method="_on_hitbox_area_entered"]

@@ -31,7 +31,7 @@ var anim_anim: StringName:
 	get(): return self.sprites.animation
 	set(value): self.sprites.animation = value
 
-@abstract class Weapon extends Node2D:
+@abstract class Weapon extends Node3D:
 	var active := false
 
 var owned_weapons: Array[Weapon] = []

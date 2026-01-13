@@ -18,7 +18,7 @@ const visualize_ai = false
 		return max_health
 var health := max_health:
 	set(value):
-		if value < health:
+		if health != 0.0 and value < health:
 			sprite.modulate = Color.RED
 			var tween := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 			tween.tween_property(sprite, "modulate", Color.WHITE, 0.15)
@@ -28,6 +28,9 @@ var health := max_health:
 		return health
 @onready var healthbar: EnemyHealthbar3D = $"healthbar"
 @onready var sprite: Sprite3D = $"physics enemy visuals"
+@onready var collisionbox_shape: CollisionShape3D = $CollisionShape3D
+@onready var damagebox_shape: CollisionShape3D = $damagebox/CollisionShape3D
+#@onready var hurtbox_shape: CollisionShape3D = $hurtbox/CollisionShape3D
 
 @export var contact_damage := 5.0
 
@@ -68,8 +71,16 @@ var height_pid_d := 1.0
 @onready var debug_vis3: Line3D = $"Line3D3"
 
 func _physics_process(delta: float) -> void:
+	var is_alive := self.health > 0.0
+	if is_alive:
+		self.collision_layer |= 0b100
+		self.collision_mask |= 0b101
+	else:
+		self.collision_layer &= ~0b100
+		self.collision_mask &= ~0b101
+	
+	damagebox_shape.disabled = not is_alive
 	if time_manager.state == TimeManager.STATE_NORMAL:
-		var is_alive := self.health > 0.0
 		if not is_alive:
 			return
 		var space := get_world_3d().direct_space_state

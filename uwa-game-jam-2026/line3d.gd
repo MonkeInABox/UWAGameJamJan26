@@ -2,17 +2,19 @@ class_name Line3D extends Node2D
 
 var a: Vector3:
 	set(value): 
+		if a != value: queue_redraw()
 		a = value
-		queue_redraw()
 	get(): return a
 var b: Vector3:
 	set(value): 
+		if b != value: queue_redraw()
 		b = value
 		queue_redraw()
 	get(): return b
 	
 var color: Color:
 	set(value): 
+		if color != value: queue_redraw()
 		color = value
 		queue_redraw()
 	get(): return color
