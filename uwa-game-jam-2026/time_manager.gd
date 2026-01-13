@@ -56,6 +56,14 @@ func check_nodes():
 		if node.is_queued_for_deletion():
 			unregister(node)
 
+func checkpoint() -> void:
+	self.timer = Time.get_ticks_msec()
+	self.state = STATE_NORMAL
+	timer_label.value = max_time_ms / 1000.0
+	self.clear()
+	for node in data:
+		set_new_initial(node)
+
 func set_new_initial(node: Node) -> void:
 	var initial: Dictionary[StringName, Variant] = initial_states[node]
 	for property in data[node]:
@@ -91,7 +99,7 @@ func set_to_initial() -> void:
 		if do_after_resets[node]:
 			node.after_reset()
 
-func reset() -> void:
+func clear() -> void:
 	num_samples = 0
 	for node in data:
 		var node_data: Dictionary[StringName, Array] = data[node]
@@ -130,7 +138,7 @@ func _process(delta: float) -> void:
 				self.state = STATE_NORMAL
 				timer_label.value = max_time_ms / 1000.0
 				set_to_initial()
-				reset()
+				clear()
 			else:
 				playback(1.0 - reset_amount)
 				timer_label.value = ((time_passed / base_reset_time_ms) * max_time_ms + self.reset_at) / 1000.0

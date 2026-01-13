@@ -7,6 +7,8 @@ extends RigidBody3D
 
 var target: Vector3
 var last_seen_target: int = -1
+var last_hit := Time.get_ticks_msec()
+var hit_cooldown_ms := 100
 
 const visualize_ai = false
 
@@ -70,6 +72,8 @@ var height_pid_d := 1.0
 @onready var debug_vis2: Line3D = $"Line3D2"
 @onready var debug_vis3: Line3D = $"Line3D3"
 
+var currently_contacting: Dictionary[Area3D, bool] = {}
+
 func _physics_process(delta: float) -> void:
 	var is_alive := self.health > 0.0
 	if is_alive:
@@ -91,6 +95,7 @@ func _physics_process(delta: float) -> void:
 		debug_vis.b = result.position if result else player.global_position
 		debug_vis.color = Color.BLUE if result and result.collider == player else Color.RED
 		
+		var now := Time.get_ticks_msec()
 		if result and result.collider == player:
 			self.sleeping = false
 			nav.target_position = player_pos
@@ -106,7 +111,6 @@ func _physics_process(delta: float) -> void:
 			else:
 				self.target = self.nav.target_position
 				
-			var now := Time.get_ticks_msec()
 			if ((self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 and self.linear_velocity.length_squared() < 0.5 * 0.5) or now - self.last_seen_target >= 10 * 1000:
 				self.last_seen_target = -1
 			debug_vis3.color = Color.ORANGE
@@ -131,24 +135,16 @@ func _physics_process(delta: float) -> void:
 			var output := height_pid_p * proportional + height_pid_i * height_pid_integral + height_pid_d * derivative
 			height_pid_error = error
 			self.apply_central_force(Vector3.UP * output * 10.0)
+			
+		if self.health <= 0 or self.time_manager.state != TimeManager.STATE_NORMAL: return
+		if currently_contacting and self.last_hit + self.hit_cooldown_ms <= now:
+			self.last_hit = now
+			for node in currently_contacting:
+				var position_delta := self.global_position - node.global_position
+				var thing_with_health: Player3D = node.get_parent()
+				self.apply_impulse(Vector3(position_delta.x, 0.0, position_delta.z).normalized().rotated(Vector3.UP, randf_range(-0.1, 0.1)) * randf_range(1.5, 4.0) + -self.linear_velocity + thing_with_health.velocity, Vector3(randfn(0, 0.1), 0, randfn(0, 0.1)))
+				thing_with_health.health -= self.contact_damage
 		
-		#try_to_be_upright(delta)
-		
-#var rotation_pid_integral := Vector2()
-#var rotation_pid_error := Vector2()
-#var rotation_pid_p := 0.3
-#var rotation_pid_i := 0.1
-#var rotation_pid_d := 0.1
-#func try_to_be_upright(delta: float) -> void:
-	#var error := Vector2(0.0 - self.rotation.x, 0.0 - self.rotation.z)
-	#var proportional := error
-	#rotation_pid_integral += error * delta
-	#var derivative := (error - rotation_pid_error) / delta
-	#var output := rotation_pid_p * proportional + rotation_pid_i * rotation_pid_integral + rotation_pid_d * derivative
-	#print(output)
-	#self.apply_torque(Vector3.RIGHT * output.x)
-	#self.apply_torque(Vector3.BACK * output.y)
-
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	state.transform.basis = Basis(Vector3.UP, self.rotation.y)
 	state.angular_velocity.x = 0
@@ -157,10 +153,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 		if self.health <= 0 or self.last_seen_target == -1: return
 		state.apply_central_force((self.target - self.position).normalized() * 3.0)
 
-func _on_hitbox_area_entered(area: Area3D) -> void:
-	if self.health <= 0 or self.time_manager.state != TimeManager.STATE_NORMAL: return
-	var parent := area.get_parent()
-	if parent is Player3D:
-		var delta := self.global_position - area.global_position
-		self.apply_impulse(Vector3(delta.x, 0.0, delta.y).normalized().rotated(Vector3.UP, randf_range(-0.1, 0.1)) * (self.linear_velocity.length() + randf_range(1.5, 4.0)), Vector3(randfn(0, 0.1), 0, randfn(0, 0.1)))
-		(parent as Player3D).health -= contact_damage
+func _on_damagebox_area_entered(area: Area3D) -> void:
+	if area.get_parent() is Player3D:
+		currently_contacting[area] = true
+
+
+func _on_damagebox_area_exited(area: Area3D) -> void:
+	if area.get_parent() is Player3D:
+		currently_contacting.erase(area)

@@ -73,6 +73,7 @@ attack={
 3d_physics/layer_6="player_damagebox"
 2d_physics/layer_7="flying_enemy"
 3d_physics/layer_7="enemy_damagebox"
+3d_physics/layer_8="pickups"
 
 [navigation]
 

@@ -2,7 +2,7 @@ extends Player3D.Weapon
 
 @onready var time_manager: TimeManager = %"time manager"
 
-@onready var particles: GPUParticles3D = $GPUParticles3D
+@onready var particles: GPUParticles3D = $sparks
 @onready var line_mesh: MeshInstance3D = $laser_mesh
 
 @export var damage := 1.0

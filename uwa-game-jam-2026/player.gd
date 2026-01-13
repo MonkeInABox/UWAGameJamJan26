@@ -11,7 +11,7 @@ class_name Player3D extends CharacterBody3D
 		return max_health
 var health := max_health:
 	set(value):
-		if value < health:
+		if health != 0 and value < health:
 			sprites.modulate = Color.RED
 			var tween := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 			tween.tween_property(sprites, "modulate", Color.WHITE, 0.15)
@@ -127,9 +127,3 @@ func _physics_process(delta: float) -> void:
 	else:
 		self.velocity = Vector3()
 		
-
-
-func _on_wireless_charger_area_entered(_area: Area3D) -> void:
-	time_manager.reset()
-	time_manager.set_to_initial()
-	
