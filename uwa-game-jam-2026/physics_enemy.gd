@@ -68,9 +68,9 @@ var height_pid_p := 4.0
 var height_pid_i := 1.0
 var height_pid_d := 1.0
 
-@onready var debug_vis: Line3D = $"Line3D"
-@onready var debug_vis2: Line3D = $"Line3D2"
-@onready var debug_vis3: Line3D = $"Line3D3"
+#@onready var debug_vis: Line3D = $"Line3D"
+#@onready var debug_vis2: Line3D = $"Line3D2"
+#@onready var debug_vis3: Line3D = $"Line3D3"
 
 var currently_contacting: Dictionary[Area3D, bool] = {}
 
@@ -84,24 +84,24 @@ func _physics_process(delta: float) -> void:
 		self.collision_mask &= ~0b101
 	
 	damagebox_shape.disabled = not is_alive
-	if time_manager.state == TimeManager.STATE_NORMAL:
+	if time_manager.allow_time():
 		if not is_alive:
 			return
 		var space := get_world_3d().direct_space_state
 		var player_pos := player.position + Vector3(0.0, 0.5, 0.0)
 		var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, player_pos, 0b10001))
 		
-		debug_vis.a = self.global_position
-		debug_vis.b = result.position if result else player.global_position
-		debug_vis.color = Color.BLUE if result and result.collider == player else Color.RED
+		#debug_vis.a = self.global_position
+		#debug_vis.b = result.position if result else player.global_position
+		#debug_vis.color = Color.BLUE if result and result.collider == player else Color.RED
 		
 		var now := Time.get_ticks_msec()
 		if result and result.collider == player:
 			self.sleeping = false
 			nav.target_position = player_pos
-			debug_vis3.b = self.nav.target_position
-			debug_vis3.color = Color.TRANSPARENT
-			debug_vis2.color = Color.TRANSPARENT
+			#debug_vis3.b = self.nav.target_position
+			#debug_vis3.color = Color.TRANSPARENT
+			#debug_vis2.color = Color.TRANSPARENT
 			self.target = player_pos
 			self.last_seen_target = Time.get_ticks_msec()
 		elif self.last_seen_target != -1:
@@ -113,14 +113,14 @@ func _physics_process(delta: float) -> void:
 				
 			if ((self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 and self.linear_velocity.length_squared() < 0.5 * 0.5) or now - self.last_seen_target >= 10 * 1000:
 				self.last_seen_target = -1
-			debug_vis3.color = Color.ORANGE
-			debug_vis2.color = Color.CYAN
-			debug_vis2.b = self.target
-		elif self.last_seen_target == -1:
-			debug_vis3.color = Color.TRANSPARENT
-			debug_vis2.color = Color.TRANSPARENT
-		debug_vis2.a = self.global_position
-		debug_vis3.a = self.global_position
+			#debug_vis3.color = Color.ORANGE
+			#debug_vis2.color = Color.CYAN
+			#debug_vis2.b = self.target
+		#elif self.last_seen_target == -1:
+			#debug_vis3.color = Color.TRANSPARENT
+			#debug_vis2.color = Color.TRANSPARENT
+		#debug_vis2.a = self.global_position
+		#debug_vis3.a = self.global_position
 		
 		
 				
@@ -149,7 +149,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	state.transform.basis = Basis(Vector3.UP, self.rotation.y)
 	state.angular_velocity.x = 0
 	state.angular_velocity.z = 0
-	if time_manager.state == TimeManager.STATE_NORMAL:
+	if time_manager.allow_time():
 		if self.health <= 0 or self.last_seen_target == -1: return
 		state.apply_central_force((self.target - self.position).normalized() * 3.0)
 

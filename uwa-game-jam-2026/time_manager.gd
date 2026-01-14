@@ -3,6 +3,7 @@ class_name TimeManager extends Node
 enum {
 	STATE_NORMAL,
 	STATE_RESETTING,
+	STATE_CHECKPOINTING,
 }
 
 var data: Dictionary[Node, Dictionary] = {}
@@ -21,7 +22,7 @@ var num_samples := 0
 var state := STATE_NORMAL
 
 @export var max_time_ms := 30.0 * 1000.0
-@export var base_reset_time_ms := 1.5 * 1000.0
+@export var base_reset_time_ms := 2.0 * 1000.0
 # how long the current rewind of time should take
 var reset_time_ms: float
 # the value on the timer (in ms) when time was rewound
@@ -29,6 +30,9 @@ var reset_at: float
 
 @onready var timer := Time.get_ticks_msec()
 @export var timer_label: TimerDisplay
+
+func allow_time() -> bool:
+	return self.state != STATE_RESETTING
 
 func register(node: Node, property_names: Array[StringName], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool], do_before_reset: bool = false, do_after_reset: bool = false) -> void:
 	var dict: Dictionary[StringName, Array] = {}
@@ -142,5 +146,7 @@ func _process(delta: float) -> void:
 			else:
 				playback(1.0 - reset_amount)
 				timer_label.value = ((time_passed / base_reset_time_ms) * max_time_ms + self.reset_at) / 1000.0
+		STATE_CHECKPOINTING:
+			pass
 	timer_label.queue_redraw()
 	self.check_nodes.call_deferred()

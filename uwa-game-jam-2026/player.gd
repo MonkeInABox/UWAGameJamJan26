@@ -11,6 +11,7 @@ class_name Player3D extends CharacterBody3D
 		return max_health
 var health := max_health:
 	set(value):
+		if iframes_end > Time.get_ticks_msec(): return
 		if health != 0 and value < health:
 			sprites.modulate = Color.RED
 			var tween := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
@@ -37,6 +38,9 @@ var anim_anim: StringName:
 var owned_weapons: Array[Weapon] = []
 var active_weapon: Weapon = null
 
+var iframes_end := 0
+const iframes_length := 500
+
 func _ready() -> void:
 	self.owned_weapons.append_array($weapon_attachment.get_children().filter(func (child): return child is Weapon))
 	if self.owned_weapons: 
@@ -46,8 +50,12 @@ func _ready() -> void:
 		["position", "health", "anim_frame", "anim_anim"],
 		[TYPE_VECTOR3, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME], 
 		["", "", "", ""], 
-		[true, true, false, false]
+		[true, true, false, false],
+		false, true,
 	)
+
+func after_reset() -> void:
+	iframes_end = Time.get_ticks_msec() + iframes_length
 
 func set_anim(dir: Vector2):
 	const down_right := Vector2(cos(deg_to_rad(45.0)), sin(deg_to_rad(45.0)))
@@ -86,9 +94,18 @@ func set_anim(dir: Vector2):
 			elif normalized.dot(up_left) >= angle_threshold:
 				self.sprites.play(&"runningLB")
 
+func _process(_delta: float) -> void:
+	var now := Time.get_ticks_msec()
+	if self.iframes_end > now:
+		var left := self.iframes_end - now
+		self.visible = left % 200 >= 100
+	elif self.iframes_end != 0:
+		self.iframes_end = 0
+		self.visible = true
+
 func _physics_process(delta: float) -> void:
 	var is_alive := health > 0
-	if time_manager.state == TimeManager.STATE_NORMAL:
+	if time_manager.allow_time():
 		var input_dir := Input.get_vector("left", "right", "up", "down") if is_alive else Vector2()
 		
 		set_anim(input_dir)
@@ -102,7 +119,7 @@ func _physics_process(delta: float) -> void:
 		self.velocity += delta_velocity * 0.5
 		self.velocity *= 0.85 if input_dir.is_zero_approx() else 0.95
 		#if self.velocity.length_squared() >= speed * speed: self.velocity = input_dir * speed
-		var current_speed_squared = self.velocity.length_squared()
+		var current_speed_squared := self.velocity.length_squared()
 		if current_speed_squared >= speed * speed: self.velocity *= speed / sqrt(current_speed_squared)
 		
 		# code taken and modified from the godot c++ source for CharacterBody2D::move_and_slide()

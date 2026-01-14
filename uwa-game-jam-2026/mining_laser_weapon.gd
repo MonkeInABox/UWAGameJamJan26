@@ -47,7 +47,7 @@ func _process(_delta: float) -> void:
 			var mouse_pos_world := camera.project_ray_origin(mouse_pos_screen)
 			var mouse_normal := camera.project_ray_normal(mouse_pos_screen)
 			var mouse_trace_result = space.intersect_ray(PhysicsRayQueryParameters3D.create(mouse_pos_world, mouse_pos_world + mouse_normal * 1024.0))
-			var target := (mouse_trace_result.position as Vector3) if mouse_trace_result else mouse_pos_world
+			var target := ((mouse_trace_result.collider as Node3D).global_position if (mouse_trace_result.collider as Node3D).has_method("damage") else (mouse_trace_result.position as Vector3)) if mouse_trace_result else mouse_pos_world + mouse_normal * 45
 			var ray_query := PhysicsRayQueryParameters3D.create(self.global_position, target, 0b011000)
 			ray_query.collide_with_areas = true
 			var result := space.intersect_ray(ray_query)
@@ -59,7 +59,9 @@ func _process(_delta: float) -> void:
 						collider = collider.get_parent()
 				if not can_damage:
 					for offset in range(-10, 20):
-						ray_query.to = target + Vector3(0, offset / 20.0, 0)
+						if offset == 0: continue
+						var offset_f := offset / 20.0
+						ray_query.to = target + Vector3(offset_f * sqrt(1.0/8.0), offset_f * sqrt(2.0)/2.0, offset_f * sqrt(1.0/8.0))
 						var result2 := space.intersect_ray(ray_query)
 						if not result2: continue
 						var collider2: Node = result2.collider
