@@ -136,7 +136,7 @@ func _physics_process(delta: float) -> void:
 			height_pid_error = error
 			self.apply_central_force(Vector3.UP * output * 10.0)
 			
-		if self.health <= 0 or self.time_manager.state != TimeManager.STATE_NORMAL: return
+		if self.health <= 0: return
 		if currently_contacting and self.last_hit + self.hit_cooldown_ms <= now:
 			self.last_hit = now
 			for node in currently_contacting:

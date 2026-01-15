@@ -9,13 +9,16 @@ class_name Player3D extends CharacterBody3D
 		max_health = value
 	get():
 		return max_health
+var hurt_tween: Tween
 var health := max_health:
 	set(value):
 		if iframes_end > Time.get_ticks_msec(): return
 		if health != 0 and value < health:
 			sprites.modulate = Color.RED
+			if self.hurt_tween: self.hurt_tween.kill()
 			var tween := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 			tween.tween_property(sprites, "modulate", Color.WHITE, 0.15)
+			self.hurt_tween = tween
 		health = clampf(value, 0.0, max_health)
 		healthbar.value = health
 	get():
