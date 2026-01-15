@@ -15,6 +15,10 @@ run/main_scene="uid://bjipm2lc5skd"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 up={
@@ -88,3 +92,5 @@ attack={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/lossless_compression/force_png=true
+textures/decals/filter=2
