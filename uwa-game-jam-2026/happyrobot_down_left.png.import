@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7k3mdewwvixo"
-path="res://.godot/imported/wallPole.png-f991a553933bfdd286255148c7c9212e.ctex"
+uid="uid://b8qsx11qx8l87"
+path="res://.godot/imported/happyrobot_down_left.png-b66af1d2ba741db6a9f9403b5954c2c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://wallPole.png"
-dest_files=["res://.godot/imported/wallPole.png-f991a553933bfdd286255148c7c9212e.ctex"]
+source_file="res://happyrobot_down_left.png"
+dest_files=["res://.godot/imported/happyrobot_down_left.png-b66af1d2ba741db6a9f9403b5954c2c1.ctex"]
 
 [params]
 

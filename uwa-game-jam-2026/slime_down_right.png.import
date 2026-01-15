@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dr6hejf6d68ve"
-path.s3tc="res://.godot/imported/slime_down_right.png-43f8fb76e13d839563af6300534abccd.s3tc.ctex"
+path="res://.godot/imported/slime_down_right.png-43f8fb76e13d839563af6300534abccd.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://slime_down_right.png"
-dest_files=["res://.godot/imported/slime_down_right.png-43f8fb76e13d839563af6300534abccd.s3tc.ctex"]
+dest_files=["res://.godot/imported/slime_down_right.png-43f8fb76e13d839563af6300534abccd.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

@@ -18,6 +18,7 @@ var do_after_resets: Dictionary[Node, bool] = {}
 var capture_accumulator: float
 
 var num_samples := 0
+var started_at: Dictionary[Node, int] = {}
 
 var state := STATE_NORMAL
 
@@ -35,18 +36,28 @@ func allow_time() -> bool:
 	return self.state != STATE_RESETTING
 
 func register(node: Node, property_names: Array[StringName], property_types: Array[Variant.Type], property_class_names: Array[StringName], property_do_lerp: Array[bool], do_before_reset: bool = false, do_after_reset: bool = false) -> void:
-	var dict: Dictionary[StringName, Array] = {}
-	var initial: Dictionary[StringName, Variant] = {}
-	var lerps: Dictionary[StringName, bool] = {}
-	for i in property_names.size():
-		dict[property_names[i]] = Array([], property_types[i], property_class_names[i], null)
-		lerps[property_names[i]] = property_do_lerp[i]
-		initial[property_names[i]] = node.get(property_names[i])
-	data[node] = dict
-	initial_states[node] = initial
-	do_lerp[node] = lerps
-	do_before_resets[node] = do_before_reset
-	do_after_resets[node] = do_after_reset
+	if node in data:
+		var dict := data[node]
+		var initial := do_lerp[node]
+		var lerps := initial_states[node]
+		for i in property_names.size():
+			dict[property_names[i]] = Array([], property_types[i], property_class_names[i], null)
+			initial[property_names[i]] = property_do_lerp[i]
+			lerps[property_names[i]] = node.get(property_names[i])
+	else:
+		var dict: Dictionary[StringName, Array] = {}
+		var initial: Dictionary[StringName, Variant] = {}
+		var lerps: Dictionary[StringName, bool] = {}
+		for i in property_names.size():
+			dict[property_names[i]] = Array([], property_types[i], property_class_names[i], null)
+			lerps[property_names[i]] = property_do_lerp[i]
+			initial[property_names[i]] = node.get(property_names[i])
+		data[node] = dict
+		initial_states[node] = initial
+		do_lerp[node] = lerps
+		do_before_resets[node] = do_before_reset
+		do_after_resets[node] = do_after_reset
+	started_at[node] = num_samples
 
 func unregister(node: Node) -> void:
 	data.erase(node)
@@ -54,6 +65,7 @@ func unregister(node: Node) -> void:
 	do_lerp.erase(node)
 	do_before_resets.erase(node)
 	do_after_resets.erase(node)
+	started_at.erase(node)
 
 func check_nodes():
 	for node in data:
@@ -85,14 +97,21 @@ func playback(playback_position: float) -> void:
 	var index := int(index_f)
 	var lerp_amount := index_f - index
 	for node in data:
+		var this_index := index - started_at[node]
+		if this_index < 0:
+			 # the node didn't exist at this point in time, set it to its initial value
+			var initial: Dictionary[StringName, Variant] = initial_states[node]
+			for property in initial:
+				node.set(property, initial[property])
+			continue
 		var node_data: Dictionary[StringName, Array] = data[node]
 		var lerps: Dictionary[StringName, bool] = do_lerp[node]
 		for property in node_data:
-			if index != 0 and lerps[property]:
+			if this_index != 0 and lerps[property]:
 				var array := node_data[property]
-				node.set(property, lerp(array[index - 1], array[index], lerp_amount))
+				node.set(property, lerp(array[this_index - 1], array[this_index], lerp_amount))
 			else:
-				node.set(property, node_data[property][index])
+				node.set(property, node_data[property][this_index])
 
 func set_to_initial() -> void:
 	for node in data:
@@ -106,6 +125,7 @@ func set_to_initial() -> void:
 func clear() -> void:
 	num_samples = 0
 	for node in data:
+		started_at[node] = 0
 		var node_data: Dictionary[StringName, Array] = data[node]
 		for property in node_data:
 			node_data[property].clear()

@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://c42o6fn5kkvbv"]
+
+[ext_resource type="Script" uid="uid://c8j75v1pargaw" path="res://plasma_ball.gd" id="1_j08vb"]
+[ext_resource type="Texture2D" uid="uid://bd6n3tth1r52u" path="res://plasma_ball.png" id="2_svveb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aym2w"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 11.45
+
+[sub_resource type="SphereMesh" id="SphereMesh_iiylf"]
+material = SubResource("StandardMaterial3D_aym2w")
+radius = 0.25
+height = 0.5
+radial_segments = 8
+rings = 4
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aym2w"]
+atlas = ExtResource("2_svveb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iiylf"]
+atlas = ExtResource("2_svveb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hq7h"]
+atlas = ExtResource("2_svveb")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ciuy"]
+atlas = ExtResource("2_svveb")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wqnsh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aym2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iiylf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hq7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ciuy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="plasma_ball" type="Node3D"]
+script = ExtResource("1_j08vb")
+
+[node name="temp visuals" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_iiylf")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(0.70710677, -0.35355338, 0.6123724, 0, 0.8660254, 0.5, -0.70710677, -0.35355338, 0.6123724, 0, 0, 0)
+cast_shadow = 0
+pixel_size = 0.0313
+alpha_cut = 1
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_wqnsh")
+autoplay = "default"
+frame_progress = 0.61779255

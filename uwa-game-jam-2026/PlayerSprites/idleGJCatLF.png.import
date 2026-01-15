@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cssymukwv7c11"
-path.s3tc="res://.godot/imported/idleGJCatLF.png-86b4ae63e87b7f27a6dfde961baa6300.s3tc.ctex"
+path="res://.godot/imported/idleGJCatLF.png-86b4ae63e87b7f27a6dfde961baa6300.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://PlayerSprites/idleGJCatLF.png"
-dest_files=["res://.godot/imported/idleGJCatLF.png-86b4ae63e87b7f27a6dfde961baa6300.s3tc.ctex"]
+dest_files=["res://.godot/imported/idleGJCatLF.png-86b4ae63e87b7f27a6dfde961baa6300.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

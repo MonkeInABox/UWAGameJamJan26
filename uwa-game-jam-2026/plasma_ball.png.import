@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7k3mdewwvixo"
-path="res://.godot/imported/wallPole.png-f991a553933bfdd286255148c7c9212e.ctex"
+uid="uid://bd6n3tth1r52u"
+path="res://.godot/imported/plasma_ball.png-c8e58943634295b97809e188bb5b470a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://wallPole.png"
-dest_files=["res://.godot/imported/wallPole.png-f991a553933bfdd286255148c7c9212e.ctex"]
+source_file="res://plasma_ball.png"
+dest_files=["res://.godot/imported/plasma_ball.png-c8e58943634295b97809e188bb5b470a.ctex"]
 
 [params]
 

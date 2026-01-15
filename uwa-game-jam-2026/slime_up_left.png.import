@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxfw803mhc3ud"
-path.s3tc="res://.godot/imported/slime_up_left.png-3df777efe86ff62ddb48d42ffaa9c599.s3tc.ctex"
+path="res://.godot/imported/slime_up_left.png-3df777efe86ff62ddb48d42ffaa9c599.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://slime_up_left.png"
-dest_files=["res://.godot/imported/slime_up_left.png-3df777efe86ff62ddb48d42ffaa9c599.s3tc.ctex"]
+dest_files=["res://.godot/imported/slime_up_left.png-3df777efe86ff62ddb48d42ffaa9c599.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

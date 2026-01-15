@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=114 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -21,6 +21,12 @@
 [ext_resource type="Texture2D" uid="uid://dr6hejf6d68ve" path="res://slime_down_right.png" id="19_getpj"]
 [ext_resource type="Texture2D" uid="uid://dxfw803mhc3ud" path="res://slime_up_left.png" id="20_ryguw"]
 [ext_resource type="Texture2D" uid="uid://bv4ah5b5x5p7t" path="res://slime_up_right.png" id="21_d13ii"]
+[ext_resource type="Script" uid="uid://v2sucv6cakrd" path="res://robot_enemy.gd" id="22_d13ii"]
+[ext_resource type="Texture2D" uid="uid://b8qsx11qx8l87" path="res://happyrobot_down_left.png" id="23_1u8w0"]
+[ext_resource type="Texture2D" uid="uid://bwll1ebwvjoeg" path="res://happyrobot_down_right.png" id="24_lswn8"]
+[ext_resource type="Texture2D" uid="uid://bk7b0hmyfsyeg" path="res://happyrobot_up_left.png" id="25_a6jrf"]
+[ext_resource type="Texture2D" uid="uid://bq54ok5mgbx03" path="res://happyrobot_up_right.png" id="26_xuqvo"]
+[ext_resource type="Script" uid="uid://8xmryv5i3cd3" path="res://plasma_ball_pool.gd" id="27_a6jrf"]
 
 [sub_resource type="SystemFont" id="SystemFont_5vw27"]
 subpixel_positioning = 0
@@ -174,8 +180,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_074og"]
-radius = 0.3046875
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lswn8"]
+radius = 0.23925781
 height = 0.609375
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1u8w0"]
@@ -453,6 +459,153 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_074og"]
+radius = 0.3046875
+height = 0.609375
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
+radius = 0.56640625
+height = 1.4588013
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruth0"]
+atlas = ExtResource("23_1u8w0")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rm4vd"]
+atlas = ExtResource("23_1u8w0")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjyto"]
+atlas = ExtResource("23_1u8w0")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm6fg"]
+atlas = ExtResource("23_1u8w0")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b17eg"]
+atlas = ExtResource("24_lswn8")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntx8l"]
+atlas = ExtResource("24_lswn8")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uatky"]
+atlas = ExtResource("24_lswn8")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqtf5"]
+atlas = ExtResource("24_lswn8")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vm84"]
+atlas = ExtResource("25_a6jrf")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wu3dr"]
+atlas = ExtResource("25_a6jrf")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyx1q"]
+atlas = ExtResource("25_a6jrf")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0dhbp"]
+atlas = ExtResource("25_a6jrf")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx0wj"]
+atlas = ExtResource("26_xuqvo")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkkcx"]
+atlas = ExtResource("26_xuqvo")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34ol3"]
+atlas = ExtResource("26_xuqvo")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2n8d"]
+atlas = ExtResource("26_xuqvo")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b17eg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruth0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rm4vd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjyto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sm6fg")
+}],
+"loop": true,
+"name": &"running_down_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b17eg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ntx8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uatky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqtf5")
+}],
+"loop": true,
+"name": &"running_down_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vm84")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wu3dr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cyx1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0dhbp")
+}],
+"loop": true,
+"name": &"running_up_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jx0wj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkkcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34ol3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2n8d")
+}],
+"loop": true,
+"name": &"running_up_right",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a6jrf"]
+radius = 0.47265625
+height = 1.4177246
+
 [node name="Node3D" type="Node3D"]
 
 [node name="time manager" type="Node" parent="." node_paths=PackedStringArray("timer_label")]
@@ -500,6 +653,8 @@ shape = SubResource("CylinderShape3D_kek77")
 [node name="physics enemy visuals" type="Sprite3D" parent="physics_enemy"]
 transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 0, 0, 0)
 pixel_size = 0.0313
+shaded = true
+double_sided = false
 alpha_cut = 1
 texture_filter = 0
 texture = ExtResource("1_0xm2m")
@@ -557,6 +712,7 @@ shape = SubResource("CapsuleShape3D_4c57u")
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="player"]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1.155, 0, -0.70710677, 0, 0.70710677, 0, 0.547, 0)
 pixel_size = 0.0313
+shaded = true
 double_sided = false
 alpha_cut = 1
 texture_filter = 0
@@ -646,8 +802,9 @@ shadow_enabled = true
 shadow_opacity = 0.26
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="wirelessCharger"]
-transform = Transform3D(0.70710677, 1.4142135, -3.090862e-08, 0, -8.742278e-08, -1, -0.70710677, 1.4142135, -3.090862e-08, 0, 0.01, 0)
+transform = Transform3D(0.7071067, -1.4142134, -3.090862e-08, 0, -8.742277e-08, 1, -0.7071067, -1.4142134, -3.090862e-08, 0, 0.01, 0)
 pixel_size = 0.0313
+double_sided = false
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_2cqfq")
 animation = &"glow"
@@ -681,15 +838,17 @@ damagebox_shape = NodePath("hitandhurtbox/CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="slime_enemy"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.018943787, 0)
-shape = SubResource("CapsuleShape3D_074og")
+shape = SubResource("CapsuleShape3D_lswn8")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="slime_enemy"]
 transform = Transform3D(0.70710677, -0.35355338, 0.6123724, 0, 0.8660254, 0.5, -0.70710677, -0.35355338, 0.6123724, 0, 0.036, 0)
 pixel_size = 0.0313
+shaded = true
+double_sided = false
 alpha_cut = 1
 texture_filter = 2
 sprite_frames = SubResource("SpriteFrames_qsp4k")
-animation = &"running_up_right"
+animation = &"running_down_right"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="slime_enemy"]
 
@@ -707,6 +866,58 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="slime_enemy/hitandhurtbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.018943787, 0)
 shape = SubResource("CapsuleShape3D_074og")
+
+[node name="robot_enemy" type="CharacterBody3D" parent="." node_paths=PackedStringArray("player", "nav", "healthbar", "sprite", "collisionbox_shape", "damagebox_shape")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0690172, 0.8977934, 0)
+collision_layer = 4
+collision_mask = 21
+script = ExtResource("22_d13ii")
+player = NodePath("../player")
+nav = NodePath("NavigationAgent3D")
+speed = 1.5
+max_health = 50.0
+healthbar = NodePath("healthbar")
+sprite = NodePath("AnimatedSprite3D")
+collisionbox_shape = NodePath("collsionbox")
+damagebox_shape = NodePath("hitbox/hitboxshape")
+
+[node name="collsionbox" type="CollisionShape3D" parent="robot_enemy"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16014862, 0)
+shape = SubResource("CapsuleShape3D_qsp4k")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="robot_enemy"]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1.155, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+pixel_size = 0.0313
+shaded = true
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_b17eg")
+animation = &"running_up_right"
+frame_progress = 0.24974781
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="robot_enemy"]
+
+[node name="healthbar" type="Node2D" parent="robot_enemy"]
+position = Vector2(0, -40)
+script = ExtResource("5_5vw27")
+max_value = 50.0
+width = 48.0
+height = 2.0
+
+[node name="hitbox" type="Area3D" parent="robot_enemy"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="hitboxshape" type="CollisionShape3D" parent="robot_enemy/hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.060569763, 0)
+shape = SubResource("CapsuleShape3D_a6jrf")
+
+[node name="plasma_ball_pool" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("27_a6jrf")
+
+[node name="available" type="Node" parent="plasma_ball_pool"]
 
 [connection signal="area_entered" from="physics_enemy/damagebox" to="physics_enemy" method="_on_damagebox_area_entered"]
 [connection signal="area_exited" from="physics_enemy/damagebox" to="physics_enemy" method="_on_damagebox_area_exited"]

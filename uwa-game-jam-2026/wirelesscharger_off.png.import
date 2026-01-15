@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bg22x3k8tmoau"
-path.s3tc="res://.godot/imported/wirelesscharger_off.png-fba23107082478e6104b4579d54ff724.s3tc.ctex"
+path="res://.godot/imported/wirelesscharger_off.png-fba23107082478e6104b4579d54ff724.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://wirelesscharger_off.png"
-dest_files=["res://.godot/imported/wirelesscharger_off.png-fba23107082478e6104b4579d54ff724.s3tc.ctex"]
+dest_files=["res://.godot/imported/wirelesscharger_off.png-fba23107082478e6104b4579d54ff724.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

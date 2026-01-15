@@ -23,6 +23,8 @@ var health := max_health:
 		healthbar.value = health
 	get():
 		return health
+func damage(amount: float) -> void:
+	self.health -= amount
 @export var healthbar: HealthBar
 
 @onready var time_manager: TimeManager = %"time manager"
@@ -142,6 +144,7 @@ func _physics_process(delta: float) -> void:
 				break
 
 		self.velocity += delta_velocity * 0.5
+		if motion.y == 0: self.velocity.y = 0
 	else:
 		self.velocity = Vector3()
 		

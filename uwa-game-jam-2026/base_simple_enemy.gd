@@ -1,26 +1,28 @@
 class_name BasicEnemy extends CharacterBody3D
 
-@export var player: Node3D
+@export var player: Player3D
 @onready var time_manager: TimeManager = %"time manager"
 @export var nav: NavigationAgent3D
 var target: Vector3
 var last_seen_target: int = -1
+var can_see_player := false
 @export var speed := 3.0
 @export var accel := 25.0
 @export var max_health := 20.0:
 	set(value):
+		if health == max_health: health = value
 		max_health = value
 		if healthbar: healthbar.max_value = value
 	get():
 		return max_health
-var health := max_health:
+@onready var health := max_health:
 	set(value):
-		if health != 0.0 and value < health:
+		if health != 0.0 and value < health and sprite:
 			sprite.modulate = Color.RED
 			var tween := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
 			tween.tween_property(sprite, "modulate", Color.WHITE, 0.15)
 		health = clampf(value, 0.0, max_health)
-		healthbar.value = health
+		if healthbar: healthbar.value = health
 	get():
 		return health
 @export var healthbar: EnemyHealthbar3D
@@ -36,13 +38,34 @@ var anim_anim: StringName:
 
 func damage(amount: float) -> void:
 	self.health -= amount
-	
-func set_anim(dir: Vector2):
+
+##
+## -1 = no direction
+## 0 = up right
+## 1 = down right
+## 2 = down left
+## 3 = up left
+static func pick_diagonal_direction(dir: Vector2) -> int:
 	const down_right := Vector2(cos(deg_to_rad(45.0)), sin(deg_to_rad(45.0)))
 	const down_left := Vector2(cos(deg_to_rad(135.0)), sin(deg_to_rad(135.0)))
 	const up_right := Vector2(cos(deg_to_rad(-45.0)), sin(deg_to_rad(-45.0)))
 	const up_left := Vector2(cos(deg_to_rad(-135.0)), sin(deg_to_rad(-135.0)))
 	const angle_threshold := cos(deg_to_rad(45.0))
+	if dir.is_zero_approx():
+		return -1
+	var normalized := dir.normalized()
+	if normalized.dot(down_right) >= angle_threshold:
+		return 1
+	elif normalized.dot(down_left) >= angle_threshold:
+		return 2
+	elif normalized.dot(up_right) >= angle_threshold:
+		return 0
+	elif normalized.dot(up_left) >= angle_threshold:
+		return 3
+	breakpoint
+	return -1
+
+func set_anim(dir: Vector2):
 	if dir.is_zero_approx():
 		self.sprite.stop()
 		return
@@ -64,15 +87,11 @@ func set_anim(dir: Vector2):
 				self.sprite.play(&"running_down_right")
 			else: self.sprite.play()
 		_:
-			var normalized := dir.normalized()
-			if normalized.dot(down_right) >= angle_threshold:
-				self.sprite.play(&"running_down_right")
-			elif normalized.dot(down_left) >= angle_threshold:
-				self.sprite.play(&"running_down_left")
-			elif normalized.dot(up_right) >= angle_threshold:
-				self.sprite.play(&"running_up_right")
-			elif normalized.dot(up_left) >= angle_threshold:
-				self.sprite.play(&"running_up_left")
+			match pick_diagonal_direction(dir):
+				0: self.sprite.play(&"running_up_right")
+				1: self.sprite.play(&"running_down_right")
+				2: self.sprite.play(&"running_down_left")
+				3: self.sprite.play(&"running_up_left")
 
 func do_move(dir: Vector2, delta: float) -> void:
 	var dir_3 := Vector3(dir.x, 0, dir.y)
@@ -104,6 +123,36 @@ func do_move(dir: Vector2, delta: float) -> void:
 
 	self.velocity += delta_velocity * 0.5
 
+func find_target(target_pos: Vector3) -> void:
+	var space := get_world_3d().direct_space_state
+	var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, target_pos, 0b10001))
+	
+	var now := Time.get_ticks_msec()
+	if result and result.collider == player:
+		nav.target_position = target_pos
+		self.target = target_pos
+		self.last_seen_target = Time.get_ticks_msec()
+		self.can_see_player = true
+	elif self.last_seen_target != -1:
+		self.can_see_player = false
+		var result2 := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, self.nav.target_position))
+		if result2:
+			self.target = nav.get_next_path_position()
+		else:
+			self.target = self.nav.target_position
+			
+		if (self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 or now - self.last_seen_target >= 10 * 1000:
+			self.last_seen_target = -1
+
+func set_collision_layers(is_alive: bool) -> void:
+	if is_alive:
+		self.collision_layer |= 0b100
+		self.collision_mask |= 0b101
+	else:
+		self.collision_layer &= ~0b100
+		self.collision_mask &= ~0b101
+	damagebox_shape.disabled = not is_alive
+
 func _ready() -> void:
 	time_manager.register(self, 
 		["position", "health", "anim_frame", "anim_anim"],
@@ -114,36 +163,13 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var is_alive := self.health > 0.0
-	if is_alive:
-		self.collision_layer |= 0b100
-		self.collision_mask |= 0b101
-	else:
-		self.collision_layer &= ~0b100
-		self.collision_mask &= ~0b101
-	damagebox_shape.disabled = not is_alive
+	set_collision_layers(is_alive)
 
 	if time_manager.allow_time():
 		if not is_alive:
 			self.sprite.stop()
 			return
-		var space := get_world_3d().direct_space_state
-		var player_pos := player.position + Vector3(0.0, 0.5, 0.0)
-		var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, player_pos, 0b10001))
-		
-		var now := Time.get_ticks_msec()
-		if result and result.collider == player:
-			nav.target_position = player_pos
-			self.target = player_pos
-			self.last_seen_target = Time.get_ticks_msec()
-		elif self.last_seen_target != -1:
-			var result2 := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, self.nav.target_position))
-			if result2:
-				self.target = nav.get_next_path_position()
-			else:
-				self.target = self.nav.target_position
-				
-			if (self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 or now - self.last_seen_target >= 10 * 1000:
-				self.last_seen_target = -1
+		find_target(player.position + Vector3(0.0, 0.5, 0.0))
 		var to_target := self.target - self.global_position
 		var move_dir := Vector2(to_target.x, to_target.z).normalized()
 		do_move(move_dir, delta)
