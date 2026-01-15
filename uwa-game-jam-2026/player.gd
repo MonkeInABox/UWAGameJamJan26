@@ -36,16 +36,14 @@ var anim_anim: StringName:
 	var active := false
 
 var owned_weapons: Array[Weapon] = []
-var active_weapon: Weapon = null
 
 var iframes_end := 0
 const iframes_length := 500
 
 func _ready() -> void:
 	self.owned_weapons.append_array($weapon_attachment.get_children().filter(func (child): return child is Weapon))
-	if self.owned_weapons: 
-		self.active_weapon = self.owned_weapons[0]
-		self.active_weapon.active = true
+	for weapon in self.owned_weapons: 
+		weapon.active = true
 	time_manager.register(self, 
 		["position", "health", "anim_frame", "anim_anim"],
 		[TYPE_VECTOR3, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME], 
@@ -98,10 +96,10 @@ func _process(_delta: float) -> void:
 	var now := Time.get_ticks_msec()
 	if self.iframes_end > now:
 		var left := self.iframes_end - now
-		self.visible = left % 200 >= 100
+		self.sprites.visible = left % 200 >= 100
 	elif self.iframes_end != 0:
 		self.iframes_end = 0
-		self.visible = true
+		self.sprites.visible = true
 
 func _physics_process(delta: float) -> void:
 	var is_alive := health > 0
