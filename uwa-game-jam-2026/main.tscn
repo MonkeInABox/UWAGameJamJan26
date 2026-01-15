@@ -1,6 +1,7 @@
 [gd_scene load_steps=114 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="1_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://boa1tjceghcpe" path="res://player.gd" id="2_h2yge"]
 [ext_resource type="Script" uid="uid://crmnujf6i6tcn" path="res://player_healthbar.gd" id="3_272bh"]
@@ -16,7 +17,7 @@
 [ext_resource type="Script" uid="uid://dfxuitol4a6wf" path="res://wireless_charger.gd" id="12_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://bg22x3k8tmoau" path="res://wirelesscharger_off.png" id="14_w48qg"]
 [ext_resource type="MeshLibrary" uid="uid://cnj4v3v6k5wlb" path="res://wallz.tres" id="15_vivmo"]
-[ext_resource type="Script" uid="uid://daqw3v6bpu2gn" path="res://slime_enemy.gd" id="17_074og"]
+[ext_resource type="Script" path="res://slime_enemy.gd" id="17_074og"]
 [ext_resource type="Texture2D" uid="uid://tuoab5u4id57" path="res://slime_down_left.png" id="17_yaehf"]
 [ext_resource type="Texture2D" uid="uid://dr6hejf6d68ve" path="res://slime_down_right.png" id="19_getpj"]
 [ext_resource type="Texture2D" uid="uid://dxfw803mhc3ud" path="res://slime_up_left.png" id="20_ryguw"]
@@ -607,6 +608,12 @@ radius = 0.47265625
 height = 1.4177246
 
 [node name="Node3D" type="Node3D"]
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, -0.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
 
 [node name="time manager" type="Node" parent="." node_paths=PackedStringArray("timer_label")]
 unique_name_in_owner = true
