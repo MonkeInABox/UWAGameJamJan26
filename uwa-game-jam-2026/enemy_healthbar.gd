@@ -1,6 +1,9 @@
 class_name EnemyHealthbar3D extends Node2D
 
-@export var max_value := 100.0
+@export var max_value := 100.0:
+	set(val):
+		if value > val: value = val
+		max_value = val
 @onready var value := max_value:
 	set(val):
 		if value != val:

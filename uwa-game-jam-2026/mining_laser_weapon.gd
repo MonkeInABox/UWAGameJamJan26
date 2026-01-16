@@ -35,19 +35,25 @@ func _ready() -> void:
 		["", ""],
 		[true, false]
 	)
-
+# jank hack to make it so you cant use both weapons at once
+@onready var other_weapon: Player3D.Weapon = self.get_parent().get_children().filter(func (child): return child != self)[0]
 func _process(_delta: float) -> void:
 	var now := Time.get_ticks_msec()
-	if time_manager.state == TimeManager.STATE_NORMAL:
-		if self.active and Input.is_action_pressed("attack"):
+	if time_manager.allow_time():
+		if self.active and Input.is_action_pressed("attack") and other_weapon.can_attack:
 			var space := get_world_3d().direct_space_state
-			var viewport := get_viewport()
-			var camera := viewport.get_camera_3d()
-			var mouse_pos_screen := viewport.get_mouse_position()
-			var mouse_pos_world := camera.project_ray_origin(mouse_pos_screen)
-			var mouse_normal := camera.project_ray_normal(mouse_pos_screen)
-			var mouse_trace_result = space.intersect_ray(PhysicsRayQueryParameters3D.create(mouse_pos_world, mouse_pos_world + mouse_normal * 1024.0))
-			var target := ((mouse_trace_result.collider as Node3D).global_position if (mouse_trace_result.collider as Node3D).has_method("damage") else (mouse_trace_result.position as Vector3)) if mouse_trace_result else mouse_pos_world + mouse_normal * 45
+			var target: Vector3
+			if use_controller:
+				# todo?: aim assist on controller
+				target = self.global_position + Vector3(joystick_aim.x, 0, joystick_aim.y) * 1024
+			else:
+				var viewport := get_viewport()
+				var camera := viewport.get_camera_3d()
+				var mouse_pos_screen := viewport.get_mouse_position()
+				var mouse_pos_world := camera.project_ray_origin(mouse_pos_screen)
+				var mouse_normal := camera.project_ray_normal(mouse_pos_screen)
+				var mouse_trace_result = space.intersect_ray(PhysicsRayQueryParameters3D.create(mouse_pos_world, mouse_pos_world + mouse_normal * 1024.0))
+				target = ((mouse_trace_result.collider as Node3D).global_position if (mouse_trace_result.collider as Node3D).has_method("damage") else (mouse_trace_result.position as Vector3)) if mouse_trace_result else mouse_pos_world + mouse_normal * 45
 			var ray_query := PhysicsRayQueryParameters3D.create(self.global_position, target, 0b011000)
 			ray_query.collide_with_areas = true
 			var result := space.intersect_ray(ray_query)

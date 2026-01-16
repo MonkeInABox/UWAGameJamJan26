@@ -64,7 +64,7 @@ static func pick_diagonal_direction(dir: Vector2) -> int:
 		return 0
 	elif normalized.dot(up_left) >= angle_threshold:
 		return 3
-	breakpoint
+	assert(false, "should be unreachable")
 	return -1
 
 func set_anim(dir: Vector2):

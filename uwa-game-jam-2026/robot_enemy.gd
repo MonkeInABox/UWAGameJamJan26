@@ -17,7 +17,7 @@ var state := STATE_DEFAULT
 var state_timer := 0
 var run_away_timer := -1
 var random_pos: Vector3
-var aim_dir: Vector3
+var aim_pos: Vector3
 
 const close_distance := 3.0
 const far_distance := 5.0
@@ -80,8 +80,9 @@ func _physics_process(delta: float) -> void:
 				if self.state_timer <= now:
 					self.state = STATE_FIRING
 					self.state_timer = now + fire_time_ms
-					var time_it_takes_ms := vector_to_player.length() / plasma_ball_speed + fire_time_ms / 2000.0
-					self.aim_dir = (vector_to_player + Vector3(0,0.5,0) + player.velocity * time_it_takes_ms).normalized()
+					#var time_it_takes_ms := vector_to_player.length() / plasma_ball_speed + fire_time_ms / 2000.0
+					#self.aim_dir = (vector_to_player + Vector3(0,0.5,0) + player.velocity * time_it_takes_ms).normalized()
+					self.aim_pos = player.global_position + Vector3(0,0.5,0)
 				match pick_diagonal_direction(Vector2(vector_to_player.x, vector_to_player.z).rotated(PI/4)):
 					0: self.sprite.animation = &"running_up_right"
 					1: self.sprite.animation = &"running_down_right"
@@ -93,10 +94,13 @@ func _physics_process(delta: float) -> void:
 					self.state_timer = now + winddown_time_ms
 					var ball := plasma_ball_pool.get_ball()
 					ball.position = self.global_position
-					ball.velocity = self.aim_dir * plasma_ball_speed
+					var to_aim_pos := self.aim_pos - self.global_position
+					var travel_time := to_aim_pos.length() / plasma_ball_speed
+					ball.velocity = (to_aim_pos + player.velocity * (travel_time + fire_time_ms / 3000.0)).normalized() * plasma_ball_speed
 					ball.alive = true
 					ball.damage = 20.0
 					ball.query.exclude = [self.get_rid()]
+					ball.collide_with_enemies = false
 			STATE_WINDDOWN:
 				if self.state_timer <= now:
 					self.state = STATE_DEFAULT

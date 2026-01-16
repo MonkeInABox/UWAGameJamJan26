@@ -1,4 +1,4 @@
-[gd_scene load_steps=115 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=119 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://cqy3l1ma2nt3k" path="res://mining_laser_weapon.gd" id="11_dg77c"]
 [ext_resource type="Texture2D" uid="uid://brcr5533kdlwe" path="res://wirelesscharger.png" id="11_efxa6"]
 [ext_resource type="Script" uid="uid://dfxuitol4a6wf" path="res://wireless_charger.gd" id="12_ycdy4"]
+[ext_resource type="Script" uid="uid://ckuqu2c0u8kwt" path="res://sword_weapon.gd" id="14_qsp4k"]
 [ext_resource type="Texture2D" uid="uid://bg22x3k8tmoau" path="res://wirelesscharger_off.png" id="14_w48qg"]
 [ext_resource type="MeshLibrary" uid="uid://cnj4v3v6k5wlb" path="res://wallz.tres" id="15_vivmo"]
 [ext_resource type="Script" uid="uid://daqw3v6bpu2gn" path="res://slime_enemy.gd" id="17_074og"]
@@ -102,6 +103,14 @@ height = 1.0
 radial_segments = 8
 cap_top = false
 cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qsp4k"]
+shading_mode = 0
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_qsp4k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qsp4k"]
+size = Vector3(1, 0.5, 0.1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kek77"]
 radius = 0.2915039
@@ -745,6 +754,23 @@ draw_pass_1 = SubResource("QuadMesh_ycdy4")
 visible = false
 mesh = SubResource("CylinderMesh_efxa6")
 
+[node name="sword_weapon" type="Node3D" parent="player/weapon_attachment"]
+script = ExtResource("14_qsp4k")
+material = SubResource("StandardMaterial3D_qsp4k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="player/weapon_attachment/sword_weapon"]
+cast_shadow = 0
+mesh = SubResource("ImmediateMesh_qsp4k")
+
+[node name="Area3D" type="Area3D" parent="player/weapon_attachment/sword_weapon"]
+collision_layer = 32
+collision_mask = 264
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player/weapon_attachment/sword_weapon/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+shape = SubResource("BoxShape3D_qsp4k")
+disabled = true
+
 [node name="hitbox" type="Area3D" parent="player"]
 collision_layer = 2
 collision_mask = 64
@@ -927,6 +953,7 @@ script = ExtResource("27_a6jrf")
 
 [connection signal="area_entered" from="physics_enemy/damagebox" to="physics_enemy" method="_on_damagebox_area_entered"]
 [connection signal="area_exited" from="physics_enemy/damagebox" to="physics_enemy" method="_on_damagebox_area_exited"]
+[connection signal="area_entered" from="player/weapon_attachment/sword_weapon/Area3D" to="player/weapon_attachment/sword_weapon" method="_on_damage_area_entered"]
 [connection signal="area_entered" from="wirelessCharger" to="wirelessCharger" method="_on_area_entered"]
 [connection signal="area_exited" from="wirelessCharger" to="wirelessCharger" method="_on_area_exited"]
 [connection signal="area_entered" from="slime_enemy/hitandhurtbox" to="slime_enemy" method="_on_damagebox_area_entered"]

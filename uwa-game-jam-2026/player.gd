@@ -39,6 +39,12 @@ var anim_anim: StringName:
 
 @abstract class Weapon extends Node3D:
 	var active := false
+	static var use_controller := false
+	static var joystick_aim := Vector2()
+	static func update_controller_state() -> void:
+		joystick_aim = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
+		if not joystick_aim.is_zero_approx(): use_controller = true
+		if not Input.get_last_mouse_screen_velocity().is_zero_approx(): use_controller = false
 
 var owned_weapons: Array[Weapon] = []
 
@@ -98,6 +104,7 @@ func set_anim(dir: Vector2):
 				self.sprites.play(&"runningLB")
 
 func _process(_delta: float) -> void:
+	Weapon.update_controller_state()
 	var now := Time.get_ticks_msec()
 	if self.iframes_end > now:
 		var left := self.iframes_end - now

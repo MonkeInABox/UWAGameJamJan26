@@ -10,6 +10,7 @@ var query := PhysicsShapeQueryParameters3D.new()
 var shape = SphereShape3D.new()
 var collision_radius := 0.25
 var explosion_radius := 0.5
+var collide_with_enemies := false
 
 var alive := false:
 	set(value):
@@ -37,7 +38,7 @@ func _physics_process(delta: float) -> void:
 	if not self.alive or not time_manager.allow_time(): return
 	var space := get_world_3d().direct_space_state
 	self.position += self.velocity * delta
-	query.collision_mask = 0b10001
+	query.collision_mask = 0b10001 | (0b00100 if collide_with_enemies else 0)
 	query.collide_with_areas = false
 	shape.radius = collision_radius
 	query.transform.origin = self.global_position
