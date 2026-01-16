@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=115 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="1_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://dfxuitol4a6wf" path="res://wireless_charger.gd" id="12_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://bg22x3k8tmoau" path="res://wirelesscharger_off.png" id="14_w48qg"]
 [ext_resource type="MeshLibrary" uid="uid://cnj4v3v6k5wlb" path="res://wallz.tres" id="15_vivmo"]
-[ext_resource type="Script" path="res://slime_enemy.gd" id="17_074og"]
+[ext_resource type="Script" uid="uid://daqw3v6bpu2gn" path="res://slime_enemy.gd" id="17_074og"]
 [ext_resource type="Texture2D" uid="uid://tuoab5u4id57" path="res://slime_down_left.png" id="17_yaehf"]
 [ext_resource type="Texture2D" uid="uid://dr6hejf6d68ve" path="res://slime_down_right.png" id="19_getpj"]
 [ext_resource type="Texture2D" uid="uid://dxfw803mhc3ud" path="res://slime_up_left.png" id="20_ryguw"]
@@ -465,7 +465,7 @@ radius = 0.3046875
 height = 0.609375
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
-radius = 0.56640625
+radius = 0.6699219
 height = 1.4588013
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ruth0"]
@@ -604,7 +604,7 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a6jrf"]
-radius = 0.47265625
+radius = 0.4404297
 height = 1.4177246
 
 [node name="Node3D" type="Node3D"]
@@ -900,8 +900,7 @@ double_sided = false
 alpha_cut = 1
 texture_filter = 2
 sprite_frames = SubResource("SpriteFrames_b17eg")
-animation = &"running_up_right"
-frame_progress = 0.24974781
+animation = &"running_down_left"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="robot_enemy"]
 

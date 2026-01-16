@@ -46,7 +46,8 @@ func _physics_process(delta: float) -> void:
 			self.sprite.stop()
 			return
 		var now := Time.get_ticks_msec()
-		find_target(random_pos if self.state == STATE_DEFAULT and self.state_timer > now else player.position + Vector3(0.0, 0.5, 0.0))
+		var use_random_pos := self.state == STATE_DEFAULT and self.state_timer > now
+		find_target(random_pos if use_random_pos else player.position + Vector3(0.0, 0.5, 0.0), not use_random_pos)
 		var vector_to_player := self.player.global_position - self.global_position
 		var dist_to_player := vector_to_player.length()
 		#prints(state, max(0, state_timer - now))

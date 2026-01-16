@@ -6,6 +6,8 @@ class_name BasicEnemy extends CharacterBody3D
 var target: Vector3
 var last_seen_target: int = -1
 var can_see_player := false
+var wander_timer := 0
+var wander_pos: Vector3
 @export var speed := 3.0
 @export var accel := 25.0
 @export var max_health := 20.0:
@@ -122,12 +124,14 @@ func do_move(dir: Vector2, delta: float) -> void:
 			break
 
 	self.velocity += delta_velocity * 0.5
+	if motion.y == 0: self.velocity.y = 0
 
-func find_target(target_pos: Vector3) -> void:
+func find_target(target_pos: Vector3, need_los: bool = true) -> void:
 	var space := get_world_3d().direct_space_state
 	var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, target_pos, 0b10001))
-	
 	var now := Time.get_ticks_msec()
+	if not need_los:
+		nav.target_position = target_pos
 	if result and result.collider == player:
 		nav.target_position = target_pos
 		self.target = target_pos
@@ -140,9 +144,16 @@ func find_target(target_pos: Vector3) -> void:
 			self.target = nav.get_next_path_position()
 		else:
 			self.target = self.nav.target_position
-			
-		if (self.nav.target_position - self.position).length_squared() < 0.5 * 0.5 or now - self.last_seen_target >= 10 * 1000:
+		var dist := self.nav.target_position - self.global_position
+		if (Vector2(dist.x, dist.z).length_squared() < 0.5 * 0.5 and absf(dist.y) < 1.0) or now - self.last_seen_target >= 10 * 1000:
 			self.last_seen_target = -1
+	else:
+		var wander_dist := self.wander_pos - self.global_position
+		if self.wander_timer < now or Vector2(wander_dist.x, wander_dist.z).length_squared() < 0.5 * 0.5:
+			self.wander_pos = self.global_position + Vector3(randfn(0, 10),0,randfn(0, 10))
+			self.wander_timer = now + randi_range(500, 3000)
+		self.nav.target_position = wander_pos
+		self.target = self.nav.get_next_path_position()
 
 func set_collision_layers(is_alive: bool) -> void:
 	if is_alive:
