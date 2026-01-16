@@ -3,7 +3,6 @@ class_name PlasmaBall extends Node3D
 var time_manager: TimeManager
 var pool: Node
 
-@onready var collider_shape: CollisionShape3D = $CollisionShape3D
 @export var velocity: Vector3
 @export var damage: float
 var query := PhysicsShapeQueryParameters3D.new()
@@ -15,7 +14,6 @@ var collide_with_enemies := false
 var alive := false:
 	set(value):
 		self.visible = value
-		if self.collider_shape: self.collider_shape.disabled = not value
 		if alive and not value and self.get_parent() != pool:
 			self.get_parent().remove_child(self)
 			self.pool.add_child(self)
