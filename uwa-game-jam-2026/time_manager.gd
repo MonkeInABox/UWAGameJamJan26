@@ -4,6 +4,7 @@ enum {
 	STATE_NORMAL,
 	STATE_RESETTING,
 	STATE_CHECKPOINTING,
+	STATE_PLAYER_DEATH,
 }
 
 var data: Dictionary[Node, Dictionary] = {}
@@ -132,17 +133,20 @@ func clear() -> void:
 			
 func _ready() -> void:
 	timer_label.set_max_value(max_time_ms / 1000.0)
+	
+var queue_reset := false
 
 func _process(delta: float) -> void:
 	var now := Time.get_ticks_msec()
 	match state:
-		STATE_NORMAL:
+		STATE_NORMAL, STATE_PLAYER_DEATH:
 			self.capture_accumulator += delta
 			if self.capture_accumulator > self.capture_time:
 				self.capture_accumulator = 0
 				self.sample()
 				
-			if self.timer + max_time_ms <= now or Input.is_action_just_pressed("reset"):
+			if ((self.timer + max_time_ms <= now or Input.is_action_just_pressed("reset")) and state != STATE_PLAYER_DEATH) or queue_reset:
+				self.queue_reset = false
 				self.reset_at = max(0, max_time_ms - (now - self.timer))
 				self.timer = now
 				self.reset_time_ms = self.base_reset_time_ms * (1.0 - self.reset_at / self.max_time_ms)
@@ -152,7 +156,7 @@ func _process(delta: float) -> void:
 						node.before_reset()
 				timer_label.value = 0.0
 			else:
-				timer_label.value = (max_time_ms - (now - self.timer)) / 1000.0
+				timer_label.value = max(0.0, (max_time_ms - (now - self.timer)) / 1000.0)
 				
 		STATE_RESETTING:
 			var time_passed := now - self.timer

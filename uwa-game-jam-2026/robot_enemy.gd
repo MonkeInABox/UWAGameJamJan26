@@ -43,7 +43,9 @@ func _physics_process(delta: float) -> void:
 
 	if time_manager.allow_time():
 		if not is_alive:
-			self.sprite.stop()
+			if self.sprite.animation != &"death":
+				self.sprite.play(&"death")
+			#self.sprite.stop()
 			return
 		var now := Time.get_ticks_msec()
 		var use_random_pos := self.state == STATE_DEFAULT and self.state_timer > now

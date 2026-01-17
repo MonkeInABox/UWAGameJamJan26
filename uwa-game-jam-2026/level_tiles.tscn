@@ -8581,7 +8581,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -48)
 mesh = SubResource("ArrayMesh_5pucj")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_067_"]
 
@@ -8593,7 +8593,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -48)
 mesh = SubResource("ArrayMesh_rliic")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_066_"]
 
@@ -8605,7 +8605,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -48)
 mesh = SubResource("ArrayMesh_prl51")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_065_"]
 
@@ -8617,7 +8617,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -48)
 mesh = SubResource("ArrayMesh_i3fmk")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_064_"]
 
@@ -8629,7 +8629,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -48)
 mesh = SubResource("ArrayMesh_h3ejm")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_061_"]
 
@@ -8641,7 +8641,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -32)
 mesh = SubResource("ArrayMesh_atrgp")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_060_"]
 
@@ -8653,7 +8653,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -44)
 mesh = SubResource("ArrayMesh_0dpfe")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_051_"]
 
@@ -8665,7 +8665,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -44)
 mesh = SubResource("ArrayMesh_aarwe")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_050_"]
 
@@ -8677,7 +8677,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -44)
 mesh = SubResource("ArrayMesh_8cjx2")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_047_"]
 
@@ -8689,7 +8689,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -56)
 mesh = SubResource("ArrayMesh_4moyw")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_040_"]
 
@@ -8701,7 +8701,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -40)
 mesh = SubResource("ArrayMesh_ykfco")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_036_"]
 
@@ -8713,7 +8713,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -40)
 mesh = SubResource("ArrayMesh_siho3")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_035_"]
 
@@ -8725,7 +8725,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -24)
 mesh = SubResource("ArrayMesh_k4avf")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_031_"]
 
@@ -8737,7 +8737,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -24)
 mesh = SubResource("ArrayMesh_b3wog")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_030_"]
 
@@ -8749,7 +8749,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -52)
 mesh = SubResource("ArrayMesh_01wks")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_028_"]
 
@@ -8761,7 +8761,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, -36)
 mesh = SubResource("ArrayMesh_stvb5")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_025_"]
 
@@ -8773,7 +8773,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, -36)
 mesh = SubResource("ArrayMesh_mo3vw")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_024_"]
 
@@ -8785,7 +8785,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -36)
 mesh = SubResource("ArrayMesh_ed0e2")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_023_"]
 
@@ -8797,7 +8797,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -36)
 mesh = SubResource("ArrayMesh_18grh")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_022_"]
 
@@ -8809,7 +8809,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -36)
 mesh = SubResource("ArrayMesh_vi5kc")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_021_"]
 
@@ -8821,7 +8821,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -20)
 mesh = SubResource("ArrayMesh_x2uch")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_018_"]
 
@@ -8833,7 +8833,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -20)
 mesh = SubResource("ArrayMesh_xnafu")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_017_"]
 
@@ -8845,7 +8845,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -56)
 mesh = SubResource("ArrayMesh_a1qfb")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_014_"]
 
@@ -8857,7 +8857,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -52)
 mesh = SubResource("ArrayMesh_7607k")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_013_"]
 
@@ -8869,7 +8869,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
 mesh = SubResource("ArrayMesh_q8amb")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_012_"]
 
@@ -8881,7 +8881,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -44)
 mesh = SubResource("ArrayMesh_xvfin")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_011_"]
 
@@ -8893,7 +8893,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -40)
 mesh = SubResource("ArrayMesh_tu24s")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_010_"]
 
@@ -8905,7 +8905,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36)
 mesh = SubResource("ArrayMesh_ln4ut")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_009_"]
 
@@ -8917,7 +8917,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32)
 mesh = SubResource("ArrayMesh_q68tu")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_008_"]
 
@@ -8929,7 +8929,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -24)
 mesh = SubResource("ArrayMesh_qbimj")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_006_"]
 
@@ -8941,7 +8941,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
 mesh = SubResource("ArrayMesh_anr6n")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_005_"]
 
@@ -8953,7 +8953,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
 mesh = SubResource("ArrayMesh_npv5a")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_004_"]
 
@@ -8965,7 +8965,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
 mesh = SubResource("ArrayMesh_wlcoq")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("1_uf42w")
-surface_material_override/1 = ExtResource("1_uf42w")
+surface_material_override/1 = ExtResource("2_q6qhf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="level_test2_invis_walls/Plane_001_"]
 
