@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=42 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -7,13 +7,18 @@
 [ext_resource type="SpriteFrames" uid="uid://cdtg4lurljt3d" path="res://player_anims.tres" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://bywkkfhw0eih0" path="res://time_manager.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://bpx3f8mx0v1pa" path="res://camera_3d.gd" id="4_2cqfq"]
-[ext_resource type="PackedScene" uid="uid://d2vx2knc2ldkq" path="res://physics_enemy.tscn" id="6_yaehf"]
+[ext_resource type="PackedScene" uid="uid://bpm7ifdpje8nq" path="res://physics_enemy.tscn" id="6_yaehf"]
 [ext_resource type="Script" uid="uid://cqy3l1ma2nt3k" path="res://mining_laser_weapon.gd" id="11_dg77c"]
-[ext_resource type="PackedScene" uid="uid://c2gxer18tg4sb" path="res://wireless_charger.tscn" id="11_vivmo"]
+[ext_resource type="PackedScene" path="res://wireless_charger.tscn" id="11_vivmo"]
 [ext_resource type="Script" uid="uid://ckuqu2c0u8kwt" path="res://sword_weapon.gd" id="14_qsp4k"]
-[ext_resource type="PackedScene" uid="uid://c7fts3jborrvo" path="res://slime_enemy.tscn" id="15_074og"]
+[ext_resource type="PackedScene" path="res://slime_enemy.tscn" id="15_074og"]
 [ext_resource type="MeshLibrary" uid="uid://cnj4v3v6k5wlb" path="res://wallz.tres" id="15_vivmo"]
-[ext_resource type="PackedScene" uid="uid://c60ahxinwnsw" path="res://robot_enemy.tscn" id="16_cegan"]
+[ext_resource type="Texture2D" uid="uid://bjd3mxae03viy" path="res://floorV2.png" id="16_2cqfq"]
+[ext_resource type="PackedScene" path="res://robot_enemy.tscn" id="16_cegan"]
+[ext_resource type="Texture2D" uid="uid://dvuf6whmawawr" path="res://floorV3.png" id="16_yaehf"]
+[ext_resource type="Texture2D" uid="uid://krxsc38fswmu" path="res://wallV3.png" id="18_cegan"]
+[ext_resource type="Texture2D" uid="uid://doel0imjut24h" path="res://wallV4.png" id="19_82xsv"]
+[ext_resource type="Texture2D" uid="uid://7k3mdewwvixo" path="res://wallPole.png" id="20_82xsv"]
 [ext_resource type="Script" uid="uid://8xmryv5i3cd3" path="res://plasma_ball_pool.gd" id="27_a6jrf"]
 
 [sub_resource type="SystemFont" id="SystemFont_5vw27"]
@@ -90,10 +95,6 @@ size = Vector3(1, 0.5, 0.1)
 radius = 0.2915039
 height = 1.1289673
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_7mycd"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_272bh"]
-
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7mycd"]
 
 [sub_resource type="Gradient" id="Gradient_1bvp3"]
@@ -124,12 +125,6 @@ agent_radius = 0.2
 agent_max_climb = 0.1
 
 [node name="Node3D" type="Node3D"]
-
-[node name="Decal" type="Decal" parent="."]
-transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, -0.5)
-size = Vector3(1, 1, 1)
-texture_albedo = ExtResource("1_ryguw")
-normal_fade = 0.999
 
 [node name="time manager" type="Node" parent="." node_paths=PackedStringArray("timer_label")]
 unique_name_in_owner = true
@@ -163,10 +158,6 @@ transform = Transform3D(0.7218184, -0.3895417, 0.5720451, 0.0482105, 0.8528496, 
 light_color = Color(0.94679576, 0.9999997, 0.9994717, 1)
 shadow_enabled = true
 
-[node name="physics_enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3127089, 0.5889671, -0.86352944)
-player = NodePath("../player")
-
 [node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("healthbar")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2886999, 0, -1.1542073)
 collision_mask = 21
@@ -185,7 +176,8 @@ double_sided = false
 alpha_cut = 1
 texture_filter = 0
 sprite_frames = ExtResource("3_h2yge")
-animation = &"runningLF"
+animation = &"runningRF"
+autoplay = "runningRF"
 
 [node name="weapon_attachment" type="Node3D" parent="player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05756426, 0.48761672, 0.049028516)
@@ -204,6 +196,11 @@ draw_pass_1 = SubResource("QuadMesh_ycdy4")
 [node name="laser_mesh" type="MeshInstance3D" parent="player/weapon_attachment/mining_laser_weapon"]
 visible = false
 mesh = SubResource("CylinderMesh_efxa6")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="player/weapon_attachment/mining_laser_weapon/laser_mesh"]
+light_color = Color(0.9061199, 0.05724778, 0.2968957, 1)
+omni_range = 1.745
+omni_attenuation = 0.355
 
 [node name="sword_weapon" type="Node3D" parent="player/weapon_attachment"]
 script = ExtResource("14_qsp4k")
@@ -230,28 +227,6 @@ collision_mask = 64
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58096313, 0)
 shape = SubResource("CapsuleShape3D_kek77")
 
-[node name="cube" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5213611, -1.6070688)
-collision_layer = 16
-collision_mask = 21
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="cube"]
-shape = SubResource("BoxShape3D_7mycd")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="cube"]
-mesh = SubResource("BoxMesh_272bh")
-
-[node name="cube2" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.81429255, 0.5213611, -2.5040321)
-collision_layer = 16
-collision_mask = 21
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="cube2"]
-shape = SubResource("BoxShape3D_7mycd")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="cube2"]
-mesh = SubResource("BoxMesh_272bh")
-
 [node name="ground temp" type="StaticBody3D" parent="."]
 visible = false
 collision_layer = 16
@@ -267,10 +242,8 @@ skeleton = NodePath("../..")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(0.9999959, -0.0022470858, 0.0018095938, 0.002249693, 0.9999964, -0.0014476246, -0.0018063514, 0.0014516684, 0.9999973, 0, 0, 0)
+visible = false
 navigation_mesh = SubResource("NavigationMesh_4c57u")
-
-[node name="wirelessCharger" parent="." instance=ExtResource("11_vivmo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
 [node name="GridMap" type="GridMap" parent="." groups=["navigation_mesh_source_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -279,15 +252,25 @@ cell_size = Vector3(4, 2, 4)
 collision_layer = 16
 collision_mask = 21
 data = {
-"cells": PackedInt32Array(65535, 65534, 62, 65535, 65535, 64, 65535, 0, 60, 0, 0, 60, 0, 65535, 64, 0, 65534, 62, 1, 65535, 63, 1, 0, 46, 1, 65534, 32, 1, 65533, 64, 0, 65533, 64, 0, 65532, 62, 65535, 65532, 62, 65535, 65533, 64, 65534, 65533, 64, 65534, 65534, 57, 65533, 65534, 64, 65534, 65535, 61, 65534, 0, 56, 65534, 1, 15, 65535, 1, 51, 0, 1, 51, 1, 1, 43, 2, 0, 64, 2, 65535, 64, 2, 65534, 64, 2, 65533, 64, 1, 65532, 62, 65534, 65532, 62, 65533, 65532, 62, 65533, 65533, 64, 65533, 65535, 64, 65533, 0, 64, 65534, 2, 61, 65535, 2, 63, 0, 2, 64, 1, 2, 64, 2, 1, 64, 3, 65534, 63, 3, 65533, 63, 3, 65532, 58, 2, 65532, 62, 65532, 65532, 57, 65532, 65533, 61, 65532, 65534, 61, 65532, 65535, 61, 65532, 0, 61, 65532, 1, 61, 65532, 2, 61, 65532, 3, 56, 65533, 3, 60, 65533, 2, 61, 65533, 1, 61, 65534, 3, 56, 65535, 3, 59, 2, 2, 64, 3, 3, 59, 3, 2, 63, 3, 1, 63, 3, 0, 63, 3, 65535, 63, 0, 3, 60, 1, 3, 60, 2, 3, 60)
+"cells": PackedInt32Array(65535, 0, 56, 65535, 65535, 21, 65535, 65534, 57, 0, 0, 59, 0, 65535, 63, 0, 65534, 58, 65534, 65535, 31, 65534, 65534, 6, 65534, 0, 2, 65533, 0, 4, 65533, 65535, 28, 65533, 65534, 4, 65533, 1, 5, 65534, 1, 19, 65535, 1, 51, 0, 1, 51, 1, 1, 47, 65533, 2, 44, 65533, 3, 44, 65532, 2, 27, 65532, 3, 1, 2, 65533, 655387, 2, 65532, 655361, 1, 65533, 655404, 1, 65532, 655404, 65533, 4, 13, 65534, 65533, 31, 65535, 65533, 51, 0, 65533, 51, 0, 65532, 51, 65535, 65532, 43, 65534, 65532, 44, 1, 65534, 45, 65534, 4, 42, 65534, 2, 37, 65534, 3, 43, 65535, 3, 2, 65535, 2, 5, 65533, 65532, 4, 65534, 65531, 4, 65535, 65531, 16, 1, 65535, 43, 1, 0, 27, 2, 0, 30, 1, 65531, 41, 65533, 65533, 36, 65532, 65533, 37, 65535, 65530, 41, 65532, 1, 43, 0, 65531, 47, 65534, 65530, 64, 65533, 65529, 57, 65533, 65531, 61, 65534, 65529, 44, 65533, 65530, 21, 0, 65530, 50, 2, 65535, 44, 2, 65534, 1048615, 65535, 65529, 1048614, 0, 65529, 1048615, 4, 65527, 57, 4, 65528, 21, 4, 65529, 56, 5, 65527, 58, 5, 65528, 63, 5, 65529, 59, 1, 65529, 1048615, 65535, 65528, 1048615, 1, 65530, 1048614, 3, 65528, 1048615, 2, 65529, 1048615, 2, 65528, 1048607, 3, 65529, 6, 2, 65527, 1048596, 3, 65526, 1048578, 3, 65527, 1048577, 2, 65526, 1048602, 2, 65530, 1048600, 3, 65531, 1048593, 2, 65531, 1048621, 3, 65530, 1048623, 3, 65532, 1048625, 4, 65532, 1048622, 0, 2, 1048623, 3, 65534, 1048622, 4, 65534, 1048625, 4, 65533, 1048620, 3, 65533, 1048620, 4, 1, 1048632, 3, 65535, 1048625, 5, 65533, 1048623, 5, 65532, 1048635, 5, 65534, 1048636, 2, 1, 1048630, 4, 0, 1048618, 4, 65535, 1048625, 5, 65535, 1048632, 3, 1, 1048633, 3, 0, 1048618, 65535, 4, 1048630, 1, 2, 1048617, 0, 3, 1048620, 2, 2, 1048616, 0, 4, 1048614, 1, 3, 1048607, 2, 3, 1048600, 2, 4, 1048600, 2, 5, 1048600, 2, 6, 1048589, 1, 6, 1048588, 1, 5, 1048591, 1, 4, 1048640, 1, 65526, 1048635, 65535, 65526, 1048634, 65535, 65527, 1048631, 0, 65526, 1048639, 0, 65527, 1048634, 1, 65527, 1048621, 0, 65528, 1048603, 1, 65528, 1048588, 65531, 1, 1048588, 65532, 0, 1048593, 65534, 65528, 1048582, 65533, 65528, 1048607, 65533, 65527, 1048602, 65534, 65527, 1048630, 65532, 65528, 1048615, 65531, 65528, 1048617, 65531, 65529, 1048638, 65532, 65529, 1048640, 65532, 65530, 1048640, 65532, 65531, 1048637, 65531, 65531, 1048595, 65531, 65530, 1048638, 65532, 65534, 1048627, 65532, 65535, 1048627, 65531, 0, 1048617, 65532, 65532, 1048578, 65531, 65532, 1048603, 65531, 65533, 1048588)
 }
 
-[node name="slime_enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31439745, 0)
-player = NodePath("../player")
+[node name="GridMap" type="GridMap" parent="GridMap" groups=["navigation_mesh_source_group"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh_library = ExtResource("15_vivmo")
+cell_size = Vector3(4, 2, 4)
+collision_layer = 16
+collision_mask = 21
+data = {
+"cells": PackedInt32Array(65535, 0, 56, 65535, 65535, 21, 65535, 65534, 57, 0, 0, 59, 0, 65535, 63, 0, 65534, 58, 65534, 65535, 31, 65534, 65534, 6, 65534, 0, 2, 65533, 0, 4, 65533, 65535, 28, 65533, 65534, 4, 65533, 1, 5, 65534, 1, 19, 65535, 1, 51, 0, 1, 51, 1, 1, 47, 65533, 2, 44, 65533, 3, 44, 65532, 2, 27, 65532, 3, 1, 2, 65533, 655387, 2, 65532, 655361, 1, 65533, 655404, 1, 65532, 655404, 65533, 4, 13, 65534, 65533, 31, 65535, 65533, 51, 0, 65533, 51, 0, 65532, 51, 65535, 65532, 43, 65534, 65532, 44, 1, 65534, 45, 65534, 4, 42, 65534, 2, 37, 65534, 3, 43, 65535, 3, 2, 65535, 2, 5, 65533, 65532, 4, 65534, 65531, 4, 65535, 65531, 16, 1, 65535, 43, 1, 0, 27, 2, 0, 30, 1, 65531, 41, 65533, 65533, 36, 65532, 65533, 37, 65535, 65530, 41, 65532, 1, 43, 0, 65531, 47, 65534, 65530, 64, 65533, 65529, 57, 65533, 65531, 61, 65534, 65529, 44, 65533, 65530, 21)
+}
 
 [node name="robot_enemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("16_cegan")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0690172, 0.8977934, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.930983, 0.8977934, -28)
+player = NodePath("../player")
+
+[node name="robot_enemy2" parent="." node_paths=PackedStringArray("player") instance=ExtResource("16_cegan")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.930983, 0.8977934, -31)
 player = NodePath("../player")
 
 [node name="plasma_ball_pool" type="Node" parent="."]
@@ -296,5 +279,1256 @@ script = ExtResource("27_a6jrf")
 
 [node name="available" type="Node" parent="plasma_ball_pool"]
 
-[connection signal="animation_finished" from="player/AnimatedSprite3D" to="player" method="_on_animation_finished"]
+[node name="Decals" type="Node" parent="."]
+
+[node name="fl1" type="Decal" parent="Decals"]
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl2" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 2)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl3" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 2)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl4" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 10)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl5" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 17)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl6" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -11)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl7" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -11)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl8" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -2)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl9" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -28)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl44" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -28)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl45" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -33)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl46" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -33)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl10" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -30)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl11" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -29)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl12" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -36)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl13" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -36)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl14" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -27)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl15" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -25)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl16" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -21)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl17" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -21)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl18" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -27)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl19" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -10)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl20" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 6)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl21" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 11)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_2cqfq")
+normal_fade = 0.999
+
+[node name="fl22" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 9)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl23" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl24" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl25" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl26" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -9)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl27" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -14)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl28" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -22)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl29" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -22)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl30" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -21)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl31" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -18)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl32" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl33" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -22)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl34" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -23.6)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl35" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -31)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl36" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -30)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl37" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -30)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl38" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -34)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl39" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -34)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl40" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, -33.6)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl41" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, -33)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl42" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, -26)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="fl43" type="Decal" parent="Decals"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, -25)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("16_yaehf")
+normal_fade = 0.999
+
+[node name="wl1" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, -0.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl2" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620002, 0.5, 2.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl17" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620002, 0.5, 0.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl38" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, -2.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl39" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, -18.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl40" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -19.662, 0.5, -18.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl41" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 0.33799934, 0.5, -21.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl42" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 12.337999, 0.5, -21.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl43" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -27.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl44" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -8.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl45" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, 1.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl46" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 8.337999, 0.5, 15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl48" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -15.662001, 0.5, 11.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl49" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620007, 0.5, -0.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl50" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620007, 0.5, -3.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl51" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620007, 0.5, -6.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl52" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.6620007, 0.5, -7.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl53" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.6620007, 0.5, -10.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl54" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620007, 0.5, -11.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl55" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620007, 0.5, -15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl56" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 0.33799934, 0.5, -15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl57" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 4.3379993, 0.5, -15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl58" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 8.337999, 0.5, -15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl59" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 12.337999, 0.5, -15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl60" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 12.337999, 0.5, -19.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl61" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 12.337999, 0.5, -28.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl62" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -28.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl63" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -26.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl65" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -33.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl66" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 8.337999, 0.5, -38.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl67" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 8.337999, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl68" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 4.3379993, 0.5, -34.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl69" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620007, 0.5, -34.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl70" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -11.662001, 0.5, -33.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl71" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -11.662001, 0.5, -19.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl72" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -11.662001, 0.5, -14.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl73" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -11.662001, 0.5, -14.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl74" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -19.662, 0.5, -14.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl75" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -19.662, 0.5, -21.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl76" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -19.662, 0.5, -25.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl77" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -19.662, 0.5, -9.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl78" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -15.662001, 0.5, -6.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl79" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -15.662001, 0.5, -1.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl80" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -19.662, 0.5, 3.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl81" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -15.662001, 0.5, 9.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl82" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -11.662001, 0.5, 17.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl83" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 0.33799934, 0.5, 18.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl84" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 8.337999, 0.5, 19.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl85" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 4.3379993, 0.5, 21.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl86" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 3.3379993, 0.5, 16.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl87" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 3.3379993, 0.5, 4.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl88" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0.33799934, 0.5, -7.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl89" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 2.3379993, 0.5, -7.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl90" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 2.3379993, 0.5, -11.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl91" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -1.6620007, 0.5, -11.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl92" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -17.662, 0.5, -11.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl93" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -14.662001, 0.5, -31.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl94" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -8.662001, 0.5, -31.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl95" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -5.6620007, 0.5, -31.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl96" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 21.338, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl97" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 22.338, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl98" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 10.337999, 0.5, -39.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl99" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 14.337999, 0.5, -39.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl100" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 1.3379993, 0.5, -39.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl101" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 4.3379993, 0.5, -39.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl102" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -7.6620007, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl103" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 1.3379993, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl104" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 1.3379993, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl64" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -26.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("20_82xsv")
+normal_fade = 0.999
+
+[node name="wl47" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 8.337999, 0.5, 23.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("19_82xsv")
+normal_fade = 0.999
+
+[node name="wl18" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, 0.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl19" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, -8.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl20" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -3.6620002, 0.5, -19.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl21" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 1.3379998, 0.5, -21.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl22" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 8.337999, 0.5, -23.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl23" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -31.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl24" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 19.338, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl25" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 12.337999, 0.5, -35.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl26" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -1.6620007, 0.5, -39.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl27" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -9.662001, 0.5, -27.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl28" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -18.662, 0.5, -31.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl29" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -18.662, 0.5, -11.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl30" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -15.662001, 0.5, -15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl31" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -15.662001, 0.5, 1.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl32" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -3.6620007, 0.5, -2.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl33" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -3.6620007, 0.5, 4.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl34" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 9.337999, 0.5, 4.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl35" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 16.338, 0.5, 4.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl36" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 20.338, 0.5, -11.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl37" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 21.338, 0.5, -15.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("18_cegan")
+normal_fade = 0.999
+
+[node name="wl5" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 4.338, 0.5, 2.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl6" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 0.33799982, 0.5, -22.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl7" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 12.337999, 0.5, -22.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl8" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 16.338, 0.5, -32.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl9" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -11.662001, 0.5, -34.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl10" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -19.662, 0.5, -27.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl11" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -11.662001, 0.5, -26.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl12" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -7.1620007, 0.49999997, -27.5)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl13" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -1.1620007, 0.49999997, -31.5)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl14" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, -1.1620007, 0.49999997, -7.5)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl15" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 8.837999, 0.49999997, -7.5)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl16" type="Decal" parent="Decals"]
+transform = Transform3D(0.9999999, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 9.837999, 0.49999997, -27.5)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl3" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, -7.662, 0.5, 7.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="wl4" type="Decal" parent="Decals"]
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.3711385e-08, -0.99999994, -0.9999999, -4.3711385e-08, 1.9106853e-15, 0.33799982, 0.5, 17.5)
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("1_ryguw")
+normal_fade = 0.999
+
+[node name="Chargers" type="Node" parent="."]
+
+[node name="wirelessCharger" parent="Chargers" instance=ExtResource("11_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9976075, 0, -2.0024734)
+
+[node name="wirelessCharger2" parent="Chargers" instance=ExtResource("11_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.997608, 0, 1.9975266)
+
+[node name="wirelessCharger3" parent="Chargers" instance=ExtResource("11_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.997608, 0, -30.002474)
+
+[node name="wirelessCharger4" parent="Chargers" instance=ExtResource("11_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.002392, 0, -38.002472)
+
+[node name="wirelessCharger5" parent="Chargers" instance=ExtResource("11_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.002392, 0, -10.002472)
+
+[node name="wirelessCharger6" parent="Chargers" instance=ExtResource("11_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9976082, 0, 17.997528)
+
+[node name="Drones" type="Node" parent="."]
+
+[node name="physics_enemy" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.687291, 0.5889671, -7.863529)
+player = NodePath("../../player")
+
+[node name="physics_enemy2" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.687291, 0.5889671, -7.863529)
+player = NodePath("../../player")
+
+[node name="physics_enemy3" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.687291, 0.5889671, -17.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy4" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.68729, 0.5889671, -23.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy5" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.68729, 0.5889671, -29.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy6" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6872902, 0.5889671, -29.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy7" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6872902, 0.5889671, -36.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy8" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3127098, 0.5889671, -36.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy9" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3127098, 0.5889671, -36.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy10" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.31271, 0.5889671, -32.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy11" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.31271, 0.5889671, -32.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy12" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.31271, 0.5889671, -26.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy13" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.31271, 0.5889671, -26.86353)
+player = NodePath("../../player")
+
+[node name="physics_enemy14" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.31271, 0.5889671, -9.863529)
+player = NodePath("../../player")
+
+[node name="physics_enemy15" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.31271, 0.5889671, -9.863529)
+player = NodePath("../../player")
+
+[node name="physics_enemy16" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.31271, 0.5889671, -1.8635292)
+player = NodePath("../../player")
+
+[node name="physics_enemy17" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.31271, 0.5889671, 5.136471)
+player = NodePath("../../player")
+
+[node name="physics_enemy18" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.31271, 0.5889671, 18.13647)
+player = NodePath("../../player")
+
+[node name="physics_enemy19" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.31271, 0.5889671, 25.13647)
+player = NodePath("../../player")
+
+[node name="physics_enemy20" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.68729, 0.5889671, 18.13647)
+player = NodePath("../../player")
+
+[node name="physics_enemy21" parent="Drones" node_paths=PackedStringArray("player") instance=ExtResource("6_yaehf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.68729, 0.5889671, 5.136471)
+player = NodePath("../../player")
+
+[node name="Slimes" type="Node" parent="."]
+
+[node name="slime_enemy" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.31439745, 2)
+player = NodePath("../../player")
+
+[node name="slime_enemy2" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.31439745, 2)
+player = NodePath("../../player")
+
+[node name="slime_enemy18" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.31439745, 9)
+player = NodePath("../../player")
+
+[node name="slime_enemy19" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.31439745, 18)
+player = NodePath("../../player")
+
+[node name="slime_enemy20" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.31439745, 13)
+player = NodePath("../../player")
+
+[node name="slime_enemy21" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0.31439745, 10)
+player = NodePath("../../player")
+
+[node name="slime_enemy22" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.31439745, 10)
+player = NodePath("../../player")
+
+[node name="slime_enemy23" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.31439745, 10)
+player = NodePath("../../player")
+
+[node name="slime_enemy24" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.31439745, 13)
+player = NodePath("../../player")
+
+[node name="slime_enemy25" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.31439745, 15)
+player = NodePath("../../player")
+
+[node name="slime_enemy26" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.31439745, -2)
+player = NodePath("../../player")
+
+[node name="slime_enemy27" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.31439745, -2)
+player = NodePath("../../player")
+
+[node name="slime_enemy28" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.31439745, -7)
+player = NodePath("../../player")
+
+[node name="slime_enemy29" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.31439745, -7)
+player = NodePath("../../player")
+
+[node name="slime_enemy3" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.31439745, -11)
+player = NodePath("../../player")
+
+[node name="slime_enemy4" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.31439745, -26)
+player = NodePath("../../player")
+
+[node name="slime_enemy5" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.31439745, -26)
+player = NodePath("../../player")
+
+[node name="slime_enemy6" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.31439745, -26)
+player = NodePath("../../player")
+
+[node name="slime_enemy7" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.31439745, -19)
+player = NodePath("../../player")
+
+[node name="slime_enemy8" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0.31439745, -19)
+player = NodePath("../../player")
+
+[node name="slime_enemy9" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.31439745, -17)
+player = NodePath("../../player")
+
+[node name="slime_enemy10" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0.31439745, -30)
+player = NodePath("../../player")
+
+[node name="slime_enemy11" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0.31439745, -30)
+player = NodePath("../../player")
+
+[node name="slime_enemy12" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.31439745, -38)
+player = NodePath("../../player")
+
+[node name="slime_enemy13" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.31439745, -34)
+player = NodePath("../../player")
+
+[node name="slime_enemy14" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.31439745, -21)
+player = NodePath("../../player")
+
+[node name="slime_enemy15" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.31439745, -24)
+player = NodePath("../../player")
+
+[node name="slime_enemy16" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.31439745, -5)
+player = NodePath("../../player")
+
+[node name="slime_enemy17" parent="Slimes" node_paths=PackedStringArray("player") instance=ExtResource("15_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.31439745, -5)
+player = NodePath("../../player")
+
+[node name="Lights" type="Node" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -3)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 14)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -22)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -22)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -30)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, -26)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 6)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D9" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D10" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 15)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D11" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 15)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D12" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 26)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D13" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -10)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D14" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -10)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D15" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -13)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D16" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, -9)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D17" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, -3)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D18" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -3)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D19" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 3)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D20" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 3)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D21" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 3)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D22" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 10)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D23" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D24" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -9)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
+[node name="OmniLight3D25" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
+light_color = Color(0.78287536, 1, 0.9145901, 1)
+light_energy = 4.443
+
 [connection signal="area_entered" from="player/weapon_attachment/sword_weapon/Area3D" to="player/weapon_attachment/sword_weapon" method="_on_damage_area_entered"]
