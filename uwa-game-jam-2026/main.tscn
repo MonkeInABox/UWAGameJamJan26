@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=85 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -11,6 +11,9 @@
 [ext_resource type="Script" uid="uid://bywkkfhw0eih0" path="res://time_manager.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://bpx3f8mx0v1pa" path="res://camera_3d.gd" id="4_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://d2vx2knc2ldkq" path="res://physics_enemy.tscn" id="6_yaehf"]
+[ext_resource type="Texture2D" uid="uid://cwpu1akw56em3" path="res://yes-music.png" id="7_htxhm"]
+[ext_resource type="Script" uid="uid://dhtjdd1kdo18u" path="res://mute_music.gd" id="7_seu75"]
+[ext_resource type="Texture2D" uid="uid://sj88bnbnn1gd" path="res://no-music.png" id="8_jq2sk"]
 [ext_resource type="AudioStream" uid="uid://dcux4plkmmyvm" path="res://laser_loop.mp3" id="10_2cqfq"]
 [ext_resource type="Script" uid="uid://cqy3l1ma2nt3k" path="res://mining_laser_weapon.gd" id="11_dg77c"]
 [ext_resource type="PackedScene" uid="uid://c2gxer18tg4sb" path="res://wireless_charger.tscn" id="11_vivmo"]
@@ -379,6 +382,21 @@ script = ExtResource("3_272bh")
 font = SubResource("SystemFont_kek77")
 colour = Color(0.7670247, 2.5268644e-06, 9.62615e-07, 1)
 flash_colour = Color(0.9506034, 0.29980722, 0.23307866, 1)
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+toggle_mode = true
+texture_normal = ExtResource("7_htxhm")
+texture_pressed = ExtResource("8_jq2sk")
+script = ExtResource("7_seu75")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.70710677, -0.35355338, 0.6123724, 0, 0.8660254, 0.5, -0.70710677, -0.35355338, 0.6123724, 24.495, 20, 24.495)

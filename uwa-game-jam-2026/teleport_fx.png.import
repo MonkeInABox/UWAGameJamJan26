@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ef4sof25ro5u"
-path.s3tc="res://.godot/imported/teleport_fx.png-2e5f6d9f170276260909d599a19f3cfb.s3tc.ctex"
+path="res://.godot/imported/teleport_fx.png-2e5f6d9f170276260909d599a19f3cfb.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://teleport_fx.png"
-dest_files=["res://.godot/imported/teleport_fx.png-2e5f6d9f170276260909d599a19f3cfb.s3tc.ctex"]
+dest_files=["res://.godot/imported/teleport_fx.png-2e5f6d9f170276260909d599a19f3cfb.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
