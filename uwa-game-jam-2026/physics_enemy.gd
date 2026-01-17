@@ -33,6 +33,8 @@ var health := max_health:
 @onready var collisionbox_shape: CollisionShape3D = $CollisionShape3D
 @onready var damagebox_shape: CollisionShape3D = $damagebox/CollisionShape3D
 #@onready var hurtbox_shape: CollisionShape3D = $hurtbox/CollisionShape3D
+@onready var audio_loop: AudioStreamPlayer3D = $enginesfx
+@onready var audio_impact: AudioStreamPlayer3D = $impactsfx
 
 @export var contact_damage := 5.0
 
@@ -85,6 +87,7 @@ func _physics_process(delta: float) -> void:
 	
 	damagebox_shape.disabled = not is_alive
 	if time_manager.allow_time():
+		if audio_loop.playing != is_alive: audio_loop.playing = is_alive
 		if not is_alive:
 			return
 		var space := get_world_3d().direct_space_state
@@ -139,12 +142,15 @@ func _physics_process(delta: float) -> void:
 		if self.health <= 0: return
 		if currently_contacting and self.last_hit + self.hit_cooldown_ms <= now:
 			self.last_hit = now
+			audio_impact.pitch_scale = randfn(1.0, 0.05)
+			audio_impact.play()
 			for node in currently_contacting:
 				var position_delta := self.global_position - node.global_position
 				var thing_with_health: Player3D = node.get_parent()
 				self.apply_impulse(Vector3(position_delta.x, 0.0, position_delta.z).normalized().rotated(Vector3.UP, randf_range(-0.1, 0.1)) * randf_range(1.5, 4.0) + -self.linear_velocity + thing_with_health.velocity, Vector3(randfn(0, 0.1), 0, randfn(0, 0.1)))
 				thing_with_health.health -= self.contact_damage
-		
+	else:
+		audio_loop.stop()
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	state.transform.basis = Basis(Vector3.UP, self.rotation.y)
 	state.angular_velocity.x = 0

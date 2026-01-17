@@ -8,6 +8,7 @@ extends Player3D.Weapon
 @export var material: Material
 @export var damage := 3.0
 @onready var player: Player3D = $"../../."
+@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
 
 var swing_time := 0.10
 var swing_offset_time := 0.025
@@ -81,8 +82,9 @@ func _process(_delta: float) -> void:
 			tween.tween_property(self, "current_angle_b", end_angle + aim_dir, swing_time)
 			tween.tween_callback((func (): damage_shape.disabled = true)).set_delay(swing_time)
 			tween.tween_callback((func (): self.can_attack = true)).set_delay(total_swing_time)
+			audio.play()
 	else:
-		damage_shape.disabled = false
+		damage_shape.disabled = true
 
 func _on_damage_area_entered(area: Area3D) -> void:
 	var parent_node := area.get_parent()

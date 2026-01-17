@@ -10,6 +10,8 @@ var shape = SphereShape3D.new()
 var collision_radius := 0.25
 var explosion_radius := 0.5
 var collide_with_enemies := false
+@onready var audio_loop: AudioStreamPlayer3D = $audio_loop
+@onready var audio_explosion: AudioStreamPlayer3D = $audio_explosion
 
 var alive := false:
 	set(value):
@@ -31,6 +33,11 @@ func _ready() -> void:
 		[true, false, false],
 	)
 	self.alive = true
+func _process(_delta: float) -> void:
+	if time_manager.allow_time():
+		if self.alive != audio_loop.playing: audio_loop.playing = self.alive
+	else:
+		audio_loop.stop()
 
 func _physics_process(delta: float) -> void:
 	if not self.alive or not time_manager.allow_time(): return
@@ -54,4 +61,5 @@ func _physics_process(delta: float) -> void:
 			var parent := collider.get_parent()
 			if parent.has_method("damage"):
 				parent.damage(self.damage)
+		audio_explosion.play()
 		self.alive = false

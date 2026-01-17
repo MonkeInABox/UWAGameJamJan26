@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=41 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -8,8 +8,10 @@
 [ext_resource type="Script" uid="uid://bywkkfhw0eih0" path="res://time_manager.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://bpx3f8mx0v1pa" path="res://camera_3d.gd" id="4_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://d2vx2knc2ldkq" path="res://physics_enemy.tscn" id="6_yaehf"]
+[ext_resource type="AudioStream" uid="uid://dcux4plkmmyvm" path="res://laser_loop.mp3" id="10_2cqfq"]
 [ext_resource type="Script" uid="uid://cqy3l1ma2nt3k" path="res://mining_laser_weapon.gd" id="11_dg77c"]
 [ext_resource type="PackedScene" uid="uid://c2gxer18tg4sb" path="res://wireless_charger.tscn" id="11_vivmo"]
+[ext_resource type="AudioStream" uid="uid://dfn2ensvoe53" path="res://whoosh.mp3" id="12_yaehf"]
 [ext_resource type="Script" uid="uid://ckuqu2c0u8kwt" path="res://sword_weapon.gd" id="14_qsp4k"]
 [ext_resource type="PackedScene" uid="uid://c7fts3jborrvo" path="res://slime_enemy.tscn" id="15_074og"]
 [ext_resource type="MeshLibrary" uid="uid://cnj4v3v6k5wlb" path="res://wallz.tres" id="15_vivmo"]
@@ -205,6 +207,12 @@ draw_pass_1 = SubResource("QuadMesh_ycdy4")
 visible = false
 mesh = SubResource("CylinderMesh_efxa6")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="player/weapon_attachment/mining_laser_weapon"]
+stream = ExtResource("10_2cqfq")
+volume_db = -15.0
+pitch_scale = 1.5
+parameters/looping = true
+
 [node name="sword_weapon" type="Node3D" parent="player/weapon_attachment"]
 script = ExtResource("14_qsp4k")
 material = SubResource("StandardMaterial3D_qsp4k")
@@ -222,6 +230,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
 shape = SubResource("BoxShape3D_qsp4k")
 disabled = true
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="player/weapon_attachment/sword_weapon"]
+stream = ExtResource("12_yaehf")
+volume_db = -5.0
+pitch_scale = 1.5
+
 [node name="hitbox" type="Area3D" parent="player"]
 collision_layer = 2
 collision_mask = 64
@@ -229,6 +242,9 @@ collision_mask = 64
 [node name="hitboxshape" type="CollisionShape3D" parent="player/hitbox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58096313, 0)
 shape = SubResource("CapsuleShape3D_kek77")
+
+[node name="AudioListener3D" type="AudioListener3D" parent="player"]
+current = true
 
 [node name="cube" type="StaticBody3D" parent="." groups=["navigation_mesh_source_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5213611, -1.6070688)

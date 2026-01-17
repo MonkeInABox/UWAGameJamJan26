@@ -4,6 +4,7 @@ extends Player3D.Weapon
 
 @onready var particles: GPUParticles3D = $sparks
 @onready var line_mesh: MeshInstance3D = $laser_mesh
+@onready var audio: AudioStreamPlayer = $AudioStreamPlayer
 
 @export var damage := 1.0
 @export var hit_time_ms := 200
@@ -23,6 +24,7 @@ var point: Vector3:
 		
 var line_visible: bool:
 	set(value):
+		#audio.playing = value
 		line_mesh.visible = value
 		particles.emitting = value
 	get():
@@ -94,8 +96,11 @@ func _process(_delta: float) -> void:
 				self.point = target
 				particles.global_position = target
 			line_mesh.visible = true
+			if not audio.playing: audio.play()
 			particles.emitting = true
 		else:
 			if last_hit + hit_time_ms < now: last_hit = now - hit_time_ms
 			line_mesh.visible = false
+			audio.stop()
 			particles.emitting = false
+	else: audio.stop()

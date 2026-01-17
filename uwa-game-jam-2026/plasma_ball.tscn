@@ -1,7 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://c42o6fn5kkvbv"]
+[gd_scene load_steps=13 format=3 uid="uid://c42o6fn5kkvbv"]
 
 [ext_resource type="Script" uid="uid://c8j75v1pargaw" path="res://plasma_ball.gd" id="1_j08vb"]
 [ext_resource type="Texture2D" uid="uid://bd6n3tth1r52u" path="res://plasma_ball.png" id="2_svveb"]
+[ext_resource type="AudioStream" uid="uid://ccflmf2jjvyqc" path="res://plasma_loop.mp3" id="3_aym2w"]
+[ext_resource type="AudioStream" uid="uid://bqp3sn2xrq6po" path="res://plasma_explosion.mp3" id="4_iiylf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aym2w"]
 albedo_color = Color(1, 0, 0, 1)
@@ -78,3 +80,11 @@ collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="parrybox"]
 shape = SubResource("SphereShape3D_svveb")
+
+[node name="audio_loop" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_aym2w")
+volume_db = -10.0
+
+[node name="audio_explosion" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_iiylf")
+volume_db = -10.0

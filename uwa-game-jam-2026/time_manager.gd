@@ -145,9 +145,9 @@ func _process(delta: float) -> void:
 				self.capture_accumulator = 0
 				self.sample()
 				
-			if ((self.timer + max_time_ms <= now or Input.is_action_just_pressed("reset")) and state != STATE_PLAYER_DEATH) or queue_reset:
+			if (state != STATE_PLAYER_DEATH and (self.timer + max_time_ms <= now or Input.is_action_just_pressed("reset"))) or queue_reset:
 				self.queue_reset = false
-				self.reset_at = max(0, max_time_ms - (now - self.timer))
+				self.reset_at = maxf(0, max_time_ms - (now - self.timer))
 				self.timer = now
 				self.reset_time_ms = self.base_reset_time_ms * (1.0 - self.reset_at / self.max_time_ms)
 				self.state = STATE_RESETTING
@@ -156,7 +156,7 @@ func _process(delta: float) -> void:
 						node.before_reset()
 				timer_label.value = 0.0
 			else:
-				timer_label.value = max(0.0, (max_time_ms - (now - self.timer)) / 1000.0)
+				timer_label.value = maxf(0.0, (max_time_ms - (now - self.timer)) / 1000.0)
 				
 		STATE_RESETTING:
 			var time_passed := now - self.timer
