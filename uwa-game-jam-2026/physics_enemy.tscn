@@ -1,47 +1,80 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpm7ifdpje8nq"]
+[gd_scene load_steps=9 format=3 uid="uid://d2vx2knc2ldkq"]
 
-[ext_resource type="Script" uid="uid://brp5fmwcgkf6j" path="res://old_2d_stuff/physics_enemy.gd" id="1_a4b52"]
-[ext_resource type="Script" uid="uid://ds1sbgw873km8" path="res://old_2d_stuff/enemy_healthbar.gd" id="2_knxtq"]
+[ext_resource type="Script" uid="uid://x101j7iv5bmf" path="res://physics_enemy.gd" id="1_imcgq"]
 [ext_resource type="Texture2D" uid="uid://beqs7lmdt8ajs" path="res://physics_enemy_sheet.png" id="2_wd73w"]
-[ext_resource type="Script" uid="uid://1unm25qv8dh7" path="res://old_2d_stuff/physics_enemy_visuals.gd" id="3_rrl1u"]
+[ext_resource type="Script" uid="uid://cv27h3syynihb" path="res://physics_enemy_visuals.gd" id="3_6h8md"]
+[ext_resource type="Script" uid="uid://bhaai2o87q120" path="res://enemy_healthbar.gd" id="4_26b8r"]
+[ext_resource type="Script" uid="uid://bqgn1a1yh82fp" path="res://line3d.gd" id="5_kvo1n"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_272bh"]
-radius = 9.0
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kek77"]
+height = 0.2
+radius = 0.4
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_knxtq"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5vw27"]
+height = 0.2
+radius = 0.4
 
-[node name="physics_enemy" type="RigidBody2D"]
-collision_layer = 64
-collision_mask = 112
-script = ExtResource("1_a4b52")
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_efxa6"]
+height = 1.0029297
+radius = 0.4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_272bh")
+[node name="physics_enemy" type="RigidBody3D" node_paths=PackedStringArray("player")]
+collision_layer = 4
+collision_mask = 21
+script = ExtResource("1_imcgq")
+player = NodePath("")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-visible = false
-polygon = PackedVector2Array(0, -10, 4, -4, 10, 0, 4, 4, 0, 10, -4, 4, -10, 0, -4, -4)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_kek77")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_knxtq")
-
-[node name="physics enemy visuals" type="Sprite2D" parent="."]
+[node name="physics enemy visuals" type="Sprite3D" parent="."]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 0, 0, 0)
+pixel_size = 0.0313
+shaded = true
+double_sided = false
+alpha_cut = 1
+texture_filter = 0
 texture = ExtResource("2_wd73w")
 hframes = 16
 vframes = 8
-script = ExtResource("3_rrl1u")
+script = ExtResource("3_6h8md")
 
-[node name="healthbar" type="Node2D" parent="physics enemy visuals"]
-z_index = 1
-position = Vector2(0, -13)
-script = ExtResource("2_knxtq")
+[node name="healthbar" type="Node2D" parent="."]
+position = Vector2(0, -30)
+script = ExtResource("4_26b8r")
 max_value = 20.0
-width = 32.0
+width = 48.0
+height = 2.0
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_hitbox_area_entered"]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="damagebox" type="Area3D" parent="."]
+collision_layer = 72
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="damagebox"]
+shape = SubResource("CylinderShape3D_5vw27")
+
+[node name="hurtbox" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.54534364, 0.62327814, -1.4321489)
+shape = SubResource("CylinderShape3D_efxa6")
+disabled = true
+
+[node name="Line3D" type="Node2D" parent="."]
+visible = false
+script = ExtResource("5_kvo1n")
+
+[node name="Line3D2" type="Node2D" parent="."]
+visible = false
+script = ExtResource("5_kvo1n")
+
+[node name="Line3D3" type="Node2D" parent="."]
+visible = false
+script = ExtResource("5_kvo1n")
+
+[connection signal="area_entered" from="damagebox" to="." method="_on_damagebox_area_entered"]
+[connection signal="area_exited" from="damagebox" to="." method="_on_damagebox_area_exited"]
