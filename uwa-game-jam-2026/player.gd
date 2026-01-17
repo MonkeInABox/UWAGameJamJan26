@@ -12,6 +12,7 @@ class_name Player3D extends CharacterBody3D
 var hurt_tween: Tween
 var health := max_health:
 	set(value):
+		if self.teleporting: return
 		if iframes_end > Time.get_ticks_msec(): return
 		if health != 0 and value < health:
 			sprites.modulate = Color.RED

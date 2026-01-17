@@ -25,7 +25,6 @@ func _process(_delta: float) -> void:
 			self.enabled = true
 
 func _on_area_entered(area: Area3D) -> void:
-	print(area.get_parent())
 	if enabled and area.get_parent() == player:
 		time_manager.state = TimeManager.STATE_DISABLED
 		player.teleporting = true

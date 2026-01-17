@@ -34,6 +34,11 @@ var reset_at: float
 @onready var timer := Time.get_ticks_msec()
 @export var timer_label: TimerDisplay
 
+@onready var music_player: AudioStreamPlayer = $"../music"
+@onready var music_volume := music_player.volume_db
+@onready var rewind_audio: AudioStreamPlayer = $"rewind"
+@onready var checkpoint_audio: AudioStreamPlayer = $"checkpoint"
+
 func allow_time() -> bool:
 	return self.state != STATE_RESETTING
 
@@ -75,6 +80,12 @@ func check_nodes():
 			unregister(node)
 
 func checkpoint() -> void:
+	create_tween().tween_property(music_player, "volume_db", -20, 0.4)
+	checkpoint_audio.play()
+	self.state = STATE_CHECKPOINTING
+	await get_tree().create_timer(0.5).timeout
+	music_player.volume_db = music_volume
+	music_player.play()
 	self.timer = Time.get_ticks_msec()
 	self.state = STATE_NORMAL
 	timer_label.value = max_time_ms / 1000.0
@@ -98,6 +109,7 @@ func playback(playback_position: float) -> void:
 	var index_f := playback_position * self.num_samples
 	var index := int(index_f)
 	var lerp_amount := index_f - index
+	if self.num_samples == 0: return
 	for node in data:
 		var this_index := index - started_at[node]
 		if this_index < 0:
@@ -141,6 +153,7 @@ func _process(delta: float) -> void:
 	var now := Time.get_ticks_msec()
 	match state:
 		STATE_NORMAL, STATE_PLAYER_DEATH:
+			if not music_player.playing: music_player.play()
 			self.capture_accumulator += delta
 			if self.capture_accumulator > self.capture_time:
 				self.capture_accumulator = 0
@@ -152,6 +165,8 @@ func _process(delta: float) -> void:
 				self.timer = now
 				self.reset_time_ms = self.base_reset_time_ms * (1.0 - self.reset_at / self.max_time_ms)
 				self.state = STATE_RESETTING
+				music_player.stop()
+				rewind_audio.play((base_reset_time_ms - reset_time_ms) / 1000.0)
 				for node in do_before_resets:
 					if do_before_resets[node]:
 						node.before_reset()

@@ -1,8 +1,11 @@
-[gd_scene load_steps=79 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=82 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://boa1tjceghcpe" path="res://player.gd" id="2_h2yge"]
+[ext_resource type="AudioStream" uid="uid://5nqu7isl3cx4" path="res://rewind.mp3" id="2_kq58d"]
+[ext_resource type="AudioStream" uid="uid://circ3yk2gfhxf" path="res://checkpoint.mp3" id="2_qsp4k"]
+[ext_resource type="AudioStream" uid="uid://b3oall7ix43de" path="res://musicv1.mp3" id="2_xuqvo"]
 [ext_resource type="Script" uid="uid://crmnujf6i6tcn" path="res://player_healthbar.gd" id="3_272bh"]
 [ext_resource type="SpriteFrames" uid="uid://cdtg4lurljt3d" path="res://player_anims.tres" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://bywkkfhw0eih0" path="res://time_manager.gd" id="4_1bvp3"]
@@ -351,6 +354,16 @@ animations = [{
 unique_name_in_owner = true
 script = ExtResource("4_1bvp3")
 timer_label = NodePath("../CanvasLayer/timer")
+
+[node name="rewind" type="AudioStreamPlayer" parent="time manager"]
+stream = ExtResource("2_kq58d")
+
+[node name="checkpoint" type="AudioStreamPlayer" parent="time manager"]
+stream = ExtResource("2_qsp4k")
+volume_db = -5.0
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_xuqvo")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
