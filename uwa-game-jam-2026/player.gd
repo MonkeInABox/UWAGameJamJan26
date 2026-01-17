@@ -118,7 +118,12 @@ func _physics_process(delta: float) -> void:
 	if time_manager.allow_time():
 		var input_dir := Input.get_vector("left", "right", "up", "down") if is_alive else Vector2()
 		
-		set_anim(input_dir)
+		if is_alive:
+			set_anim(input_dir)
+		else:
+			if self.sprites.animation != &"death":
+				self.sprites.play(&"death")
+				time_manager.state = TimeManager.STATE_PLAYER_DEATH
 		
 		var input_rotated := input_dir.rotated(-PI/4)
 		
@@ -155,3 +160,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		self.velocity = Vector3()
 		
+
+
+func _on_animation_finished() -> void:
+	if sprites.animation == &"death":
+		time_manager.queue_reset = true

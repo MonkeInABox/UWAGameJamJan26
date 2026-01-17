@@ -1,6 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://c60ahxinwnsw"]
+[gd_scene load_steps=32 format=3 uid="uid://c60ahxinwnsw"]
 
 [ext_resource type="Script" uid="uid://v2sucv6cakrd" path="res://robot_enemy.gd" id="1_6swhj"]
+[ext_resource type="Texture2D" uid="uid://cl5ewvwl4b1hr" path="res://happyrobotLDIe.png" id="2_05j4m"]
 [ext_resource type="Texture2D" uid="uid://b8qsx11qx8l87" path="res://happyrobot_down_left.png" id="2_oe3bg"]
 [ext_resource type="Texture2D" uid="uid://bwll1ebwvjoeg" path="res://happyrobot_down_right.png" id="3_05j4m"]
 [ext_resource type="Texture2D" uid="uid://bk7b0hmyfsyeg" path="res://happyrobot_up_left.png" id="4_wq6o2"]
@@ -10,6 +11,26 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsp4k"]
 radius = 0.6699219
 height = 1.4588013
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wq6o2"]
+atlas = ExtResource("2_05j4m")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_513ua"]
+atlas = ExtResource("2_05j4m")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ued3"]
+atlas = ExtResource("2_05j4m")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1sl2i"]
+atlas = ExtResource("2_05j4m")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxdni"]
+atlas = ExtResource("2_05j4m")
+region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ruth0"]
 atlas = ExtResource("2_oe3bg")
@@ -77,6 +98,26 @@ region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_b17eg"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wq6o2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_513ua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ued3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1sl2i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxdni")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ruth0")
@@ -150,11 +191,10 @@ animations = [{
 radius = 0.4404297
 height = 1.4177246
 
-[node name="robot_enemy" type="CharacterBody3D" node_paths=PackedStringArray("player", "nav", "healthbar", "sprite", "collisionbox_shape", "damagebox_shape")]
+[node name="robot_enemy" type="CharacterBody3D" node_paths=PackedStringArray("nav", "healthbar", "sprite", "collisionbox_shape", "damagebox_shape")]
 collision_layer = 4
 collision_mask = 21
 script = ExtResource("1_6swhj")
-player = NodePath("")
 nav = NodePath("NavigationAgent3D")
 speed = 1.5
 max_health = 50.0

@@ -185,8 +185,7 @@ double_sided = false
 alpha_cut = 1
 texture_filter = 0
 sprite_frames = ExtResource("3_h2yge")
-animation = &"runningRF"
-autoplay = "runningRF"
+animation = &"runningLF"
 
 [node name="weapon_attachment" type="Node3D" parent="player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05756426, 0.48761672, 0.049028516)
@@ -297,4 +296,5 @@ script = ExtResource("27_a6jrf")
 
 [node name="available" type="Node" parent="plasma_ball_pool"]
 
+[connection signal="animation_finished" from="player/AnimatedSprite3D" to="player" method="_on_animation_finished"]
 [connection signal="area_entered" from="player/weapon_attachment/sword_weapon/Area3D" to="player/weapon_attachment/sword_weapon" method="_on_damage_area_entered"]

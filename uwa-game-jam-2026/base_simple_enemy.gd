@@ -178,7 +178,9 @@ func _physics_process(delta: float) -> void:
 
 	if time_manager.allow_time():
 		if not is_alive:
-			self.sprite.stop()
+			if self.sprite.animation != &"death":
+				self.sprite.play(&"death")
+			#self.sprite.stop()
 			return
 		find_target(player.position + Vector3(0.0, 0.5, 0.0))
 		var to_target := self.target - self.global_position
