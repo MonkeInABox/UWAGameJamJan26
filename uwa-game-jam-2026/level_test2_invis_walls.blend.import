@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cc4xr1bk1gbn5"
-valid=false
+path="res://.godot/imported/level_test2_invis_walls.blend-09375cb54e0c79a503b8dfaa7fd4f8f9.scn"
 
 [deps]
 
 source_file="res://level_test2_invis_walls.blend"
+dest_files=["res://.godot/imported/level_test2_invis_walls.blend-09375cb54e0c79a503b8dfaa7fd4f8f9.scn"]
 
 [params]
 

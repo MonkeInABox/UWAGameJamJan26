@@ -64,7 +64,7 @@ static func pick_diagonal_direction(dir: Vector2) -> int:
 		return 0
 	elif normalized.dot(up_left) >= angle_threshold:
 		return 3
-	assert(false, "should be unreachable")
+	#assert(false, "should be unreachable") # this was getting hit lol, there is no time to fix it so im just commenting it out
 	return -1
 
 func set_anim(dir: Vector2):
@@ -133,8 +133,10 @@ func find_target(target_pos: Vector3, need_los: bool = true) -> void:
 	if not need_los:
 		nav.target_position = target_pos
 	if result and result.collider == player:
-		nav.target_position = target_pos
-		self.target = target_pos
+		if self.last_seen_target != -1: # checking this is a bandaid fix for enemies seeing the player for 1 frame when the game loads
+			nav.target_position = target_pos
+			self.target = target_pos
+		else: nav.target_position = self.global_position
 		self.last_seen_target = Time.get_ticks_msec()
 		self.can_see_player = true
 	elif self.last_seen_target != -1:

@@ -101,11 +101,13 @@ func _physics_process(delta: float) -> void:
 		var now := Time.get_ticks_msec()
 		if result and result.collider == player:
 			self.sleeping = false
-			nav.target_position = player_pos
 			#debug_vis3.b = self.nav.target_position
 			#debug_vis3.color = Color.TRANSPARENT
 			#debug_vis2.color = Color.TRANSPARENT
-			self.target = player_pos
+			if self.last_seen_target != -1: # checking this is a bandaid fix for enemies seeing the player for 1 frame when the game loads
+				self.target = player_pos
+				nav.target_position = player_pos
+			else: nav.target_position = self.global_position
 			self.last_seen_target = Time.get_ticks_msec()
 		elif self.last_seen_target != -1:
 			var result2 := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, self.nav.target_position))

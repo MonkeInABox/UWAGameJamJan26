@@ -81,6 +81,7 @@ script = ExtResource("5_kvo1n")
 stream = ExtResource("6_6h8md")
 volume_db = -25.0
 max_db = 0.0
+max_distance = 16.0
 
 [node name="impactsfx" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("7_26b8r")
