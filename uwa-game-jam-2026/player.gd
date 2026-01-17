@@ -51,6 +51,8 @@ var owned_weapons: Array[Weapon] = []
 var iframes_end := 0
 const iframes_length := 500
 
+var teleporting := false
+
 func _ready() -> void:
 	self.owned_weapons.append_array($weapon_attachment.get_children().filter(func (child): return child is Weapon))
 	for weapon in self.owned_weapons: 
@@ -117,8 +119,12 @@ func _physics_process(delta: float) -> void:
 	var is_alive := health > 0
 	if time_manager.allow_time():
 		var input_dir := Input.get_vector("left", "right", "up", "down") if is_alive else Vector2()
-		
-		if is_alive:
+		for weapon in self.owned_weapons:
+			weapon.active = is_alive
+		if self.teleporting:
+			if self.sprites.animation != &"teleport":
+				self.sprites.play(&"teleport")
+		elif is_alive:
 			set_anim(input_dir)
 		else:
 			if self.sprites.animation != &"death":

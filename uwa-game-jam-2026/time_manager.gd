@@ -5,6 +5,7 @@ enum {
 	STATE_RESETTING,
 	STATE_CHECKPOINTING,
 	STATE_PLAYER_DEATH,
+	STATE_DISABLED,
 }
 
 var data: Dictionary[Node, Dictionary] = {}

@@ -31,10 +31,10 @@ const plasma_ball_speed := 5.0
 
 func _ready() -> void:
 	time_manager.register(self, 
-		["state", "position", "health", "anim_frame", "anim_anim"],
-		[TYPE_INT, TYPE_VECTOR3, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME], 
-		["", "", "", "", ""], 
-		[false, true, true, false, false],
+		["state", "position", "health", "anim_frame", "anim_anim", "last_seen_target", "target"],
+		[TYPE_INT, TYPE_VECTOR3, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME, TYPE_INT, TYPE_VECTOR3], 
+		["", "", "", "", "", "", ""], 
+		[false, true, true, false, false, false, false],
 	)
 
 func _physics_process(delta: float) -> void:

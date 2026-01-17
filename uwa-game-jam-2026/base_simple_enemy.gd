@@ -128,10 +128,14 @@ func do_move(dir: Vector2, delta: float) -> void:
 
 func find_target(target_pos: Vector3, need_los: bool = true) -> void:
 	var space := get_world_3d().direct_space_state
-	var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, target_pos, 0b10001))
-	var now := Time.get_ticks_msec()
 	if not need_los:
 		nav.target_position = target_pos
+	else:
+		if self.global_position.distance_squared_to(target_pos) > 32.0: 
+			self.last_seen_target = -1
+			return # just disable the ai if too far away (quick/temp fix)
+	var result := space.intersect_ray(PhysicsRayQueryParameters3D.create(self.position, target_pos, 0b10001))
+	var now := Time.get_ticks_msec()
 	if result and result.collider == player:
 		if self.last_seen_target != -1: # checking this is a bandaid fix for enemies seeing the player for 1 frame when the game loads
 			nav.target_position = target_pos
@@ -168,10 +172,10 @@ func set_collision_layers(is_alive: bool) -> void:
 
 func _ready() -> void:
 	time_manager.register(self, 
-		["position", "health", "anim_frame", "anim_anim"],
-		[TYPE_VECTOR3, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME], 
-		["", "", "", ""], 
-		[true, true, false, false],
+		["position", "health", "anim_frame", "anim_anim", "last_seen_target", "target"],
+		[TYPE_VECTOR3, TYPE_FLOAT, TYPE_INT, TYPE_STRING_NAME, TYPE_INT, TYPE_VECTOR3], 
+		["", "", "", "", "", ""], 
+		[true, true, false, false, false, false],
 	)
 
 func _physics_process(delta: float) -> void:

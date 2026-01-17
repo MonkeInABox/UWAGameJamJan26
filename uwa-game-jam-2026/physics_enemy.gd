@@ -43,10 +43,10 @@ func damage(amount: float) -> void:
 
 func _ready() -> void:
 	time_manager.register(self, 
-		["position", "quaternion", "health"], 
-		[TYPE_VECTOR3, TYPE_QUATERNION, TYPE_FLOAT], 
-		["", "", ""], 
-		[true, true, true], 
+		["position", "quaternion", "health", "last_seen_target", "target"], 
+		[TYPE_VECTOR3, TYPE_QUATERNION, TYPE_FLOAT, TYPE_INT, TYPE_VECTOR3], 
+		["", "", "", "", ""], 
+		[true, true, true, false, false], 
 	true, true)
 
 var last_result: Dictionary

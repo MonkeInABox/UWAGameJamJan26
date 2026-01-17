@@ -1,10 +1,11 @@
-[gd_resource type="SpriteFrames" load_steps=45 format=3 uid="uid://cdtg4lurljt3d"]
+[gd_resource type="SpriteFrames" load_steps=53 format=3 uid="uid://cdtg4lurljt3d"]
 
 [ext_resource type="Texture2D" uid="uid://bxihedoxbvh3b" path="res://PlayerSprites/runningGJCatRB.png" id="1_pctjr"]
 [ext_resource type="Texture2D" uid="uid://c7vmmt8xnbce0" path="res://RewindGJCatLF.png" id="1_x3tkg"]
 [ext_resource type="Texture2D" uid="uid://ddb0us5n65ucs" path="res://PlayerSprites/runningGJCatLF.png" id="2_x3tkg"]
 [ext_resource type="Texture2D" uid="uid://c7kn8u3u8w8t1" path="res://PlayerSprites/runningGJCatLB.png" id="3_igvvp"]
 [ext_resource type="Texture2D" uid="uid://d03asafl1vm0w" path="res://PlayerSprites/runningGJCatRF.png" id="4_lfq4d"]
+[ext_resource type="Texture2D" uid="uid://1radj7vjivsl" path="res://cat_teleport.png" id="6_igvvp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igvvp"]
 atlas = ExtResource("1_x3tkg")
@@ -162,6 +163,34 @@ region = Rect2(192, 0, 32, 32)
 atlas = ExtResource("4_lfq4d")
 region = Rect2(224, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3btr"]
+atlas = ExtResource("6_igvvp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8q0vp"]
+atlas = ExtResource("6_igvvp")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4n26"]
+atlas = ExtResource("6_igvvp")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_immwb"]
+atlas = ExtResource("6_igvvp")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfafe"]
+atlas = ExtResource("6_igvvp")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwdvs"]
+atlas = ExtResource("6_igvvp")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lt3t0"]
+atlas = ExtResource("6_igvvp")
+region = Rect2(192, 0, 32, 32)
+
 [resource]
 animations = [{
 "frames": [{
@@ -305,4 +334,30 @@ animations = [{
 "loop": true,
 "name": &"runningRF",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3btr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8q0vp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4n26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_immwb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfafe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwdvs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lt3t0")
+}],
+"loop": false,
+"name": &"teleport",
+"speed": 5.0
 }]

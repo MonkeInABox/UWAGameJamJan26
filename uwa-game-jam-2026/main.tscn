@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bjipm2lc5skd"]
+[gd_scene load_steps=79 format=3 uid="uid://bjipm2lc5skd"]
 
 [ext_resource type="Texture2D" uid="uid://2t1cxprtkryk" path="res://wallV2.png" id="1_ryguw"]
 [ext_resource type="Script" uid="uid://bf13qo63osdwl" path="res://timer_display.gd" id="2_7mycd"]
@@ -21,7 +21,12 @@
 [ext_resource type="Texture2D" uid="uid://krxsc38fswmu" path="res://wallV3.png" id="18_cegan"]
 [ext_resource type="Texture2D" uid="uid://doel0imjut24h" path="res://wallV4.png" id="19_82xsv"]
 [ext_resource type="Texture2D" uid="uid://7k3mdewwvixo" path="res://wallPole.png" id="20_82xsv"]
+[ext_resource type="FontFile" uid="uid://dwg8tiwuiwb54" path="res://Mx437_Trident_8x14.ttf" id="23_d13ii"]
+[ext_resource type="Script" uid="uid://bsghxcr0vgkxi" path="res://exit_teleporter.gd" id="24_a6jrf"]
+[ext_resource type="Texture2D" uid="uid://cdcaq8v8wbvmx" path="res://teleporter_off.png" id="25_xuqvo"]
+[ext_resource type="Texture2D" uid="uid://bsp4lkqaqxcxi" path="res://teleporter.png" id="26_qsp4k"]
 [ext_resource type="Script" uid="uid://8xmryv5i3cd3" path="res://plasma_ball_pool.gd" id="27_a6jrf"]
+[ext_resource type="Texture2D" uid="uid://ef4sof25ro5u" path="res://teleport_fx.png" id="27_kq58d"]
 
 [sub_resource type="SystemFont" id="SystemFont_5vw27"]
 subpixel_positioning = 0
@@ -126,6 +131,220 @@ agent_height = 1.0
 agent_radius = 0.2
 agent_max_climb = 0.1
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_seu75"]
+radius = 0.2705078
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htxhm"]
+atlas = ExtResource("26_qsp4k")
+region = Rect2(0, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq2sk"]
+atlas = ExtResource("26_qsp4k")
+region = Rect2(32, 0, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4k2k6"]
+atlas = ExtResource("26_qsp4k")
+region = Rect2(64, 0, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0rl1p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_xuqvo")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htxhm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq2sk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4k2k6")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ok6jj"]
+blend_mode = 1
+albedo_texture = ExtResource("27_kq58d")
+texture_filter = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_facbu"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1qrp"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_come4"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8e4i"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lmeg"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(128, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cp0l"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(160, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2t1y"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(192, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gngh3"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(224, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0n3wm"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(256, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnost"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(288, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnkbs"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(320, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6a44"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(352, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cbny"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(384, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrvbo"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(416, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uypp3"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(448, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blkrb"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(480, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abqjc"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(512, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6iyjs"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(544, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4w656"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(576, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e71vb"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(608, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnkwl"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(640, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vke2r"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(672, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uit24"]
+atlas = ExtResource("27_kq58d")
+region = Rect2(704, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ruth0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_facbu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1qrp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_come4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h8e4i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lmeg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0cp0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2t1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gngh3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0n3wm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnost")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnkbs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6a44")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0cbny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrvbo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uypp3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blkrb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abqjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6iyjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4w656")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e71vb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnkwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vke2r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uit24")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Node3D" type="Node3D"]
 
 [node name="time manager" type="Node" parent="." node_paths=PackedStringArray("timer_label")]
@@ -178,7 +397,7 @@ double_sided = false
 alpha_cut = 1
 texture_filter = 0
 sprite_frames = ExtResource("3_h2yge")
-animation = &"runningRF"
+animation = &"teleport"
 autoplay = "runningRF"
 
 [node name="weapon_attachment" type="Node3D" parent="player"]
@@ -268,11 +487,12 @@ cell_size = Vector3(4, 2, 4)
 collision_layer = 16
 collision_mask = 21
 data = {
-"cells": PackedInt32Array(65535, 0, 56, 65535, 65535, 21, 65535, 65534, 57, 0, 0, 59, 0, 65535, 63, 0, 65534, 58, 65534, 65535, 31, 65534, 65534, 6, 65534, 0, 2, 65533, 0, 4, 65533, 65535, 28, 65533, 65534, 4, 65533, 1, 5, 65534, 1, 19, 65535, 1, 51, 0, 1, 51, 1, 1, 47, 65533, 2, 44, 65533, 3, 44, 65532, 2, 27, 65532, 3, 1, 2, 65533, 655387, 2, 65532, 655361, 1, 65533, 655404, 1, 65532, 655404, 65533, 4, 13, 65534, 65533, 31, 65535, 65533, 51, 0, 65533, 51, 0, 65532, 51, 65535, 65532, 43, 65534, 65532, 44, 1, 65534, 45, 65534, 4, 42, 65534, 2, 37, 65534, 3, 43, 65535, 3, 2, 65535, 2, 5, 65533, 65532, 4, 65534, 65531, 4, 65535, 65531, 16, 1, 65535, 43, 1, 0, 27, 2, 0, 30, 1, 65531, 41, 65533, 65533, 36, 65532, 65533, 37, 65535, 65530, 41, 65532, 1, 43, 0, 65531, 47, 65534, 65530, 64, 65533, 65529, 57, 65533, 65531, 61, 65534, 65529, 44, 65533, 65530, 21, 0, 65530, 50, 2, 65535, 44, 2, 65534, 1048615, 65535, 65529, 1048614, 0, 65529, 1048615, 4, 65527, 57, 4, 65528, 21, 4, 65529, 56, 5, 65527, 58, 5, 65528, 63, 5, 65529, 59, 1, 65529, 1048615, 65535, 65528, 1048615, 1, 65530, 1048614, 3, 65528, 1048615, 2, 65529, 1048615, 2, 65528, 1048607, 3, 65529, 6, 2, 65527, 1048596, 3, 65526, 1048578, 3, 65527, 1048577, 2, 65526, 1048602, 2, 65530, 1048600, 3, 65531, 1048593, 2, 65531, 1048621, 3, 65530, 1048623, 3, 65532, 1048625, 4, 65532, 1048622, 0, 2, 1048623, 3, 65534, 1048622, 4, 65534, 1048625, 4, 65533, 1048620, 3, 65533, 1048620, 4, 1, 1048632, 3, 65535, 1048625, 5, 65533, 1048623, 5, 65532, 1048635, 5, 65534, 1048636, 2, 1, 1048630, 4, 0, 1048618, 4, 65535, 1048625, 5, 65535, 1048632, 3, 1, 1048633, 3, 0, 1048618, 65535, 4, 1048630, 1, 2, 1048617, 0, 3, 1048620, 2, 2, 1048616, 0, 4, 1048614, 1, 3, 1048607, 2, 3, 1048600, 2, 4, 1048600, 2, 5, 1048600, 2, 6, 1048589, 1, 6, 1048588, 1, 5, 1048591, 1, 4, 1048640, 1, 65526, 1048635, 65535, 65526, 1048634, 65535, 65527, 1048631, 0, 65526, 1048639, 0, 65527, 1048634, 1, 65527, 1048621, 0, 65528, 1048603, 1, 65528, 1048588, 65531, 1, 1048588, 65532, 0, 1048593, 65534, 65528, 1048582, 65533, 65528, 1048607, 65533, 65527, 1048602, 65534, 65527, 1048630, 65532, 65528, 1048615, 65531, 65528, 1048617, 65531, 65529, 1048638, 65532, 65529, 1048640, 65532, 65530, 1048640, 65532, 65531, 1048637, 65531, 65531, 1048595, 65531, 65530, 1048638, 65532, 65534, 1048627, 65532, 65535, 1048627, 65531, 0, 1048617, 65532, 65532, 1048578, 65531, 65532, 1048603, 65531, 65533, 1048588)
+"cells": PackedInt32Array(65535, 0, 56, 65535, 65535, 21, 65535, 65534, 57, 0, 0, 59, 0, 65535, 63, 0, 65534, 58, 65534, 65535, 31, 65534, 65534, 6, 65534, 0, 2, 65533, 0, 4, 65533, 65535, 28, 65533, 65534, 4, 65533, 1, 5, 65534, 1, 19, 65535, 1, 51, 0, 1, 51, 1, 1, 47, 65533, 2, 44, 65533, 3, 44, 65532, 2, 27, 65532, 3, 1, 2, 65533, 655387, 2, 65532, 655361, 1, 65533, 655404, 1, 65532, 655404, 65533, 4, 13, 65534, 65533, 31, 65535, 65533, 51, 0, 65533, 51, 0, 65532, 51, 65535, 65532, 43, 65534, 65532, 44, 1, 65534, 45, 65534, 4, 42, 65534, 2, 37, 65534, 3, 43, 65535, 3, 2, 65535, 2, 5, 65533, 65532, 4, 65534, 65531, 4, 65535, 65531, 16, 1, 65535, 43, 1, 0, 27, 2, 0, 30, 1, 65531, 41, 65533, 65533, 36, 65532, 65533, 37, 65535, 65530, 41, 65532, 1, 43, 0, 65531, 47, 65534, 65530, 64, 65533, 65529, 57, 65533, 65531, 61, 65534, 65529, 44, 65533, 65530, 21, 0, 65530, 50, 2, 65535, 44, 2, 65534, 1048615, 65535, 65529, 1048614, 0, 65529, 1048615, 4, 65527, 57, 4, 65528, 21, 4, 65529, 56, 5, 65527, 58, 5, 65528, 63, 5, 65529, 59, 1, 65529, 1048615, 65535, 65528, 1048615, 1, 65530, 1048614, 3, 65528, 1048615, 2, 65529, 1048615, 2, 65528, 1048607, 3, 65529, 6, 2, 65527, 1048596, 3, 65526, 1048578, 3, 65527, 1048577, 2, 65526, 1048602, 2, 65530, 1048600, 3, 65531, 1048593, 2, 65531, 1048621, 3, 65530, 1048623, 3, 65532, 1048625, 4, 65532, 1048622, 0, 2, 1048623, 3, 65534, 1048622, 4, 65534, 1048625, 4, 65533, 1048620, 3, 65533, 1048620, 4, 1, 1048632, 3, 65535, 1048625, 5, 65533, 1048623, 5, 65532, 1048635, 5, 65534, 1048636, 2, 1, 1048630, 4, 0, 1048618, 4, 65535, 1048625, 5, 65535, 1048632, 3, 1, 1048633, 3, 0, 1048618, 65535, 4, 1048630, 1, 2, 1048617, 0, 3, 1048620, 2, 2, 1048616, 0, 4, 1048614, 1, 3, 1048607, 2, 3, 1048600, 2, 4, 1048600, 2, 5, 1048600, 2, 6, 1048589, 1, 6, 1048588, 1, 5, 1048591, 1, 4, 1048640, 1, 65526, 1048635, 65535, 65526, 1048634, 65535, 65527, 1048631, 0, 65526, 1048639, 0, 65527, 1048634, 1, 65527, 1048621, 0, 65528, 1048603, 1, 65528, 1048588, 65531, 1, 1048588, 65532, 0, 1048593, 65534, 65528, 1048582, 65533, 65528, 1048607, 65533, 65527, 1048602, 65534, 65527, 1048630, 65532, 65528, 1048615, 65531, 65528, 1048617, 65531, 65529, 1048638, 65532, 65529, 1048640, 65532, 65530, 1048640, 65532, 65531, 1048637, 65531, 65531, 1048595, 65531, 65530, 1048638, 65532, 65534, 1048627, 65532, 65535, 1048627, 65531, 0, 1048617, 65532, 65532, 1048578, 65531, 65532, 1048603, 65531, 65533, 1048588, 18, 65520, 63, 17, 65519, 62, 16, 65520, 61, 17, 65521, 60, 18, 65521, 59, 18, 65519, 58, 16, 65519, 57, 16, 65521, 56, 17, 65520, 64)
 }
 
 [node name="GridMap" type="GridMap" parent="GridMap" groups=["navigation_mesh_source_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
 mesh_library = ExtResource("15_vivmo")
 cell_size = Vector3(4, 2, 4)
 collision_layer = 16
@@ -1210,6 +1430,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.997608, 0, -30.002474)
 [node name="wirelessCharger4" parent="Chargers" instance=ExtResource("11_vivmo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.002392, 0, -38.002472)
 
+[node name="wirelessCharger7" parent="Chargers" instance=ExtResource("11_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -27)
+
 [node name="wirelessCharger5" parent="Chargers" instance=ExtResource("11_vivmo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.002392, 0, -10.002472)
 
@@ -1547,4 +1770,211 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
 light_color = Color(0.78287536, 1, 0.9145901, 1)
 light_energy = 4.443
 
+[node name="exittpmarker" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0, -62)
+
+[node name="text" type="Node" parent="."]
+
+[node name="Label3D" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, -2.3651614, 0.001, -0.6043898)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "WASD, Arrow Keys, 
+or Left Stick to move."
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D8" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 68.36107, 0.001, -63.624638)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "You escaped!
+"
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D9" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 69.563644, 0.001, -62.436768)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Credits:
+"
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D10" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 71.160194, 0.001, -60.848877)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Font:
+Trident 8x14
+From http://int10h.org/oldschool-pc-fonts/
+Licenced under CC BY-SA 4.0
+(https://creativecommons.org/licenses/by-sa/4.0/)"
+font = ExtResource("23_d13ii")
+outline_size = 0
+
+[node name="Label3D13" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 71.88045, 0.001, -60.095043)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Game made in Godot 4.5.1"
+font = ExtResource("23_d13ii")
+outline_size = 0
+
+[node name="Label3D11" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 70.40123, 0.001, -61.588585)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "All assets by us.
+except for the font and like 1 sound effect"
+font = ExtResource("23_d13ii")
+outline_size = 0
+
+[node name="Label3D12" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 68.81214, 0.001, -63.267624)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "your reward is an empty room lol.
+we didn't have time for a main menu
+so you're stuck here"
+font = ExtResource("23_d13ii")
+outline_size = 0
+
+[node name="exithint" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 20.060797, 0.001, -30.955671)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Kill the big enemies in this
+room to unlock the exit"
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D7" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 0.5096099, 0.001, -6.1197195)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Press R or
+ D-pad Right
+to manually 
+reset"
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+horizontal_alignment = 0
+
+[node name="Label3D5" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, -0.26958895, 0.001, -4.265016)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "The yellow circle is a
+charger for your time-
+travel device. Touch it
+and it will reset the timer
+and act as a checkpoint."
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D6" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, -1.8820639, 0.001, -5.879967)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Your time travel
+device is malfunctioning!
+It resets you every 30 seconds.
+You need to get the exit.
+(The device only 
+works inside this place)"
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D2" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 0.6307189, 0.001, 0.9228903)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Left Click or Right Trigger
+to fire a damaging laser."
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D3" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 0.771995, 0.0010001193, -2.0297167)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Right Click or Left Trigger
+to make a melee attack
+which can parry projectiles."
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="Label3D4" type="Label3D" parent="text"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, -1.5778463, 0.001, 0.11699724)
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+text = "Use the Mouse or the 
+Right Stick to aim."
+font = ExtResource("23_d13ii")
+font_size = 48
+outline_size = 0
+
+[node name="exitteleporter" type="Area3D" parent="." node_paths=PackedStringArray("player", "destination", "text_hint", "enemies_to_kill")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, -30)
+collision_layer = 128
+collision_mask = 2
+script = ExtResource("24_a6jrf")
+player = NodePath("../player")
+destination = NodePath("../exittpmarker")
+text_hint = NodePath("../text/exithint")
+enemies_to_kill = [NodePath("../robot_enemy"), NodePath("../robot_enemy2")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="exitteleporter"]
+shape = SubResource("CylinderShape3D_seu75")
+
+[node name="base" type="AnimatedSprite3D" parent="exitteleporter"]
+transform = Transform3D(0.70710677, -1.4142135, -3.090862e-08, 0, -8.742278e-08, 1, -0.70710677, -1.4142135, -3.090862e-08, 0, 0.001, 0)
+pixel_size = 0.0313
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_0rl1p")
+animation = &"off"
+
+[node name="fx" type="AnimatedSprite3D" parent="exitteleporter"]
+transform = Transform3D(0.70710677, -0.35355338, 0.6123724, 0, 0.8660254, 0.5, -0.70710677, -0.35355338, 0.6123724, 0, 0.788352, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_ok6jj")
+cast_shadow = 0
+pixel_size = 0.0313
+double_sided = false
+alpha_cut = 1
+texture_filter = 2
+sprite_frames = SubResource("SpriteFrames_ruth0")
+autoplay = "default"
+frame = 11
+frame_progress = 0.8204622
+
+[connection signal="animation_finished" from="player/AnimatedSprite3D" to="player" method="_on_animation_finished"]
 [connection signal="area_entered" from="player/weapon_attachment/sword_weapon/Area3D" to="player/weapon_attachment/sword_weapon" method="_on_damage_area_entered"]
+[connection signal="area_entered" from="exitteleporter" to="exitteleporter" method="_on_area_entered"]
